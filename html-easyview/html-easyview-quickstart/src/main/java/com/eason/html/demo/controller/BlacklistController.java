@@ -36,7 +36,7 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 	public BlacklistController() {
 		super("黑名单信息", WiggetStyle.ADD | WiggetStyle.DEL | WiggetStyle.REFLUSH);
 		addTableColMappingFormatter(new AddTypeFormatter());
-		setOnlineResource(false);
+		setOnlineResource(true);
 	}
 
 	@CustomQueryAction(path = "/suspectedlist", conditionForm = DevSuspectedBlacklistCo.class, title = "黑名单可疑行为")

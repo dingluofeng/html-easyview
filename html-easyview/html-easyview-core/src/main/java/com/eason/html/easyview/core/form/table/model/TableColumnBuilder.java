@@ -15,6 +15,10 @@ public class TableColumnBuilder {
 	public static TableColumn newCheckColumn() {
 		return new CheckColumn();
 	}
+	
+	public static TableColumn newItemOptColumn() {
+		return new ItemOptColumn();
+	}
 
 	public TableColumnBuilder title(String title) {
 		column.title = title;
@@ -111,10 +115,6 @@ public class TableColumnBuilder {
 		public ItemOptColumn() {
 			super("操作", "operate", false, "center", "middle", false, "operateEvents", "genderOpt");
 		}
-	}
-
-	public static TableColumn newItemOptColumn() {
-		return null;
 	}
 
 }
