@@ -1,0 +1,87 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.22.RELEASE</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.eason.html</groupId>
+	<artifactId>html-easyview-quickstart</artifactId>
+	<version>1.0.0</version>
+	<packaging>war</packaging>
+	<properties>
+		<maven.test.skip>false</maven.test.skip>
+		<java.version>1.8</java.version>
+		<file_encoding>UTF-8</file_encoding>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>com.eason.html</groupId>
+			<artifactId>html-easyview-core</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- 使用jsp引擎，springboot内置tomcat没有此依赖 -->
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.mybatis.generator</groupId>
+				<artifactId>mybatis-generator-maven-plugin</artifactId>
+				<version>1.3.5</version>
+				<dependencies>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>5.1.48</version>
+					</dependency>
+					<dependency>
+						<groupId>com.hikvision.shipin7.mybatis</groupId>
+						<artifactId>mybatis-gen-plugin</artifactId>
+						<version>1.2.1</version>
+					</dependency>
+				</dependencies>
+				<!-- <executions> <execution> <id>Generate MyBatis Artifacts</id> <goals> 
+					<goal>generate</goal> </goals> </execution> </executions> -->
+				<configuration>
+					<!--允许移动生成的文件 -->
+					<verbose>false</verbose>
+					<overwrite>true</overwrite>
+					<!-- 配置configureFile的路径和名称 <configurationFile> ${basedir}/mybatis-generator.xml 
+						</configurationFile> -->
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
