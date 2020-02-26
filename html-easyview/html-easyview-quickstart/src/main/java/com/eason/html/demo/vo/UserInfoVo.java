@@ -25,7 +25,7 @@ public class UserInfoVo implements Serializable {
 			"女" }, mappingFormatter = SexFormatter.class)
 	private String sex;
 
-	@EasyView(name = "年龄", type = "Number", queryCondition = false)
+	@EasyView(name = "年龄", type = "Number", queryCondition = true)
 	private int age;
 
 	@EasyView(name = "住址", columnHidden = true, queryCondition = false)

@@ -19,7 +19,7 @@ public class FormNumber extends FormInput<FormNumber> {
 	public FormNumber(String id, String field, String lable) {
 		super("div", id, field);
 		addClass("form-group");
-		add(Label.of().setFor(id).add(Text.of(lable)).addStyle("min-width:120px;"));
+		add(Label.of().setFor(id).add(Text.of(lable)).addStyle("min-width:100px;"));
 		input = Input.of().setId(id).setType("number").setPlaceholder(lable).addClass("form-control");
 		add(input);
 	}
@@ -32,4 +32,10 @@ public class FormNumber extends FormInput<FormNumber> {
 	public void addAttr(String name) {
 		input.addAttribute(Attribute.of(name));
 	}
+	
+	@Override
+	public String getValueScript() {
+		return "$('#" + getId() + "').val()==''?'0':$('#"+getId()+"').val();";
+	}
+	
 }

@@ -19,10 +19,9 @@ public class FormCombo extends FormInput<FormCombo> {
 
 	public FormCombo(String id, String field, String lable, String[] names, String[] values) {
 		super("div", id, field);
-//		addClass("input-group input-group-sm");
 		addClass("form-group");
-		add(Label.of().setFor(id).add(Text.of(lable)).addStyle("min-width:120px;"));
-		select = Select.of().setId(id).addClass("form-control");
+		add(Label.of().setFor(id).add(Text.of(lable)).addStyle("min-width:100px;"));
+		select = Select.of().setId(id).addClass("form-control").addStyle("min-width:172px;margin-right:0px;");
 		add(select);
 		for (int i = 0; i < names.length; i++) {
 			select.add(Option.of().setValue(values[i]).add(Text.of(names[i])));

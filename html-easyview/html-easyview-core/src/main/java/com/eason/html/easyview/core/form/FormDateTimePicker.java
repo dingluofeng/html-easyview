@@ -22,7 +22,7 @@ public class FormDateTimePicker extends FormInput<FormDateTimePicker> implements
 		super("div", id, field);
 		this.type = type;
 		addClass("form-group");
-		add(Label.of().setFor(id).add(Text.of(lable)).addStyle("min-width:120px;"));
+		add(Label.of().setFor(id).add(Text.of(lable)).addStyle("min-width:100px;"));
 		input = Input.of().setId(id).setType("text").setPlaceholder(lable).addClass("form-control");
 		add(input);
 	}

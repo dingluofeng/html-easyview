@@ -19,7 +19,7 @@ public class FormPassword extends FormInput<FormPassword> {
 	public FormPassword(String id, String field, String lable) {
 		super("div", id, field);
 		addClass("form-group");
-		add(Label.of().setFor(id).add(Text.of(lable)).addStyle("min-width:120px;"));
+		add(Label.of().setFor(id).add(Text.of(lable)).addStyle("min-width:100px;"));
 		input = Input.of().setId(id).setType("password").setPlaceholder(lable).addClass("form-control");
 		add(input);
 	}

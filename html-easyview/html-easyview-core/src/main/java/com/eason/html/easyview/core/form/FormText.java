@@ -23,7 +23,7 @@ public class FormText extends FormInput<FormText> {
 	public FormText(String id, String field, String lable, String type) {
 		super("div", id, field);
 		addClass("form-group");
-		add(Label.of().setFor(id).add(Text.of(lable)).addStyle("min-width:120px;"));
+		add(Label.of().setFor(id).add(Text.of(lable)).addStyle("min-width:100px;"));
 		input = Input.of().setId(id).setType(type).setPlaceholder(lable).addClass("form-control");
 		add(input);
 	}
