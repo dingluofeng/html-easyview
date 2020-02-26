@@ -25,6 +25,7 @@ public abstract class FormInput<T extends FormInput> extends Node<T> {
 		super(tagName);
 		this.field = field;
 		this.id = id;
+		addStyle("margin: 5px;");
 	}
 
 	public String getDefaultValue() {

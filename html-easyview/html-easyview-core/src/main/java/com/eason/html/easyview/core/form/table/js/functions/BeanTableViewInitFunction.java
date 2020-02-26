@@ -48,15 +48,15 @@ public class BeanTableViewInitFunction {
         script.add(Text.of("        //指定工具栏"));
         script.add(Text.of("        toolbar: \"#" + tableData.tableToolbar + "\","));
         script.add(Text.of("        //显示隐藏列"));
-        //script.add(Text.of("        showColumns: true,"));
+        script.add(Text.of("        showColumns: true,"));
         script.add(Text.of("        //显示刷新按钮"));
-        script.add(Text.of("        showRefresh: false,"));
+        script.add(Text.of("        showRefresh: true,"));
         script.add(Text.of("        //切换显示样式"));
-        script.add(Text.of("        showToggle: false,"));
+        script.add(Text.of("        showToggle: true,"));
         script.add(Text.of("        //显示Table脚部"));
         script.add(Text.of("        showFooter: false,"));
         script.add(Text.of("        //是否显示详细视图"));
-        if (tableData.columns.size()>10) {
+        if (tableData.columns.size()>18) {
         	script.add(Text.of("        cardView: true,"));
 		}else {
 			script.add(Text.of("        cardView: false,"));
@@ -96,6 +96,8 @@ public class BeanTableViewInitFunction {
         script.add(Text.of("            paginationSwitchDown: 'glyphicon-collapse-down icon-chevron-down',"));
         script.add(Text.of("            paginationSwitchUp: 'glyphicon-collapse-up icon-chevron-up',"));
         script.add(Text.of("            refresh: 'glyphicon-refresh icon-refresh',"));
+        script.add(Text.of("            toggleOff: 'glyphicon-list-alt icon-list-alt',"));
+        script.add(Text.of("            toggleOn: 'glyphicon-list-alt icon-list-alt',"));
         //script.add(Text.of("            toggle: 'glyphicon-list-alt icon-list-alt',"));
         script.add(Text.of("            columns: 'glyphicon-th icon-th',"));
         script.add(Text.of("            detailOpen: 'glyphicon-plus icon-plus',"));

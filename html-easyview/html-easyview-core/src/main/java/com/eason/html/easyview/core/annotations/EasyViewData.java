@@ -45,7 +45,7 @@ public class EasyViewData {
 
 	public boolean expandRowView = false;
 
-	public boolean queryCondition = true;
+	public boolean queryCondition = false;
 
 	public EasyViewData(String field, EasyView view) {
 		super();

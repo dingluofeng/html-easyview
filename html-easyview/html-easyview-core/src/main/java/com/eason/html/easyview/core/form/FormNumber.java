@@ -19,7 +19,7 @@ public class FormNumber extends FormInput<FormNumber> {
 	public FormNumber(String id, String field, String lable) {
 		super("div", id, field);
 		addClass("form-group");
-		add(Label.of().setFor(id).add(Text.of(lable)));
+		add(Label.of().setFor(id).add(Text.of(lable)).addStyle("min-width:120px;"));
 		input = Input.of().setId(id).setType("number").setPlaceholder(lable).addClass("form-control");
 		add(input);
 	}
