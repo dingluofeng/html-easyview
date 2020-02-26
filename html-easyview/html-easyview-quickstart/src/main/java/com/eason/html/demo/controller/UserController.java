@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.eason.html.demo.vo.UserInfoVo;
-import com.eason.html.easyview.core.WiggetStyle;
+import com.eason.html.easyview.core.WidgetStyle;
 import com.eason.html.easyview.core.basecontroller.BaseTableViewerController;
 import com.eason.html.easyview.core.basecontroller.PageParams;
 
@@ -24,8 +24,8 @@ import com.eason.html.easyview.core.basecontroller.PageParams;
 public class UserController extends BaseTableViewerController<UserInfoVo, UserInfoVo> {
 
 	public UserController() {
-		super("用户信息", WiggetStyle.NONE);
-		setOnlineResource(true);
+		super("用户信息", WidgetStyle.NONE);
+		setOnlineResource(false);
 	}
 
 	@Override

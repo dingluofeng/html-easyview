@@ -147,7 +147,7 @@ public class BeanTableViewInitFunction {
         script.add(Text.of("            console.log(\"LoadSuccess!\");"));
         script.add(Text.of("        }, onLoadError: function () {"));
         script.add(Text.of("            //加载失败时执行"));
-        script.add(Text.of("            layer.msg(\"加载失败!\", {icon: 2, time: 2000});"));
+        script.add(Text.of("            layui.layer.msg(\"加载失败!\", {icon: 2, time: 2000});"));
         script.add(Text.of("        }, formatLoadingMessage: function () {"));
         script.add(Text.of("            //正在加载"));
         script.add(Text.of("            return \"please wait，Loading...\";"));

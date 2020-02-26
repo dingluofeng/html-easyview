@@ -12,6 +12,7 @@ import com.eason.html.easyview.core.form.table.js.functions.BeanTableViewInitFun
 import com.eason.html.easyview.core.form.table.js.functions.CustomButtonOnClickEventFunction;
 import com.eason.html.easyview.core.form.table.js.functions.ShowCustomDataTableFunction;
 import com.eason.html.easyview.core.form.table.model.TableData;
+import com.eason.html.easyview.core.form.table.model.UploadWidgetInfo;
 import com.eason.html.easyview.core.form.validate.Validate;
 import com.eason.html.easyview.core.utils.CollectionUtils;
 import com.eason.html.easyview.core.utils.StringUtils;
@@ -20,7 +21,7 @@ import com.eason.html.easyview.core.widget.Text;
 
 public class TableJsScript {
 
-    public static Script of(TableData tableData, List<CustomButton> customBtns,List<TableColMappingFormatter> columnFormatters) {
+    public static Script of(TableData tableData, UploadWidgetInfo uploadWidgetInfo,List<CustomButton> customBtns,List<TableColMappingFormatter> columnFormatters) {
         String tableId = tableData.tableId;
         String baseUrl = tableData.baseUrl;
         Script script = Script.of();
@@ -234,6 +235,24 @@ public class TableJsScript {
             }
         }
         script.add(Text.of("});"));
+        
+        if (uploadWidgetInfo != null) {
+            script.add(Text.of("// layer upload组件对象定义"));
+            script.add(Text.of("layui.use('upload', function(){"));
+            script.add(Text.of("    var upload = layui.upload;"));
+            script.add(Text.of("    upload.render({"));
+            script.add(Text.of("       elem: '#" + uploadWidgetInfo.getUploadId() + "'"));
+            script.add(Text.of("       ,url: '" + uploadWidgetInfo.getUploadUrl() + "'"));
+            script.add(Text.of("       ,accept: '" + uploadWidgetInfo.getAcceptType() + "'"));
+            script.add(Text.of("       ,exts: '" + uploadWidgetInfo.getFileExts() + "'"));
+            script.add(Text.of("       ,size: " + uploadWidgetInfo.getLimitSize()));
+            script.add(Text.of("       ,done: function(res){"));
+            script.add(Text.of("           layer.msg('上传成功');"));
+            script.add(Text.of("           console.log(res);"));
+            script.add(Text.of("       }"));
+            script.add(Text.of("    });"));
+            script.add(Text.of("});"));
+        }
         return script;
     }
 }

@@ -2,7 +2,7 @@ package com.eason.html.easyview.core.form.table;
 
 import java.util.List;
 
-import com.eason.html.easyview.core.WiggetStyle;
+import com.eason.html.easyview.core.WidgetStyle;
 import com.eason.html.easyview.core.form.CustomButton;
 import com.eason.html.easyview.core.widget.Attribute;
 import com.eason.html.easyview.core.widget.Button;
@@ -14,7 +14,7 @@ import com.eason.html.easyview.core.widget.Text;
  * @author dingluofeng
  *
  */
-public class ToolBar extends Node<ToolBar> implements WiggetStyle {
+public class ToolBar extends Node<ToolBar> implements WidgetStyle {
 
 	public ToolBar() {
         super("div");
@@ -45,6 +45,13 @@ public class ToolBar extends Node<ToolBar> implements WiggetStyle {
                     .add(Text.of("刷新"));
             toolBar.add(delBtn);
         }
+		if ((UPLOAD & btnStyle) != 0) {
+			Button delBtn = Button.of().setId(btnPrefix + "_btn_upload").setType("button")
+					.addClass("btn btn-default btn-sm").add(Span.of().addClass("glyphicon glyphicon-import")
+							.addAttribute(Attribute.of("aria-hidden", "true")))
+					.add(Text.of("导入"));
+			toolBar.add(delBtn);
+		}
 
         for (Button button : buttons) {
             toolBar.add(button);

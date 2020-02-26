@@ -3,7 +3,7 @@ package com.eason.html.easyview.core.page;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.eason.html.easyview.core.WiggetStyle;
+import com.eason.html.easyview.core.WidgetStyle;
 import com.eason.html.easyview.core.form.CustomButton;
 import com.eason.html.easyview.core.utils.StringUtils;
 import com.eason.html.easyview.core.widget.Attribute;
@@ -36,7 +36,7 @@ public abstract class BasePage {
 
 	protected Body body;
 
-	private int toolbarStyle = WiggetStyle.ADD | WiggetStyle.REFLUSH | WiggetStyle.DEL;
+	private int toolbarStyle = WidgetStyle.ADD | WidgetStyle.REFLUSH | WidgetStyle.DEL;
 
 	public final List<CustomButton> customButtons = new ArrayList<>();
 

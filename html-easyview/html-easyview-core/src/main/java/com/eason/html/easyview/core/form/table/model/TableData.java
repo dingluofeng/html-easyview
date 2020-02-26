@@ -80,6 +80,8 @@ public class TableData {
                 } else {
                     if (field.getType().isPrimitive() || Number.class.isAssignableFrom(field.getType())) {
                         control = new EasyViewData(field.getName(), "Number", field.getName());
+                    }else if(Map.class.isAssignableFrom(field.getType())||List.class.isAssignableFrom(field.getType())) {
+                    	return;
                     } else {
                         control = new EasyViewData(field.getName(), "Text", field.getName());
                     }

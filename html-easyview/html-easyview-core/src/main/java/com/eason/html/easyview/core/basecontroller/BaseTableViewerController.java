@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
 import com.eason.html.easyview.core.QueryAction;
@@ -209,6 +211,24 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
 	protected int delete(String... ids) {
 		return 0;
 	}
+	
+	@RequestMapping("/upload")
+    @ResponseBody
+    public final TableViewResult uploadFile(MultipartHttpServletRequest request) {
+        MultipartFile multipartFile = request.getFile("file");
+        try {
+            logger.infof("收到上传请求，file:%s", multipartFile.getOriginalFilename());
+            int result = upload(multipartFile);
+            return new TableViewResult(result, "success");
+        } catch (Exception e) {
+            logger.error("上传信息失败,file:" + multipartFile.getOriginalFilename(), e);
+            return new TableViewResult(-1, e.getMessage());
+        }
+    }
+
+    protected int upload(MultipartFile multipartFile) {
+        return 0;
+    }
 
     protected final void addTableColMappingFormatter(TableColMappingFormatter mappingFormatter) {
         colMappingFormatterManager.addTableColMappingFormatter(mappingFormatter);

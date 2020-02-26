@@ -15,7 +15,7 @@ import com.eason.html.demo.vo.DevRegBlacklistVo;
 import com.eason.html.demo.vo.DevSuspectedBlacklistVo;
 import com.eason.html.demo.vo.UserDeviceVo;
 import com.eason.html.demo.vo.mapping.AddTypeFormatter;
-import com.eason.html.easyview.core.WiggetStyle;
+import com.eason.html.easyview.core.WidgetStyle;
 import com.eason.html.easyview.core.annotations.CustomQueryAction;
 import com.eason.html.easyview.core.basecontroller.BaseTableViewerController;
 import com.eason.html.easyview.core.basecontroller.PageParams;
@@ -34,7 +34,7 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 	private BlacklistService blacklistStorageService;
 
 	public BlacklistController() {
-		super("黑名单信息", WiggetStyle.ADD | WiggetStyle.DEL | WiggetStyle.REFLUSH);
+		super("黑名单信息", WidgetStyle.ADD | WidgetStyle.DEL | WidgetStyle.REFLUSH | WidgetStyle.UPLOAD);
 		addTableColMappingFormatter(new AddTypeFormatter());
 		setOnlineResource(true);
 	}

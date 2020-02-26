@@ -168,7 +168,7 @@ public class Node<T extends Node> {
 				break;
 			}
 		}
-		if (found) {
+		if (!found) {
 			attributeList.add(newAttribute);
 		}
 //		this.attributeList.stream().filter(attribute -> attribute.getName().equals(newAttribute.getName())).findFirst()
