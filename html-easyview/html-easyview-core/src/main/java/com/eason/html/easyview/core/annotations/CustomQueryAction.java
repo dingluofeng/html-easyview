@@ -30,7 +30,7 @@ public @interface CustomQueryAction {
 
 	Class<?> conditionForm() default Object.class;
 
-	String title() default "";
+	String text() default "";
 
 	String id() default "";
 

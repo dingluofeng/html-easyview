@@ -45,7 +45,7 @@ public class ToolBar extends Node<ToolBar> implements WidgetStyle {
                     .add(Text.of("刷新"));
             toolBar.add(delBtn);
         }
-		if ((UPLOAD & btnStyle) != 0) {
+		if ((IMPORT & btnStyle) != 0) {
 			Button delBtn = Button.of().setId(btnPrefix + "_btn_upload").setType("button")
 					.addClass("btn btn-default btn-sm").add(Span.of().addClass("glyphicon glyphicon-import")
 							.addAttribute(Attribute.of("aria-hidden", "true")))

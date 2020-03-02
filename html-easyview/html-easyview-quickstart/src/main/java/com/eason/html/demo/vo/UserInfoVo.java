@@ -6,9 +6,7 @@ import java.util.Map;
 import com.eason.html.demo.vo.mapping.SexFormatter;
 import com.eason.html.easyview.core.WidgetType;
 import com.eason.html.easyview.core.annotations.EasyView;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 @EasyView(name = "用户信息", sortable = true, itemOpt = true)
 public class UserInfoVo implements Serializable {
 

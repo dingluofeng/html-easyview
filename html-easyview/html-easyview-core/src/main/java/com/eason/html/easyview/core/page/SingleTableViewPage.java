@@ -42,13 +42,13 @@ public class SingleTableViewPage extends BasePage {
         tableData.baseUrl = baseUrl;
         
         UploadWidgetInfo uploadWidgetInfo = null;
-        if ((WidgetStyle.UPLOAD & getToolbarStyle()) != 0) {
+        if ((WidgetStyle.IMPORT & getToolbarStyle()) != 0) {
             // upload
             uploadWidgetInfo = new UploadWidgetInfo();
             uploadWidgetInfo.setUploadId(tableData.btnPrefix + "_btn_upload");
             uploadWidgetInfo.setUploadUrl(baseUrl + "/upload");
             uploadWidgetInfo.setAcceptType("file");
-            uploadWidgetInfo.setFileExts("txt|xlsx");
+            uploadWidgetInfo.setFileExts("txt|xlsx"); 
             uploadWidgetInfo.setLimitSize(10240);
         }
         

@@ -30,6 +30,6 @@ public @interface TableItemAction {
 	@AliasFor(annotation = RequestMapping.class, value = "value")
     String[] path();
 
-	String title() default "";
+	String text() default "";
 
 }

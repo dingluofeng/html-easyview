@@ -46,7 +46,7 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
 
 	protected int toolbarStyle = 0 /* WiggetStyle.ADD |WiggetStyle.REFLUSH */ ;
 	
-	private boolean onlineResource=true;
+	private boolean onlineResource=false;
 	
 	private String baseUrl;
 	
@@ -62,7 +62,7 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
     RequestMappingHandlerAdapter requestMappingHandlerAdapter;
 
     private TableColMappingFormatterManager colMappingFormatterManager = new TableColMappingFormatterManager();
-
+    
     private Comparator<QueryAction> actionComparator = new Comparator<QueryAction>() {
         @Override
         public int compare(QueryAction queryAction1, QueryAction queryAction2) {
@@ -80,6 +80,11 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
         // buildCustomQueryAction
         buildCustomQueryAction();
     }
+    
+    protected void enableDefaultTableItemOpt() {
+    	tableItemsLinks.add(TableItemLink.of("edit", "编辑", "glyphicon glyphicon-pencil", ""));
+    	tableItemsLinks.add(TableItemLink.of("remove", "删除", "glyphicon glyphicon-trash", ""));
+	}
 
     private final void buildCustomQueryAction() {
         Class<?> clazz = getClass();
@@ -87,6 +92,9 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
         TableViewController tableViewController = AnnotationUtils.findAnnotation(clazz, TableViewController.class);
         if (tableViewController != null) {
             baseUrl = tableViewController.value()[0];
+            if (tableViewController.showDefaultItemOpt()) {
+            	enableDefaultTableItemOpt();
+			}
         } else {
             RequestMapping mapping = AnnotationUtils.findAnnotation(clazz, RequestMapping.class);
             if (mapping != null) {
@@ -97,7 +105,7 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
 			CustomQueryAction customQueryAction = method.getAnnotation(CustomQueryAction.class);
             TableItemAction tableItemAction = method.getAnnotation(TableItemAction.class);
             if (tableItemAction != null) {
-                String title = tableItemAction.title();
+                String title = tableItemAction.text();
                 if (StringUtils.isBlank(title)) {
                     title = method.getName();
                 }
@@ -112,13 +120,14 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
 			if (StringUtils.isBlank(id)) {
 				id=method.getName();
 			}
-			QueryAction queryAction=new QueryAction(id,customQueryAction.title(),baseUrl+customQueryAction.path()[0]); 
+			QueryAction queryAction=new QueryAction(id,customQueryAction.text(),baseUrl+customQueryAction.path()[0]); 
 			Class<?> conditionForm = customQueryAction.conditionForm();
 			if (conditionForm!=Object.class) {
 				queryAction.setSearchCondition(conditionForm);
 			}
 			addQueryAction(queryAction);
 		}
+		Collections.sort(customActions, actionComparator);
     }
 
 	@RequestMapping(value = "/tableview", produces = { "text/html; charset=UTF-8" })
@@ -130,7 +139,6 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
 		}
         SingleTableViewPage tableViewPage = new SingleTableViewPage(titleName);
 		if (CollectionUtils.isNotEmpty(customActions)) {
-            Collections.sort(customActions, actionComparator);
 			for (QueryAction queryAction : customActions) {
 				CustomButton queryBtn = CustomButton.of(queryAction);
 				tableViewPage.addCustomButton(queryBtn);

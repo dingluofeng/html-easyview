@@ -9,6 +9,7 @@ import com.eason.html.easyview.core.form.table.TableItemLink;
 import com.eason.html.easyview.core.form.table.model.TableData;
 import com.eason.html.easyview.core.utils.CollectionUtils;
 import com.eason.html.easyview.core.utils.JacksonUtils;
+import com.eason.html.easyview.core.utils.StringUtils;
 import com.eason.html.easyview.core.widget.Script;
 import com.eason.html.easyview.core.widget.Text;
 
@@ -56,12 +57,7 @@ public class TableColumnFormatterFunction {
         script.add(Text.of("//自定义列内容"));
         script.add(Text.of("function genderOpt() {"));
         script.add(Text.of("    return ["));
-        script.add(Text.of("        '<a id=\"edit\" href=\"javascript:void(0)\" title=\"编辑\">',"));
-        script.add(Text.of("        '<i class=\"glyphicon glyphicon-pencil\"></i>',"));
-        script.add(Text.of("        '</a>  ',"));
-        script.add(Text.of("        '<a id=\"remove\" href=\"javascript:void(0)\" title=\"删除\">',"));
-        script.add(Text.of("        '<i class=\"glyphicon glyphicon-trash\"></i>',"));
-        script.add(Text.of("        '</a>'"));
+        script.add(Text.of("        ''"));
         // 自定义操作列link
         List<TableItemLink> itemLinks = tableData.customItemLinks;
         for (TableItemLink itemLink : itemLinks) {
@@ -74,10 +70,13 @@ public class TableColumnFormatterFunction {
         script.add(Text.of("window.operateEvents = {"));
         // 自定义操作列绑定事件
         for (TableItemLink itemLink : itemLinks) {
-            script.add(Text.of("    'click #" + itemLink.id() + "': function (e, value, row, index) {"));
-            script.add(Text.of("        customOpt('" + itemLink.title() + "','" + itemLink.url() + "',row);"));
-            script.add(Text.of("    },"));
+        	if (StringUtils.isNotBlank(itemLink.url())) {
+        		script.add(Text.of("    'click #" + itemLink.id() + "': function (e, value, row, index) {"));
+        		script.add(Text.of("        customOpt('" + itemLink.title() + "','" + itemLink.url() + "',row);"));
+        		script.add(Text.of("    },"));
+			}
         }
+        //默认tableItem事件
         script.add(Text.of("    'click #edit': function (e, value, row, index) {"));
         script.add(Text.of("        editData(row);"));
         script.add(Text.of("    },"));

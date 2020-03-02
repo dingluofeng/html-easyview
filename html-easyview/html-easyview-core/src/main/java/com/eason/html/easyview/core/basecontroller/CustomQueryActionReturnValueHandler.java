@@ -16,6 +16,7 @@ import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.eason.html.easyview.core.annotations.CustomQueryAction;
+import com.eason.html.easyview.core.annotations.TableItemAction;
 import com.eason.html.easyview.core.form.table.model.TableInfo;
 import com.eason.html.easyview.core.form.table.model.TableViewResult;
 import com.eason.html.easyview.core.logging.Log;
@@ -39,7 +40,7 @@ public class CustomQueryActionReturnValueHandler implements HandlerMethodReturnV
 
 	@Override
 	public boolean supportsReturnType(MethodParameter returnType) {
-		return returnType.hasMethodAnnotation(CustomQueryAction.class);
+		return returnType.hasMethodAnnotation(CustomQueryAction.class)||returnType.hasMethodAnnotation(TableItemAction.class);
 	}
 
 	@Override
@@ -50,22 +51,27 @@ public class CustomQueryActionReturnValueHandler implements HandlerMethodReturnV
         response.setContentType("text/json;charset=UTF-8");
         PrintWriter writer = null;
         try {
-        	CustomQueryAction customQueryAction = returnType.getMethodAnnotation(CustomQueryAction.class);
-            writer = response.getWriter();
-            TableViewResult tableViewResult = new TableViewResult();
-            TableInfo tableInfo=null;
-            if (List.class.isAssignableFrom(returnType.getParameterType())) {
-            	tableInfo = new TableInfo((List<?>) returnValue);
-			}else{
-				List<Object> ret=new ArrayList<>();
-				ret.add(returnValue);
-				tableInfo = new TableInfo(ret);
+        	writer = response.getWriter();
+        	TableViewResult tableViewResult = new TableViewResult();
+        	TableItemAction tableItemAction = returnType.getMethodAnnotation(TableItemAction.class);
+        	if (tableItemAction!=null) {
+        		tableViewResult.setData(returnValue);
+			}else {
+				CustomQueryAction customQueryAction = returnType.getMethodAnnotation(CustomQueryAction.class);
+				TableInfo tableInfo=null;
+				if (List.class.isAssignableFrom(returnType.getParameterType())) {
+					tableInfo = new TableInfo((List<?>) returnValue);
+				}else{
+					List<Object> ret=new ArrayList<>();
+					ret.add(returnValue);
+					tableInfo = new TableInfo(ret);
+				}
+				Class<?> conditionForm = customQueryAction.conditionForm();
+				if (conditionForm!=Object.class) {
+					tableInfo.setConditionClass(conditionForm);
+				}
+				tableViewResult.setData(tableInfo); 
 			}
-            Class<?> conditionForm = customQueryAction.conditionForm();
-            if (conditionForm!=Object.class) {
-            	tableInfo.setConditionClass(conditionForm);
-			}
-    		tableViewResult.setData(tableInfo); 
             
             writer.print(JacksonUtils.toJsonString(tableViewResult));
             writer.flush();
