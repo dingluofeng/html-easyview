@@ -6,8 +6,10 @@ import java.util.Map;
 import com.eason.html.demo.vo.mapping.SexFormatter;
 import com.eason.html.easyview.core.WidgetType;
 import com.eason.html.easyview.core.annotations.EasyView;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@EasyView(name = "用户信息", sortable = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@EasyView(name = "用户信息", sortable = true, itemOpt = true)
 public class UserInfoVo implements Serializable {
 
 	/**
@@ -25,10 +27,11 @@ public class UserInfoVo implements Serializable {
 			"女" }, mappingFormatter = SexFormatter.class)
 	private String sex;
 
-	@EasyView(name = "年龄", type = "Number", queryCondition = true)
+    @EasyView(name = "年龄", type = "Number")
 	private int age;
 
-	@EasyView(name = "住址", columnHidden = true, queryCondition = false)
+    // @JsonIgnore
+    @EasyView(name = "住址", columnHidden = true, queryCondition = false)
 	private Map<String, String> options;
 
 	public String getUserName() {

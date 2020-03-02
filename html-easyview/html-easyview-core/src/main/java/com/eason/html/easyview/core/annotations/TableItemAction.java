@@ -8,6 +8,7 @@ import java.lang.annotation.Target;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * <p>
@@ -23,15 +24,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.METHOD })
 @RequestMapping
+@ResponseBody
 public @interface TableItemAction {
 
 	@AliasFor(annotation = RequestMapping.class, value = "value")
-	String[] path() default "";
-
-	Class<?> conditionForm() default Object.class;
+    String[] path();
 
 	String title() default "";
-
-	String id() default "";
 
 }

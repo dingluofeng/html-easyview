@@ -15,16 +15,22 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
+import com.eason.html.easyview.core.PageHolder;
 import com.eason.html.easyview.core.QueryAction;
 import com.eason.html.easyview.core.annotations.CustomQueryAction;
+import com.eason.html.easyview.core.annotations.TableItemAction;
+import com.eason.html.easyview.core.annotations.TableViewController;
 import com.eason.html.easyview.core.form.CustomButton;
+import com.eason.html.easyview.core.form.table.TableItemLink;
 import com.eason.html.easyview.core.form.table.formatter.TableColMappingFormatter;
 import com.eason.html.easyview.core.form.table.formatter.TableColMappingFormatterManager;
 import com.eason.html.easyview.core.form.table.model.TableViewResult;
@@ -48,6 +54,8 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
 	
 	private List<QueryAction> customActions=new ArrayList<>();
 	
+    private List<TableItemLink> tableItemsLinks = new ArrayList<>();
+
 	private final String titleName;
 	
 	@Autowired
@@ -76,12 +84,27 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
     private final void buildCustomQueryAction() {
         Class<?> clazz = getClass();
 		Method[] declaredMethods = clazz.getDeclaredMethods();
-		RequestMapping mapping = clazz.getAnnotation(RequestMapping.class);
-		if (mapping!=null) {
-			baseUrl = mapping.value()[0];
-		}
+        TableViewController tableViewController = AnnotationUtils.findAnnotation(clazz, TableViewController.class);
+        if (tableViewController != null) {
+            baseUrl = tableViewController.value()[0];
+        } else {
+            RequestMapping mapping = AnnotationUtils.findAnnotation(clazz, RequestMapping.class);
+            if (mapping != null) {
+                baseUrl = mapping.value()[0];
+            }
+        }
 		for (Method method : declaredMethods) {
 			CustomQueryAction customQueryAction = method.getAnnotation(CustomQueryAction.class);
+            TableItemAction tableItemAction = method.getAnnotation(TableItemAction.class);
+            if (tableItemAction != null) {
+                String title = tableItemAction.title();
+                if (StringUtils.isBlank(title)) {
+                    title = method.getName();
+                }
+                TableItemLink itemLink = TableItemLink.of(method.getName(), title, baseUrl + tableItemAction.path()[0]);
+                tableItemsLinks.add(itemLink);
+            }
+
 			if (customQueryAction==null) {
 				continue;
 			}
@@ -113,6 +136,11 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
 				tableViewPage.addCustomButton(queryBtn);
 			}
 		}
+        if (CollectionUtils.isNotEmpty(tableItemsLinks)) {
+            for (TableItemLink itemLink : tableItemsLinks) {
+                tableViewPage.addTableItemsLink(itemLink);
+            }
+        }
         tableViewPage.setColMappingFormatterManager(colMappingFormatterManager);
 		tableViewPage.setToolbarStyle(toolbarStyle);
 		tableViewPage.setOnlineResource(onlineResource);
@@ -281,39 +309,30 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
 
     @Override
     public void afterPropertiesSet() {
+        // HandlerMethodReturnValueHandler
         List<HandlerMethodReturnValueHandler> returnValueHandlers = requestMappingHandlerAdapter
                 .getReturnValueHandlers();
-        List<HandlerMethodReturnValueHandler> list = new ArrayList<>();
-        list.add(new CustomQueryActionReturnValueHandler(dateFormat));//自定义returnHandler
-        list.addAll(returnValueHandlers);
-        requestMappingHandlerAdapter.setReturnValueHandlers(list);
+        List<HandlerMethodReturnValueHandler> allReturnValueHandlers = new ArrayList<>();
+        // 自定义returnHandler
+        allReturnValueHandlers.add(new CustomQueryActionReturnValueHandler(dateFormat));
+        allReturnValueHandlers.addAll(returnValueHandlers);
+        requestMappingHandlerAdapter.setReturnValueHandlers(allReturnValueHandlers);
+
+        // HandlerMethodArgumentResolver
+        List<HandlerMethodArgumentResolver> allArgumentResolvers = new ArrayList<>();
+        List<HandlerMethodArgumentResolver> argumentResolvers = requestMappingHandlerAdapter.getArgumentResolvers();
+        //自定义argumentResolvers
+        for (HandlerMethodArgumentResolver handlerMethodArgumentResolver : argumentResolvers) {
+            if (handlerMethodArgumentResolver instanceof org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor) {
+                allArgumentResolvers.add(new TableItemActionMethodArgumentResolver(requestMappingHandlerAdapter.getMessageConverters()));
+            }
+            allArgumentResolvers.add(handlerMethodArgumentResolver);
+        }
+        requestMappingHandlerAdapter.setArgumentResolvers(allArgumentResolvers);
     }
 
 	public void setOnlineResource(boolean onlineResource) {
 		this.onlineResource = onlineResource;
 	}
 
-	public static class PageHolder<T> {
-
-		public final int total;
-
-		public final List<T> records;
-
-		public PageHolder(int total, List<T> records) {
-			super();
-			this.total = total;
-			this.records = records;
-		}
-
-		@Override
-		public String toString() {
-			StringBuilder builder = new StringBuilder();
-			builder.append("Page [total=");
-			builder.append(total);
-			builder.append(", records=");
-			builder.append(records);
-			builder.append("]");
-			return builder.toString();
-		}
-	}
 }

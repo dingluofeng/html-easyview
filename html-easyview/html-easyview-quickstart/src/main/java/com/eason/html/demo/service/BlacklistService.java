@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.eason.html.demo.vo.DevRegBlacklistVo;
 import com.eason.html.demo.vo.DevSuspectedBlacklistVo;
-import com.eason.html.easyview.core.basecontroller.BaseTableViewerController.PageHolder;
+import com.eason.html.easyview.core.PageHolder;
 
 public interface BlacklistService {
 

@@ -45,16 +45,6 @@ public class TableJsScript {
         //url table column
         TableColumnFormatterFunction.columnFormatterFunction(script, tableData, columnFormatters);
         
-        script.add(Text.of("//自定义列内容事件"));
-        script.add(Text.of("window.operateEvents = {"));
-        script.add(Text.of("    'click #edit': function (e, value, row, index) {"));
-        script.add(Text.of("        editData(row);"));
-        script.add(Text.of("    },"));
-        script.add(Text.of("    'click #remove': function (e, value, row, index) {"));
-        script.add(Text.of("        delData(row." + tableData.uniqueId + ",\"one\");"));
-        script.add(Text.of("    }"));
-        script.add(Text.of("};"));
-
         script.add(Text.of("// 查询条件与分页数据"));
         script.add(Text.of("function queryParams(params) {"));
         script.add(Text.of("    //第几页"));
@@ -200,6 +190,27 @@ public class TableJsScript {
         script.add(Text.of("                    layer.msg(msg.msg, {icon: 2, time: 1500});"));
         script.add(Text.of("                }"));
         script.add(Text.of("                refresh();"));
+        script.add(Text.of("            }"));
+        script.add(Text.of("        })"));
+        script.add(Text.of("    });"));
+        script.add(Text.of("}"));
+
+        script.add(Text.of("//tr中自定义扩展按钮点击事件"));
+        script.add(Text.of("function customOpt(text,url,data) {"));
+        script.add(Text.of("    layer.confirm('确定要执行' + text+ '操作?', {icon: 3, title: '提示'}, function () {"));
+        script.add(Text.of("        $.ajax({"));
+        script.add(Text.of("            url: url,"));
+        script.add(Text.of("            method: 'post',"));
+        script.add(Text.of("            contentType: \"application/json\","));
+        script.add(Text.of("            //阻止深度序列化，向后台传送数组"));
+        script.add(Text.of("            traditional: true,"));
+        script.add(Text.of("            data: JSON.stringify(data),"));
+        script.add(Text.of("            success: function (msg) {"));
+        script.add(Text.of("                if (msg.status==0) {"));
+        script.add(Text.of("                    layer.msg(msg.msg, {icon: 1, time: 1500});"));
+        script.add(Text.of("                } else {"));
+        script.add(Text.of("                    layer.msg(msg.msg, {icon: 2, time: 1500});"));
+        script.add(Text.of("                }"));
         script.add(Text.of("            }"));
         script.add(Text.of("        })"));
         script.add(Text.of("    });"));

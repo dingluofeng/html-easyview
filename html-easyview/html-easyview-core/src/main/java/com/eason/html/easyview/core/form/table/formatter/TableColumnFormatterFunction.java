@@ -5,6 +5,7 @@ package com.eason.html.easyview.core.form.table.formatter;
 
 import java.util.List;
 
+import com.eason.html.easyview.core.form.table.TableItemLink;
 import com.eason.html.easyview.core.form.table.model.TableData;
 import com.eason.html.easyview.core.utils.CollectionUtils;
 import com.eason.html.easyview.core.utils.JacksonUtils;
@@ -17,7 +18,8 @@ import com.eason.html.easyview.core.widget.Text;
  */
 public class TableColumnFormatterFunction {
 	
-    public static void columnFormatterFunction(Script script, TableData tableData,List<TableColMappingFormatter> columnFormatters) {
+    public static void columnFormatterFunction(Script script, TableData tableData,
+            List<TableColMappingFormatter> columnFormatters) {
 		script.add(Text.of("//生成详细视图"));
         script.add(Text.of("function genderDetail(index, row) {"));
         script.add(Text.of("    var html = [];"));
@@ -60,8 +62,29 @@ public class TableColumnFormatterFunction {
         script.add(Text.of("        '<a id=\"remove\" href=\"javascript:void(0)\" title=\"删除\">',"));
         script.add(Text.of("        '<i class=\"glyphicon glyphicon-trash\"></i>',"));
         script.add(Text.of("        '</a>'"));
+        // 自定义操作列link
+        List<TableItemLink> itemLinks = tableData.customItemLinks;
+        for (TableItemLink itemLink : itemLinks) {
+            script.add(Text.of("        ,'" + itemLink.buildLink() + "'"));
+        }
         script.add(Text.of("    ].join('');"));
         script.add(Text.of("}"));
+
+        script.add(Text.of("//自定义列内容事件"));
+        script.add(Text.of("window.operateEvents = {"));
+        // 自定义操作列绑定事件
+        for (TableItemLink itemLink : itemLinks) {
+            script.add(Text.of("    'click #" + itemLink.id() + "': function (e, value, row, index) {"));
+            script.add(Text.of("        customOpt('" + itemLink.title() + "','" + itemLink.url() + "',row);"));
+            script.add(Text.of("    },"));
+        }
+        script.add(Text.of("    'click #edit': function (e, value, row, index) {"));
+        script.add(Text.of("        editData(row);"));
+        script.add(Text.of("    },"));
+        script.add(Text.of("    'click #remove': function (e, value, row, index) {"));
+        script.add(Text.of("        delData(row." + tableData.uniqueId + ",\"one\");"));
+        script.add(Text.of("    }"));
+        script.add(Text.of("};"));
 
         // column formatter
         if (CollectionUtils.isNotEmpty(columnFormatters)) {
@@ -80,5 +103,6 @@ public class TableColumnFormatterFunction {
                 script.add(Text.of("}"));
             }
         }
+
 	}
 }

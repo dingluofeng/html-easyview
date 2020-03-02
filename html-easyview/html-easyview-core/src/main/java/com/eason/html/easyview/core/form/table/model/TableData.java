@@ -13,6 +13,7 @@ import com.eason.html.easyview.core.annotations.EasyViewData;
 import com.eason.html.easyview.core.form.DatetimeInput;
 import com.eason.html.easyview.core.form.FormInput;
 import com.eason.html.easyview.core.form.provider.WidgetsFactory;
+import com.eason.html.easyview.core.form.table.TableItemLink;
 import com.eason.html.easyview.core.form.table.formatter.NoneTableColMappingFormatter;
 import com.eason.html.easyview.core.form.table.formatter.TableColMappingFormatterManager;
 import com.eason.html.easyview.core.form.table.model.TableColumnBuilder.TableColumn;
@@ -54,6 +55,8 @@ public class TableData {
 
 	public final Set<DateTimeInfo> datetimeFields = new HashSet<>();
 	
+    public final List<TableItemLink> customItemLinks = new ArrayList<>();
+
 	public List<?> rows;
 
 	private TableColMappingFormatterManager formatterManager;

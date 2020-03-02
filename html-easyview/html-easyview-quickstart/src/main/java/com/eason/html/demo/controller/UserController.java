@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.eason.html.demo.vo.UserInfoVo;
+import com.eason.html.easyview.core.PageHolder;
 import com.eason.html.easyview.core.WidgetStyle;
+import com.eason.html.easyview.core.annotations.TableItemAction;
+import com.eason.html.easyview.core.annotations.TableViewController;
 import com.eason.html.easyview.core.basecontroller.BaseTableViewerController;
 import com.eason.html.easyview.core.basecontroller.PageParams;
 
@@ -19,14 +19,19 @@ import com.eason.html.easyview.core.basecontroller.PageParams;
  * @author dingluofeng
  *
  */
-@Controller
-@RequestMapping("/user")
+@TableViewController("/user")
 public class UserController extends BaseTableViewerController<UserInfoVo, UserInfoVo> {
 
 	public UserController() {
 		super("用户信息", WidgetStyle.NONE);
 		setOnlineResource(false);
 	}
+
+    @TableItemAction(path = "/send/upgrade")
+    public String pub(UserInfoVo vo) {
+        System.out.println(vo);
+        return "Ok";
+    }
 
 	@Override
 	protected PageHolder<UserInfoVo> list(PageParams pageParams, UserInfoVo co) {

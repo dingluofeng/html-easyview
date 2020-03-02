@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.eason.html.demo.vo.DevRegBlacklistVo;
 import com.eason.html.demo.vo.DevSuspectedBlacklistVo;
-import com.eason.html.easyview.core.basecontroller.BaseTableViewerController.PageHolder;
+import com.eason.html.easyview.core.PageHolder;
 import com.eason.html.easyview.core.logging.Log;
 import com.eason.html.easyview.core.logging.LogFactory;
 import com.eason.html.easyview.core.utils.CollectionUtils;

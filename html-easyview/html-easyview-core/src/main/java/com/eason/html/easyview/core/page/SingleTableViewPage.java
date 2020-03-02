@@ -1,9 +1,12 @@
 package com.eason.html.easyview.core.page;
 
+import java.util.List;
+
 import com.eason.html.easyview.core.WidgetStyle;
 import com.eason.html.easyview.core.form.dialog.BeanDialog;
 import com.eason.html.easyview.core.form.table.BeanTableView;
 import com.eason.html.easyview.core.form.table.CustomQueryBeanTable;
+import com.eason.html.easyview.core.form.table.TableItemLink;
 import com.eason.html.easyview.core.form.table.formatter.TableColMappingFormatterManager;
 import com.eason.html.easyview.core.form.table.js.TableJsScript;
 import com.eason.html.easyview.core.form.table.model.TableData;
@@ -49,6 +52,9 @@ public class SingleTableViewPage extends BasePage {
             uploadWidgetInfo.setLimitSize(10240);
         }
         
+        tableData.customItemLinks.addAll(tableItemsLinks);
+        // .add(TableItemLink.of("send", "发送", "glyphicon glyphicon-send", baseUrl +
+        // "/send/upgrade"));
         
         BeanTableView tableView = BeanTableView.build(tableData, getToolbarStyle());
         addBody(tableView);
@@ -149,5 +155,10 @@ public class SingleTableViewPage extends BasePage {
 	public void setOnlineResource(boolean onlineResource) {
 		this.onlineResource = onlineResource;
 	}
+
+    public void seTableItemsLinks(List<TableItemLink> tableItemsLinks) {
+        // TODO Auto-generated method stub
+
+    }
 
 }
