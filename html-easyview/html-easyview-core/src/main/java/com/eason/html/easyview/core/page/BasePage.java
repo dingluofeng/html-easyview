@@ -44,7 +44,7 @@ public abstract class BasePage {
     protected final List<TableItemLink> tableItemsLinks = new ArrayList<>();
 
 	public BasePage() {
-		this("../icon/favicon.ico");
+        this("/icon/favicon.ico");
 	}
 
 	public BasePage(String iconPath) {

@@ -207,9 +207,9 @@ public class TableJsScript {
         script.add(Text.of("            data: JSON.stringify(data),"));
         script.add(Text.of("            success: function (msg) {"));
         script.add(Text.of("                if (msg.status==0) {"));
-        script.add(Text.of("                    layer.msg(msg.msg, {icon: 1, time: 1500});"));
+        script.add(Text.of("                    layer.msg(msg.msg, {icon: 1, time: 2000});"));
         script.add(Text.of("                } else {"));
-        script.add(Text.of("                    layer.msg(msg.msg, {icon: 2, time: 1500});"));
+        script.add(Text.of("                    layer.msg(msg.msg, {icon: 2, time: 2000});"));
         script.add(Text.of("                }"));
         script.add(Text.of("            }"));
         script.add(Text.of("        })"));
@@ -260,6 +260,7 @@ public class TableJsScript {
             script.add(Text.of("       ,done: function(res){"));
             script.add(Text.of("           layer.msg('上传成功');"));
             script.add(Text.of("           console.log(res);"));
+            script.add(Text.of("           refresh();"));
             script.add(Text.of("       }"));
             script.add(Text.of("    });"));
             script.add(Text.of("});"));

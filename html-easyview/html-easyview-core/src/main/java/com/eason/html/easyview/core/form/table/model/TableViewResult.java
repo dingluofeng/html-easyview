@@ -27,7 +27,7 @@ public class TableViewResult extends LinkedHashMap<String, Object> {
         this(status, msg, 0, null);
     }
 
-    public TableViewResult(int total, Object data) {
+    public TableViewResult(int status, int total, Object data) {
         this(0, "OK", total, data);
     }
 

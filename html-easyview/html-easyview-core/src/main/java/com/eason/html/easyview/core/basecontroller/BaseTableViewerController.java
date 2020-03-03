@@ -109,7 +109,8 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
                 if (StringUtils.isBlank(title)) {
                     title = method.getName();
                 }
-                TableItemLink itemLink = TableItemLink.of(method.getName(), title, baseUrl + tableItemAction.path()[0]);
+                TableItemLink itemLink = TableItemLink.of(method.getName(), title, tableItemAction.styleClass(),
+                        baseUrl + tableItemAction.path()[0]);
                 tableItemsLinks.add(itemLink);
             }
 
@@ -162,7 +163,7 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
 			logger.infof("列表查询请求，pageParams:%s,condition:%s", pageParams, co);
 			PageHolder<Vo> page = list(pageParams, co);
 			int total = page.total;
-			return new TableViewResult(total, page.records);
+            return new TableViewResult(0, total, page.records);
 		} catch (Throwable e) {
 			logger.error("获取列表信息失败,page:" + pageParams + ",co:" + co, e);
 			return null;

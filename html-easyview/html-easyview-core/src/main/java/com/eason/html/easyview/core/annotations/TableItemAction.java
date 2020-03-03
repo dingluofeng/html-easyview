@@ -27,9 +27,32 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ResponseBody
 public @interface TableItemAction {
 
+    /**
+     * <p>
+     * 按钮执行URL
+     * </p>
+     * 
+     * @return
+     */
 	@AliasFor(annotation = RequestMapping.class, value = "value")
     String[] path();
 
+    /**
+     * <p>
+     * 按钮显示文本
+     * </p>
+     * 
+     * @return
+     */
 	String text() default "";
+
+    /**
+     * <p>
+     * 按钮样式
+     * </p>
+     * 
+     * @return
+     */
+    String styleClass() default "";
 
 }

@@ -116,26 +116,26 @@ public class SingleTableViewPage extends BasePage {
 	    
 	   private void buildLocalResourcesHeader() {
 	        // jquery
-			addHeadScript(script().setType("text/javascript").setSrc("../dependents/jquery/jquery.min.js"));
-			addHeadScript(script().setType("text/javascript").setSrc("../dependents/popper/popper.min.js"));
+			addHeadScript(script().setType("text/javascript").setSrc("/dependents/jquery/jquery.min.js"));
+			addHeadScript(script().setType("text/javascript").setSrc("/dependents/popper/popper.min.js"));
 
 	        // layui
-	        addLink(link().stylesheet().setType("text/css").setHref("../dependents/layui/css/layui.css"));
-	        addHeadScript(script().setType("text/javascript").setSrc("../dependents/layui/layui.js"));
+	        addLink(link().stylesheet().setType("text/css").setHref("/dependents/layui/css/layui.css"));
+	        addHeadScript(script().setType("text/javascript").setSrc("/dependents/layui/layui.js"));
 
 	        // bootstrap
-			addLink(link().stylesheet().setType("text/css").setHref("../dependents/bootstrap3/css/bootstrap.min.css"));
-			addHeadScript(script().setType("text/javascript").setSrc("../dependents/bootstrap3/js/bootstrap.min.js"));
+			addLink(link().stylesheet().setType("text/css").setHref("/dependents/bootstrap3/css/bootstrap.min.css"));
+			addHeadScript(script().setType("text/javascript").setSrc("/dependents/bootstrap3/js/bootstrap.min.js"));
 
 	        // bootstrap table
-			addHeadScript(script().setType("text/javascript").setSrc("../dependents/bootstrap-table/bootstrap-table.min.js"));
-			addHeadScript(script().setType("text/javascript").setSrc("../dependents/bootstrap-table/bootstrap-table-locale-all.min.js"));
-			addLink(link().stylesheet().setType("text/css").setHref("../dependents/bootstrap-table/bootstrap-table.min.css"));
+			addHeadScript(script().setType("text/javascript").setSrc("/dependents/bootstrap-table/bootstrap-table.min.js"));
+			addHeadScript(script().setType("text/javascript").setSrc("/dependents/bootstrap-table/bootstrap-table-locale-all.min.js"));
+			addLink(link().stylesheet().setType("text/css").setHref("/dependents/bootstrap-table/bootstrap-table.min.css"));
 
 	        // ie 8 兼容
 	        addHeadText("<!--[if lt IE 9]>");
-	        addHeadScript(script().setSrc("../dependents/htm5-ie8/html5shiv.min.js"));
-	        addHeadScript(script().setSrc("../dependents/htm5-ie8/respond.min.js"));
+	        addHeadScript(script().setSrc("/dependents/htm5-ie8/html5shiv.min.js"));
+	        addHeadScript(script().setSrc("/dependents/htm5-ie8/respond.min.js"));
 	        addHeadText("<![endif]-->");
 	    }
 

@@ -3,6 +3,7 @@
  */
 package com.eason.html.easyview.core.form.table;
 
+import com.eason.html.easyview.core.utils.StringUtils;
 import com.eason.html.easyview.core.widget.A;
 import com.eason.html.easyview.core.widget.I;
 
@@ -27,7 +28,9 @@ public class TableItemLink {
         this.id = id;
         this.href = href;
         this.title = title;
-        this.classStyle = classStyle;
+        if (StringUtils.isNotBlank(classStyle)) {
+            this.classStyle = classStyle;
+        }
         this.url = url;
     }
 

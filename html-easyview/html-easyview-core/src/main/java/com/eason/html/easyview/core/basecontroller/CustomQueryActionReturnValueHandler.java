@@ -52,11 +52,19 @@ public class CustomQueryActionReturnValueHandler implements HandlerMethodReturnV
         PrintWriter writer = null;
         try {
         	writer = response.getWriter();
-        	TableViewResult tableViewResult = new TableViewResult();
+            TableViewResult tableViewResult = null;
         	TableItemAction tableItemAction = returnType.getMethodAnnotation(TableItemAction.class);
         	if (tableItemAction!=null) {
-        		tableViewResult.setData(returnValue);
+                if (returnValue instanceof TableViewResult) {
+                    tableViewResult = (TableViewResult) returnValue;
+                } else if (returnValue instanceof String) {
+                    tableViewResult = new TableViewResult(0, (String) returnValue);
+                } else {
+                    tableViewResult = new TableViewResult();
+                    tableViewResult.setData(returnValue);
+                }
 			}else {
+                tableViewResult = new TableViewResult();
 				CustomQueryAction customQueryAction = returnType.getMethodAnnotation(CustomQueryAction.class);
 				TableInfo tableInfo=null;
 				if (List.class.isAssignableFrom(returnType.getParameterType())) {
