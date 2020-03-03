@@ -93,8 +93,7 @@ public class StaticTableData {
             }
             EasyView annotation = rowEntities.get(0).getClass().getAnnotation(EasyView.class);
             FieldFilter fieldFilter = null;
-            final boolean hasViewAnnotation = (annotation != null);
-            if (hasViewAnnotation) {
+            if (annotation != null) {
                 tableData.tableTitle = annotation.name();
                 fieldFilter = new AnnotationFieldFilter<>(EasyView.class);
             } else {
@@ -109,8 +108,8 @@ public class StaticTableData {
                     @Override
                     public void doWith(Field field, Object fieldValue) {
                         if (countIndex == 0) {
-                            if (hasViewAnnotation) {
-                                EasyView column = field.getAnnotation(EasyView.class);
+                            EasyView column = field.getAnnotation(EasyView.class);
+                            if (column != null) {
                                 names.add(column.name());
                             } else {
                                 names.add(field.getName());
