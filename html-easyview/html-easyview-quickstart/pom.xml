@@ -8,7 +8,7 @@
 		<version>1.5.22.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.eason.html</groupId>
+	<groupId>com.eason.html.view</groupId>
 	<artifactId>html-easyview-quickstart</artifactId>
 	<version>1.0.0</version>
 	<packaging>war</packaging>

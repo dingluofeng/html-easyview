@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+<!-- 	<classPathEntry -->
+<!-- 		location="E:/Maven/repository/mysql/mysql-connector-java/5.1.24/mysql-connector-java-5.1.24.jar" /> -->
+
+	<context id="MySQLTables" targetRuntime="MyBatis3">
+		<property name="autoDelimitKeywords" value="true" />
+		<property name="beginningDelimiter" value="`" />
+		<property name="endingDelimiter" value="`" />
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+<!-- 		<plugin type="com.hikvision.shipin7.mybatis.DelUpdateByExamPlugin" /> -->
+		<plugin type="com.hikvision.shipin7.mybatis.PaginationSupportedPlugin" />
+		
+		 <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <property name="suppressAllComments" value="false"/>
+            <property name="addRemarkComments" value="true"/>
+        </commentGenerator>
+
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://127.0.0.1:3306/risk" userId="root"
+			password="88075998">
+		</jdbcConnection>
+
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<!-- 生成vo对象 -->
+		<javaModelGenerator targetPackage="com.hikvision.ezviz.risk.common.domain" targetProject="./src/main/java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<!-- 采用ANNOTATEDMAPPER这种类型的Client，是不需要生成SQLMap文件的，这样比较方便一些 -->
+		<javaClientGenerator type="ANNOTATEDMAPPER"
+			targetPackage="com.hikvision.ezviz.risk.common.mapper" targetProject="./src/main/java"> <!--\src\main\java"> -->
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+
+		<!-- 需要生成的数据库表的List -->
+		<!-- <table tableName="admin" domainObjectName="Admin" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"> -->
+		<!--    <property name="rootInterface" value="com.*.dao.AdminExtMapper"/> -->
+		<!-- </table> -->
+		<table schema="" tableName="dev_reg_blacklist" domainObjectName="DevRegBlacklistDo" />
+		<table schema="" tableName="dev_suspected_blacklist" domainObjectName="DevSuspectedBlacklistDo" />
+	</context>
+</generatorConfiguration>
