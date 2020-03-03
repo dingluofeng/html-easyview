@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>com.eason.html</groupId>
 	<artifactId>html-easyview</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<packaging>pom</packaging>
 	<properties>
 		<maven.test.skip>false</maven.test.skip>

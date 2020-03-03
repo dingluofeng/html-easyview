@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.eason.html</groupId>
 		<artifactId>html-easyview</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.1</version>
 	</parent>
 	<artifactId>html-easyview-core</artifactId>
 	<dependencies>
