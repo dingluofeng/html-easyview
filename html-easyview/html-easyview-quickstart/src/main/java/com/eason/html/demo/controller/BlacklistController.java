@@ -6,12 +6,13 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.eason.html.demo.co.DevSuspectedBlacklistCo;
 import com.eason.html.demo.service.BlacklistService;
 import com.eason.html.demo.vo.DevRegBlacklistVo;
 import com.eason.html.demo.vo.DevSuspectedBlacklistVo;
 import com.eason.html.demo.vo.UserDeviceVo;
-import com.eason.html.demo.vo.UserInfoVo;
 import com.eason.html.demo.vo.mapping.AddTypeFormatter;
 import com.eason.html.easyview.core.PageHolder;
 import com.eason.html.easyview.core.WidgetStyle;
@@ -40,7 +41,7 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 	}
 
 	@TableItemAction(path = "/send/limit", text = "限制")
-	public String send(UserInfoVo vo) {
+    public String send(DevRegBlacklistVo vo) {
 		System.out.println(vo);
 		return "Ok";
 	}
@@ -77,6 +78,12 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 	}
 
 	@Override
+    protected int fileImport(MultipartFile multipartFile) {
+        System.out.println("received file:" + multipartFile.getOriginalFilename());
+        return super.fileImport(multipartFile);
+    }
+
+    @Override
 	protected int add(DevRegBlacklistVo vo) {
 		blacklistStorageService.saveBlacklist(vo);
 		return super.add(vo);

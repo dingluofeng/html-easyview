@@ -46,7 +46,7 @@ public class SingleTableViewPage extends BasePage {
             // upload
             uploadWidgetInfo = new UploadWidgetInfo();
             uploadWidgetInfo.setUploadId(tableData.btnPrefix + "_btn_upload");
-            uploadWidgetInfo.setUploadUrl(baseUrl + "/upload");
+            uploadWidgetInfo.setUploadUrl(baseUrl + "/fileimport");
             uploadWidgetInfo.setAcceptType("file");
             uploadWidgetInfo.setFileExts("txt|xlsx"); 
             uploadWidgetInfo.setLimitSize(10240);

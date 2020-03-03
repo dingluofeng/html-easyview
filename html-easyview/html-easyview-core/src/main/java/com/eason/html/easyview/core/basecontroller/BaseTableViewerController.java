@@ -248,13 +248,13 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
 		return 0;
 	}
 	
-	@RequestMapping("/upload")
+    @RequestMapping("/fileimport")
     @ResponseBody
-    public final TableViewResult uploadFile(MultipartHttpServletRequest request) {
+    public final TableViewResult fileImport_(MultipartHttpServletRequest request) {
         MultipartFile multipartFile = request.getFile("file");
         try {
             logger.infof("收到上传请求，file:%s", multipartFile.getOriginalFilename());
-            int result = upload(multipartFile);
+            int result = fileImport(multipartFile);
             return new TableViewResult(result, "success");
         } catch (Exception e) {
             logger.error("上传信息失败,file:" + multipartFile.getOriginalFilename(), e);
@@ -262,7 +262,7 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
         }
     }
 
-    protected int upload(MultipartFile multipartFile) {
+    protected int fileImport(MultipartFile multipartFile) {
         return 0;
     }
 

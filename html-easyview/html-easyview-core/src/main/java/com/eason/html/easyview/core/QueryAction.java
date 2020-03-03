@@ -10,10 +10,11 @@ import java.util.List;
 import com.eason.html.easyview.core.annotations.EasyView;
 import com.eason.html.easyview.core.annotations.EasyViewData;
 import com.eason.html.easyview.core.form.FormInput;
+import com.eason.html.easyview.core.form.provider.WidgetsFactory;
 import com.eason.html.easyview.core.utils.BeanRefectUtils;
+import com.eason.html.easyview.core.utils.BeanRefectUtils.FieldCallback;
 import com.eason.html.easyview.core.utils.DefaultFieldFilter;
 import com.eason.html.easyview.core.utils.StringUtils;
-import com.eason.html.easyview.core.utils.BeanRefectUtils.FieldCallback;
 
 /**
  * @author dingluofeng
@@ -92,9 +93,8 @@ public class QueryAction {
 				}
 				if (viewData.queryCondition) {
 					viewData.searchView = true;
-					// FormInput<?> formInput = WidgetsFactory.getInstance().create(field,
-					// fieldValue, viewData);
-					// searchInputs.add(formInput);
+                    FormInput<?> formInput = WidgetsFactory.getInstance().create(field, fieldValue, viewData);
+                    searchInputs.add(formInput);
 				}
 			}
 		}, new DefaultFieldFilter());
