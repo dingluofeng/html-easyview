@@ -23,7 +23,7 @@ public class AjaxQueryDataFunction {
 		script.add(Text.of("      traditional: true,"));
 		script.add(Text.of("      data: params,"));
 		script.add(Text.of("      success: function (msg) {"));
-		script.add(Text.of("          if (msg.status==0) {"));
+        script.add(Text.of("          if (msg.status==0||msg.status==200) {"));
 		script.add(Text.of("              layer.msg(msg.msg, {icon: 1, time: 1500});"));
 		script.add(Text.of("          } else {"));
 		script.add(Text.of("              layer.msg(msg.msg, {icon: 2, time: 1500});"));

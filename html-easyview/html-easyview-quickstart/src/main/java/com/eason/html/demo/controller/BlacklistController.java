@@ -21,6 +21,7 @@ import com.eason.html.easyview.core.annotations.TableItemAction;
 import com.eason.html.easyview.core.annotations.TableViewController;
 import com.eason.html.easyview.core.basecontroller.BaseTableViewerController;
 import com.eason.html.easyview.core.basecontroller.PageParams;
+import com.eason.html.easyview.core.basecontroller.ResponseResult;
 
 /**
  * 黑名单列表查询
@@ -40,20 +41,20 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 		setOnlineResource(false);
 	}
 
-	@TableItemAction(path = "/send/limit", text = "限制")
+	@TableItemAction(path = "/send/limit", title = "限制")
     public String send(DevRegBlacklistVo vo) {
 		System.out.println(vo);
 		return "Ok";
 	}
 
-	@CustomQueryAction(path = "/suspectedlist", conditionForm = DevSuspectedBlacklistCo.class, text = "黑名单可疑行为")
+	@CustomQueryAction(path = "/suspectedlist", conditionForm = DevSuspectedBlacklistCo.class, title = "黑名单可疑行为")
 	public List<DevSuspectedBlacklistVo> suspectedlist(DevRegBlacklistVo co, DevSuspectedBlacklistCo uc) {
 		System.out.println("custom:" + co);
 		System.out.println("custom:" + uc);
 		return blacklistStorageService.pagedSuspectedBlacklist(co.getSubSerial(), uc.getRegTime(), 0, 20);
 	}
 
-	@CustomQueryAction(id = "userDevice", path = "/userDevice", text = "用户设备列表")
+	@CustomQueryAction(id = "userDevice", path = "/userDevice", title = "用户设备列表")
 	public UserDeviceVo userDevice(String subSerial) {
 		System.out.println("userDevice:subSerial:" + subSerial);
 		List<UserDeviceVo> devices = new ArrayList<>();
@@ -84,19 +85,19 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
     }
 
     @Override
-	protected int add(DevRegBlacklistVo vo) {
+    protected ResponseResult add(DevRegBlacklistVo vo) {
 		blacklistStorageService.saveBlacklist(vo);
 		return super.add(vo);
 	}
 
 	@Override
-	protected int update(DevRegBlacklistVo vo) {
+    protected ResponseResult update(DevRegBlacklistVo vo) {
 		blacklistStorageService.saveBlacklist(vo);
 		return super.update(vo);
 	}
 
 	@Override
-	protected int delete(String... subSerials) {
+    protected ResponseResult delete(String... subSerials) {
 		blacklistStorageService.delete(subSerials);
 		return super.delete(subSerials);
 	}

@@ -105,7 +105,7 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
 			CustomQueryAction customQueryAction = method.getAnnotation(CustomQueryAction.class);
             TableItemAction tableItemAction = method.getAnnotation(TableItemAction.class);
             if (tableItemAction != null) {
-                String title = tableItemAction.text();
+                String title = tableItemAction.title();
                 if (StringUtils.isBlank(title)) {
                     title = method.getName();
                 }
@@ -121,7 +121,7 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
 			if (StringUtils.isBlank(id)) {
 				id=method.getName();
 			}
-			QueryAction queryAction=new QueryAction(id,customQueryAction.text(),baseUrl+customQueryAction.path()[0]); 
+			QueryAction queryAction=new QueryAction(id,customQueryAction.title(),baseUrl+customQueryAction.path()[0]); 
 			Class<?> conditionForm = customQueryAction.conditionForm();
 			if (conditionForm!=Object.class) {
 				queryAction.setSearchCondition(conditionForm);
@@ -184,8 +184,8 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
 	public final TableViewResult addInfo(Vo vo) {
 		try {
 			logger.infof("添加请求，vo:%s", vo);
-			int result = add(vo);
-			return new TableViewResult(result, "success");
+            ResponseResult result = add(vo);
+            return new TableViewResult(result);
 		} catch (Exception e) {
 			logger.error("添加信息失败,vo:" + vo, e);
 			return new TableViewResult(-1, e.getMessage());
@@ -198,8 +198,8 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
 	 * @param vo 新增对象
 	 * @return
 	 */
-	protected int add(Vo vo) {
-		return 0;
+    protected ResponseResult add(Vo vo) {
+        return ResponseResult.ok();
 	}
 
 	@RequestMapping("/update")
@@ -207,8 +207,8 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
 	public final TableViewResult updateInfo(Vo vo) {
 		try {
 			logger.infof("更新请求，vo:%s", vo);
-			int result = update(vo);
-			return new TableViewResult(result, "success");
+            ResponseResult result = update(vo);
+            return new TableViewResult(result);
 		} catch (Exception e) {
 			logger.error("更新信息失败,vo" + vo, e);
 			return new TableViewResult(-1, e.getMessage());
@@ -221,8 +221,8 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
 	 * @param vo 更新对象
 	 * @return
 	 */
-	protected int update(Vo vo) {
-		return 0;
+    protected ResponseResult update(Vo vo) {
+        return ResponseResult.ok();
 	}
 
 	@RequestMapping("/delete")
@@ -231,8 +231,8 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
 		try {
 			logger.infof("删除请求，id:%s,type:%s", id, type);
 			String[] ids = StringUtils.split(id, ",");
-			int result = delete(ids);
-			return new TableViewResult(result, "success");
+            ResponseResult result = delete(ids);
+            return new TableViewResult(result);
 		} catch (Exception e) {
 			logger.error("删除失败,id:" + id + ",type:" + type, e);
 			return new TableViewResult(-1, e.getMessage());
@@ -245,8 +245,8 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
 	 * @param ids 设置的主键值，没有设置默认对象第一个属性作为主键
 	 * @return
 	 */
-	protected int delete(String... ids) {
-		return 0;
+    protected ResponseResult delete(String... ids) {
+        return ResponseResult.ok();
 	}
 	
     @RequestMapping("/fileimport")

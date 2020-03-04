@@ -2,6 +2,7 @@ package com.eason.html.easyview.core.form.table.model;
 
 import java.util.LinkedHashMap;
 
+import com.eason.html.easyview.core.basecontroller.ResponseResult;
 import com.eason.html.easyview.core.utils.AssertUtils;
 
 /**
@@ -21,6 +22,10 @@ public class TableViewResult extends LinkedHashMap<String, Object> {
 
     public TableViewResult() {
         this(0, "OK", 0, null);
+    }
+
+    public TableViewResult(ResponseResult result) {
+        this(result.status, result.msg, 0, null);
     }
 
     public TableViewResult(int status, String msg) {

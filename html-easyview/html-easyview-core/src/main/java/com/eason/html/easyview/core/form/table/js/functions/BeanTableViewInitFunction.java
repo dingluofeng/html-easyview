@@ -134,7 +134,7 @@ public class BeanTableViewInitFunction {
         }
         script.add(Text.of("        ],"));
         script.add(Text.of("        responseHandler: function (res) {"));
-        script.add(Text.of("            if (res.status == 0) {"));
+        script.add(Text.of("            if (res.status == 0||res.status == 200) {"));
         script.add(Text.of("                var obj = {"));
         script.add(Text.of("                    \"total\": res.total,"));
         script.add(Text.of("                    \"rows\": res.data,"));

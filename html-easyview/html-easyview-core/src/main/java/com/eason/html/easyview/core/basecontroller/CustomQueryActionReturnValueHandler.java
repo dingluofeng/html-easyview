@@ -59,6 +59,8 @@ public class CustomQueryActionReturnValueHandler implements HandlerMethodReturnV
                     tableViewResult = (TableViewResult) returnValue;
                 } else if (returnValue instanceof String) {
                     tableViewResult = new TableViewResult(0, (String) returnValue);
+                } else if (returnValue instanceof ResponseResult) {
+                    tableViewResult = new TableViewResult((ResponseResult) returnValue);
                 } else {
                     tableViewResult = new TableViewResult();
                     tableViewResult.setData(returnValue);

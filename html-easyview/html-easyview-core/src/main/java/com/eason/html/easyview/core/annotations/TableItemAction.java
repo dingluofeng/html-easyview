@@ -44,7 +44,7 @@ public @interface TableItemAction {
      * 
      * @return
      */
-	String text() default "";
+	String title() default "";
 
     /**
      * <p>

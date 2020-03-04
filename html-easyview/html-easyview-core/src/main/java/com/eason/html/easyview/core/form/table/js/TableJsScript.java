@@ -144,7 +144,7 @@ public class TableJsScript {
         script.add(Text.of("        //阻止深度序列化，向后台传送数组"));
         script.add(Text.of("        traditional: true,"));
         script.add(Text.of("        success: function (msg) {"));
-        script.add(Text.of("            if (msg.status==0) {"));
+        script.add(Text.of("            if (msg.status==0||msg.status==200) {"));
         script.add(Text.of("                 layer.msg(msg.msg, {icon: 1, time: 1500});"));
         script.add(Text.of("            } else {"));
         script.add(Text.of("                 layer.msg(msg.msg, {icon: 2, time: 1500});"));
@@ -184,7 +184,7 @@ public class TableJsScript {
         //script.add(Text.of("            data:row,"));
         script.add(Text.of("            data: {id: id.toString(),type:type},"));
         script.add(Text.of("            success: function (msg) {"));
-        script.add(Text.of("                if (msg.status==0) {"));
+        script.add(Text.of("                if (msg.status==0||msg.status==200) {"));
         script.add(Text.of("                    layer.msg(msg.msg, {icon: 1, time: 1500});"));
         script.add(Text.of("                } else {"));
         script.add(Text.of("                    layer.msg(msg.msg, {icon: 2, time: 1500});"));
@@ -206,7 +206,7 @@ public class TableJsScript {
         script.add(Text.of("            traditional: true,"));
         script.add(Text.of("            data: JSON.stringify(data),"));
         script.add(Text.of("            success: function (msg) {"));
-        script.add(Text.of("                if (msg.status==0) {"));
+        script.add(Text.of("                if (msg.status==0||msg.status==200) {"));
         script.add(Text.of("                    layer.msg(msg.msg, {icon: 1, time: 2000});"));
         script.add(Text.of("                } else {"));
         script.add(Text.of("                    layer.msg(msg.msg, {icon: 2, time: 2000});"));
