@@ -255,16 +255,16 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
         MultipartFile multipartFile = request.getFile("file");
         try {
             logger.infof("收到上传请求，file:%s", multipartFile.getOriginalFilename());
-            int result = fileImport(multipartFile);
-            return new TableViewResult(result, "success");
+            ResponseResult result = fileImport(multipartFile);
+            return new TableViewResult(result);
         } catch (Exception e) {
             logger.error("上传信息失败,file:" + multipartFile.getOriginalFilename(), e);
             return new TableViewResult(-1, e.getMessage());
         }
     }
 
-    protected int fileImport(MultipartFile multipartFile) {
-        return 0;
+    protected ResponseResult fileImport(MultipartFile multipartFile) {
+        return ResponseResult.ok();
     }
 
     protected final void addTableColMappingFormatter(TableColMappingFormatter mappingFormatter) {
