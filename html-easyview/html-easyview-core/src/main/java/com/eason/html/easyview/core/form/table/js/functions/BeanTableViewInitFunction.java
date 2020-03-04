@@ -51,6 +51,8 @@ public class BeanTableViewInitFunction {
         script.add(Text.of("        showColumns: true,"));
         script.add(Text.of("        //显示刷新按钮"));
         script.add(Text.of("        showRefresh: true,"));
+        script.add(Text.of("        //转义HTML字符串，替换 &, <, >, \", `, 和 ' 字符."));
+        script.add(Text.of("        escape: " + tableData.escape + ","));
         script.add(Text.of("        //切换显示样式"));
         script.add(Text.of("        showToggle: true,"));
         script.add(Text.of("        //显示Table脚部"));

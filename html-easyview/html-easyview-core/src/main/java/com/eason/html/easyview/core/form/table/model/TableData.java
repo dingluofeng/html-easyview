@@ -37,6 +37,8 @@ public class TableData {
 
 	public String tableTitle;
 
+    public boolean escape;
+
 	public String btnPrefix;
 
 	public String tableToolbar;
@@ -116,6 +118,7 @@ public class TableData {
 			if (easyView.indexed()) {
 				columns.add(TableColumnBuilder.newIndexColumn());
 			}
+            escape = easyView.escape();
 			//sortable = easyView.sortable();
 		} else {
 			tableTitle = beanClass.getSimpleName().toLowerCase();

@@ -7,6 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import com.eason.html.easyview.core.WidgetType;
+import com.eason.html.easyview.core.basecontroller.BaseTableViewerController;
 import com.eason.html.easyview.core.enums.Align;
 import com.eason.html.easyview.core.enums.Valign;
 import com.eason.html.easyview.core.form.table.formatter.NoneTableColMappingFormatter;
@@ -147,5 +148,15 @@ public @interface EasyView {
 	 * @return 表示该字段不在当前表格展示，需要扩展展示
 	 */
 	boolean expandRowView() default false;
+
+    /**
+     * <p>
+     * 转义HTML字符串，替换 &, <, >, ", `, 和 ' 字符.
+     * </p>
+     * 
+     * @author DingLuoFeng 2020年3月4日 下午12:40:21
+     * @return
+     */
+    boolean escape() default true;
 
 }
