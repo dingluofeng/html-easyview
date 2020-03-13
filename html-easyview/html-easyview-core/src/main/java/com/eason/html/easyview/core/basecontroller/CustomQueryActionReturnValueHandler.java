@@ -73,7 +73,9 @@ public class CustomQueryActionReturnValueHandler implements HandlerMethodReturnV
 					tableInfo = new TableInfo((List<?>) returnValue);
 				}else{
 					List<Object> ret=new ArrayList<>();
-					ret.add(returnValue);
+                    if (returnValue != null) {
+                        ret.add(returnValue);
+                    }
 					tableInfo = new TableInfo(ret);
 				}
 				Class<?> conditionForm = customQueryAction.conditionForm();

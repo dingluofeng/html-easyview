@@ -79,7 +79,7 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 	}
 
 	@Override
-    protected int fileImport(MultipartFile multipartFile) {
+    protected ResponseResult fileImport(MultipartFile multipartFile) {
         System.out.println("received file:" + multipartFile.getOriginalFilename());
         return super.fileImport(multipartFile);
     }

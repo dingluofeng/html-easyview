@@ -30,7 +30,7 @@ public class TableInfo {
 	public TableInfo(List<?> data) {
 		super();
 		this.data=data;
-		if (CollectionUtils.isNotEmpty(this.data)) {
+        if (CollectionUtils.isNotEmpty(this.data) && this.data.get(0) != null) {
 			Class<? extends Object> beanClass = this.data.get(0).getClass();
             columns = BeanRefectUtils.parseColumns(beanClass);
         } else {
