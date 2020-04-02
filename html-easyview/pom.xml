@@ -3,9 +3,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.hikvision.ezviz</groupId>
-		<artifactId>hik-springboot-dependencies</artifactId>
-		<version>1.1.2</version>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-dependencies</artifactId>
+		<version>1.5.22.RELEASE </version>
 	</parent>
 	<groupId>com.eason.html</groupId>
 	<artifactId>html-easyview</artifactId>
