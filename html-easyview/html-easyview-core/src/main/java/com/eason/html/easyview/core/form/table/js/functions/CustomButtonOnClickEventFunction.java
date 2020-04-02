@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.eason.html.easyview.core.form.CustomButton;
 import com.eason.html.easyview.core.form.FormInput;
+import com.eason.html.easyview.core.form.ToolItemButton;
 import com.eason.html.easyview.core.form.table.model.TableData;
 import com.eason.html.easyview.core.utils.CollectionUtils;
 import com.eason.html.easyview.core.widget.Script;
@@ -18,7 +19,7 @@ import com.eason.html.easyview.core.widget.Text;
  */
 public class CustomButtonOnClickEventFunction {
 	
-	public static void onClickEventFunction(Script script,TableData tableData, List<CustomButton> customBtns) {
+	public static void onClickEventFunction(Script script,TableData tableData, List<ToolItemButton> toolItemActions, List<CustomButton> customBtns) {
 		script.add(Text.of("//扩展查询按钮点击事件"));
         if (CollectionUtils.isNotEmpty(customBtns)) {
         	for (CustomButton customBtn : customBtns) {
@@ -35,9 +36,17 @@ public class CustomButtonOnClickEventFunction {
         			//getSearchFromData
         			getSearchFromData(script, tableData, customBtn);
             		script.add(Text.of("     queryData('"+customBtn.getUrl()+"', jsonData,false);"));
-        			
         			script.add(Text.of("}"));
         		}
+			}
+		}
+        
+        if (CollectionUtils.isNotEmpty(toolItemActions)) {
+        	for (ToolItemButton customBtn : toolItemActions) {
+        		script.add(Text.of("$(\"#" + customBtn.getId()+ "\").on(\"click\", function () {"));
+        		getSearchFromData(script, tableData, null);
+        		script.add(Text.of("     showMessage('"+customBtn.getUrl()+"', jsonData);"));
+        		script.add(Text.of("});"));
 			}
 		}
 	}
@@ -47,7 +56,7 @@ public class CustomButtonOnClickEventFunction {
 		    script.add(Text.of("     var " + formInput.getField() + " = " + formInput.getValueScript()));
 		}
 		//cutom search 
-		if(CollectionUtils.isNotEmpty(customBtn.getSearchInputs())) {
+		if(customBtn!=null && CollectionUtils.isNotEmpty(customBtn.getSearchInputs())) {
 			for (FormInput<?> input : customBtn.getSearchInputs()) {
 				script.add(Text.of("     var " + input.getField() + " = " + input.getValueScript()));
 			}
@@ -57,7 +66,7 @@ public class CustomButtonOnClickEventFunction {
 		    script.add(Text.of("		" + formInput.getField() + ": " + formInput.getField() + ","));
 		}
 		//cutom search 
-		if(CollectionUtils.isNotEmpty(customBtn.getSearchInputs())) {
+		if(customBtn!=null && CollectionUtils.isNotEmpty(customBtn.getSearchInputs())) {
 			for (FormInput<?> input : customBtn.getSearchInputs()) {
 				script.add(Text.of("		" + input.getField() + ": " + input.getField() + ","));
 			}

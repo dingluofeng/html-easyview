@@ -27,7 +27,7 @@ import com.eason.html.easyview.core.IconStyle;
 @Target({ ElementType.METHOD })
 @RequestMapping
 @ResponseBody
-public @interface TableItemAction {
+public @interface ToolItemAction {
 
     /**
      * <p>
@@ -55,6 +55,6 @@ public @interface TableItemAction {
      * 
      * @return
      */
-    String styleClass() default IconStyle.HAND_DOWN;
+    String styleClass() default IconStyle.STATS;
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import com.eason.html.easyview.core.DateTimeInfo;
 import com.eason.html.easyview.core.form.CustomButton;
 import com.eason.html.easyview.core.form.FormInput;
+import com.eason.html.easyview.core.form.ToolItemButton;
 import com.eason.html.easyview.core.form.table.formatter.TableColMappingFormatter;
 import com.eason.html.easyview.core.form.table.formatter.TableColumnFormatterFunction;
 import com.eason.html.easyview.core.form.table.js.functions.AjaxQueryDataFunction;
@@ -21,7 +22,7 @@ import com.eason.html.easyview.core.widget.Text;
 
 public class TableJsScript {
 
-    public static Script of(TableData tableData, UploadWidgetInfo uploadWidgetInfo,List<CustomButton> customBtns,List<TableColMappingFormatter> columnFormatters) {
+    public static Script of(TableData tableData, UploadWidgetInfo uploadWidgetInfo,List<ToolItemButton> toolItemActions, List<CustomButton> customBtns,List<TableColMappingFormatter> columnFormatters) {
         String tableId = tableData.tableId;
         String baseUrl = tableData.baseUrl;
         Script script = Script.of();
@@ -217,7 +218,7 @@ public class TableJsScript {
         script.add(Text.of("}"));
 
         //CustomButton onClickEventFunction
-        CustomButtonOnClickEventFunction.onClickEventFunction(script, tableData, customBtns);
+        CustomButtonOnClickEventFunction.onClickEventFunction(script, tableData,toolItemActions, customBtns);
         
         //ajax query function
         AjaxQueryDataFunction.queryData(script);

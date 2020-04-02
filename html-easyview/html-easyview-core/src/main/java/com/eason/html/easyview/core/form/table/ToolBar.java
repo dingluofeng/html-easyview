@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.eason.html.easyview.core.WidgetStyle;
 import com.eason.html.easyview.core.form.CustomButton;
+import com.eason.html.easyview.core.form.ToolItemButton;
 import com.eason.html.easyview.core.widget.Attribute;
 import com.eason.html.easyview.core.widget.Button;
 import com.eason.html.easyview.core.widget.Node;
@@ -21,7 +22,7 @@ public class ToolBar extends Node<ToolBar> implements WidgetStyle {
         addClass("btn-group");
 	}
 
-    public static ToolBar tableToolbar(String toolbarId, String btnPrefix, int btnStyle, Button... buttons) {
+    public static ToolBar tableToolbar(String toolbarId, String btnPrefix, int btnStyle, List<ToolItemButton>  buttons) {
         ToolBar toolBar = new ToolBar();
         toolBar.setId(toolbarId);
         if ((ADD & btnStyle) != 0) {
@@ -53,7 +54,7 @@ public class ToolBar extends Node<ToolBar> implements WidgetStyle {
 			toolBar.add(delBtn);
 		}
 
-        for (Button button : buttons) {
+        for (ToolItemButton button : buttons) {
             toolBar.add(button);
         }
         return toolBar;

@@ -24,12 +24,17 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
+import com.eason.html.easyview.core.IAction;
+import com.eason.html.easyview.core.IconStyle;
 import com.eason.html.easyview.core.PageHolder;
 import com.eason.html.easyview.core.QueryAction;
+import com.eason.html.easyview.core.ToolBarAction;
 import com.eason.html.easyview.core.annotations.CustomQueryAction;
 import com.eason.html.easyview.core.annotations.TableItemAction;
 import com.eason.html.easyview.core.annotations.TableViewController;
+import com.eason.html.easyview.core.annotations.ToolItemAction;
 import com.eason.html.easyview.core.form.CustomButton;
+import com.eason.html.easyview.core.form.ToolItemButton;
 import com.eason.html.easyview.core.form.table.TableItemLink;
 import com.eason.html.easyview.core.form.table.formatter.TableColMappingFormatter;
 import com.eason.html.easyview.core.form.table.formatter.TableColMappingFormatterManager;
@@ -54,6 +59,8 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
 	
 	private List<QueryAction> customActions=new ArrayList<>();
 	
+	private List<ToolBarAction> toolBarActions=new ArrayList<>();
+	
     private List<TableItemLink> tableItemsLinks = new ArrayList<>();
 
 	private final String titleName;
@@ -63,9 +70,9 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
 
     private TableColMappingFormatterManager colMappingFormatterManager = new TableColMappingFormatterManager();
     
-    private Comparator<QueryAction> actionComparator = new Comparator<QueryAction>() {
+    private Comparator<IAction> actionComparator = new Comparator<IAction>() {
         @Override
-        public int compare(QueryAction queryAction1, QueryAction queryAction2) {
+        public int compare(IAction queryAction1, IAction queryAction2) {
             return queryAction1.id().compareTo(queryAction2.id());
         }
     };
@@ -82,8 +89,8 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
     }
     
     protected void enableDefaultTableItemOpt() {
-    	tableItemsLinks.add(TableItemLink.of("edit", "编辑", "glyphicon glyphicon-pencil", ""));
-    	tableItemsLinks.add(TableItemLink.of("remove", "删除", "glyphicon glyphicon-trash", ""));
+    	tableItemsLinks.add(TableItemLink.of("edit", "编辑", IconStyle.PENCIL, ""));
+    	tableItemsLinks.add(TableItemLink.of("remove", "删除", IconStyle.TRASH, ""));
 	}
 
     private final void buildCustomQueryAction() {
@@ -104,6 +111,7 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
 		for (Method method : declaredMethods) {
 			CustomQueryAction customQueryAction = method.getAnnotation(CustomQueryAction.class);
             TableItemAction tableItemAction = method.getAnnotation(TableItemAction.class);
+            ToolItemAction toolItemAction = method.getAnnotation(ToolItemAction.class);
             if (tableItemAction != null) {
                 String title = tableItemAction.title();
                 if (StringUtils.isBlank(title)) {
@@ -111,8 +119,18 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
                 }
                 TableItemLink itemLink = TableItemLink.of(method.getName(), title, tableItemAction.styleClass(),
                         baseUrl + tableItemAction.path()[0]);
+                checkedUniqId(tableItemsLinks,itemLink);
                 tableItemsLinks.add(itemLink);
             }
+            if (toolItemAction != null) {
+            	String title = toolItemAction.title();
+            	String styleClass = toolItemAction.styleClass();
+            	String url=baseUrl + toolItemAction.path()[0];
+				ToolBarAction toolBarAction=new ToolBarAction(method.getName(), title, url);
+				toolBarAction.setClassStyle(styleClass);
+				checkedUniqId(toolBarActions,toolBarAction);
+				toolBarActions.add(toolBarAction);
+			}
 
 			if (customQueryAction==null) {
 				continue;
@@ -126,9 +144,11 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
 			if (conditionForm!=Object.class) {
 				queryAction.setSearchCondition(conditionForm);
 			}
-			addQueryAction(queryAction);
+			checkedUniqId(customActions,queryAction);
+			 this.customActions.add(queryAction);
 		}
 		Collections.sort(customActions, actionComparator);
+		Collections.sort(toolBarActions, actionComparator);
     }
 
 	@RequestMapping(value = "/tableview", produces = { "text/html; charset=UTF-8" })
@@ -143,6 +163,12 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
 			for (QueryAction queryAction : customActions) {
 				CustomButton queryBtn = CustomButton.of(queryAction);
 				tableViewPage.addCustomButton(queryBtn);
+			}
+		}
+		if (CollectionUtils.isNotEmpty(this.toolBarActions)) {
+			for (ToolBarAction toolBarAction : toolBarActions) {
+				ToolItemButton toolItemButton = ToolItemButton.of(toolBarAction);
+				tableViewPage.addToolItemButton(toolItemButton);
 			}
 		}
         if (CollectionUtils.isNotEmpty(tableItemsLinks)) {
@@ -300,20 +326,12 @@ public abstract class BaseTableViewerController<Co, Vo> implements InitializingB
 		}
 	}
 
-	private final void addQueryAction(QueryAction action) {
-    	if (!checkedUniqId(action)) {
-			throw new IllegalArgumentException("CustomQueryAction id() "+action.id()+" is already exsit! please config another uniqid ");
-		}
-        this.customActions.add(action);
-    }
-    
-    private final boolean checkedUniqId(QueryAction action) {
-    	for (QueryAction queryAction : customActions) {
+    protected final <Action extends IAction> void checkedUniqId(List<Action> actions,IAction action) {
+    	for (IAction queryAction : actions) {
 			if (StringUtils.equalsIgnoreCase(queryAction.id(), action.id())) {
-				return false;
+				throw new IllegalArgumentException("Action id() "+action.id()+" is already exsit! please config another uniqid ");
 			}
 		}
-    	return true;
     }
 
     @Override

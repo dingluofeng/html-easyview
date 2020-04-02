@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.eason.html.easyview.core.WidgetStyle;
 import com.eason.html.easyview.core.form.CustomButton;
+import com.eason.html.easyview.core.form.ToolItemButton;
 import com.eason.html.easyview.core.form.table.TableItemLink;
-import com.eason.html.easyview.core.utils.StringUtils;
 import com.eason.html.easyview.core.widget.Attribute;
 import com.eason.html.easyview.core.widget.Body;
 import com.eason.html.easyview.core.widget.Head;
@@ -40,6 +40,8 @@ public abstract class BasePage {
 	private int toolbarStyle = WidgetStyle.ADD | WidgetStyle.REFLUSH | WidgetStyle.DEL;
 
     protected final List<CustomButton> customButtons = new ArrayList<>();
+    
+    protected List<ToolItemButton> toolItemActions=new ArrayList<>();
 
     protected final List<TableItemLink> tableItemsLinks = new ArrayList<>();
 
@@ -130,35 +132,21 @@ public abstract class BasePage {
 	}
 
 	public void addCustomButton(CustomButton button) {
-		if (!checkedUniqId(button)) {
-			throw new IllegalArgumentException("button id " + button.getId() + " is already exsit!");
+		if (button!=null) {
+			this.customButtons.add(button);
 		}
-		this.customButtons.add(button);
-	}
-
-	private final boolean checkedUniqId(CustomButton button) {
-		for (CustomButton customButton : customButtons) {
-			if (StringUtils.equalsIgnoreCase(customButton.getId(), button.getId())) {
-				return false;
-			}
-		}
-		return true;
 	}
 
     public void addTableItemsLink(TableItemLink tableItemLink) {
-        if (!checkedItemUniqId(tableItemLink)) {
-            throw new IllegalArgumentException("TableItemLink id " + tableItemLink.id() + " is already exsit!");
-        }
-        this.tableItemsLinks.add(tableItemLink);
+        if (tableItemLink!=null) {
+        	this.tableItemsLinks.add(tableItemLink);
+		}
     }
-
-    private final boolean checkedItemUniqId(TableItemLink tableItemLink) {
-        for (TableItemLink itemLink : tableItemsLinks) {
-            if (StringUtils.equalsIgnoreCase(itemLink.id(), tableItemLink.id())) {
-                return false;
-            }
-        }
-        return true;
-    }
+    
+    public void addToolItemButton(ToolItemButton toolItemButton) {
+    	if (toolItemButton!=null) {
+    		toolItemActions.add(toolItemButton);
+		}
+	}
 
 }

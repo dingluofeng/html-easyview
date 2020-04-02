@@ -19,6 +19,7 @@ import com.eason.html.easyview.core.WidgetStyle;
 import com.eason.html.easyview.core.annotations.CustomQueryAction;
 import com.eason.html.easyview.core.annotations.TableItemAction;
 import com.eason.html.easyview.core.annotations.TableViewController;
+import com.eason.html.easyview.core.annotations.ToolItemAction;
 import com.eason.html.easyview.core.basecontroller.BaseTableViewerController;
 import com.eason.html.easyview.core.basecontroller.PageParams;
 import com.eason.html.easyview.core.basecontroller.ResponseResult;
@@ -43,6 +44,12 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 
 	@TableItemAction(path = "/send/limit", title = "限制")
     public String send(DevRegBlacklistVo vo) {
+		System.out.println(vo);
+		return "Ok";
+	}
+	
+	@ToolItemAction(path = "/send/limit2", title = "限制")
+    public String send2(DevRegBlacklistVo vo) {
 		System.out.println(vo);
 		return "Ok";
 	}

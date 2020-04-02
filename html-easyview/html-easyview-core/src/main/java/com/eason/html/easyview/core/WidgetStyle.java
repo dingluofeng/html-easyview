@@ -1,10 +1,3 @@
-/**
- * @ProjectName: 民用软件平台软件
- * @Copyright: 2012 HangZhou Hikvision System Technology Co., Ltd. All Right Reserved.
- * @address: http://www.hikvision.com
- * @date: 2020年1月22日 下午7:47:24
- * @Description: 本内容仅限于杭州海康威视数字技术股份有限公司内部使用，禁止转发.
- */
 package com.eason.html.easyview.core;
 
 /**

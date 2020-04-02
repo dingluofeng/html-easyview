@@ -20,7 +20,7 @@ import com.eason.html.easyview.core.utils.StringUtils;
  * @author dingluofeng
  *
  */
-public class QueryAction {
+public class QueryAction implements IAction{
 
 	private String id;
 

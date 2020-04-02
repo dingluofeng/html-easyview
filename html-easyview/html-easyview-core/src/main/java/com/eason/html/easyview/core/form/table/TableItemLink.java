@@ -3,6 +3,7 @@
  */
 package com.eason.html.easyview.core.form.table;
 
+import com.eason.html.easyview.core.IAction;
 import com.eason.html.easyview.core.utils.StringUtils;
 import com.eason.html.easyview.core.widget.A;
 import com.eason.html.easyview.core.widget.I;
@@ -11,7 +12,7 @@ import com.eason.html.easyview.core.widget.I;
  * @author dingluofeng
  *
  */
-public class TableItemLink {
+public class TableItemLink implements IAction{
 
     String id;
 
