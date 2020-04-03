@@ -61,6 +61,8 @@ public class TableData {
 
 	public List<?> rows;
 
+    public boolean cardView = false;
+
 	private TableColMappingFormatterManager formatterManager;
 
 	public TableData(Class<?> coClass,Class<?> beanClass, TableColMappingFormatterManager formatterManager) {
@@ -119,6 +121,7 @@ public class TableData {
 				columns.add(TableColumnBuilder.newIndexColumn());
 			}
             escape = easyView.escape();
+            cardView = easyView.cardView();
 			//sortable = easyView.sortable();
 		} else {
 			tableTitle = beanClass.getSimpleName().toLowerCase();

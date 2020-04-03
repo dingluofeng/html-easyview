@@ -58,7 +58,7 @@ public class BeanTableViewInitFunction {
         script.add(Text.of("        //显示Table脚部"));
         script.add(Text.of("        showFooter: false,"));
         script.add(Text.of("        //是否显示详细视图"));
-        if (tableData.columns.size()>18) {
+        if (tableData.cardView) {
         	script.add(Text.of("        cardView: true,"));
 		}else {
 			script.add(Text.of("        cardView: false,"));

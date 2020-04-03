@@ -159,4 +159,14 @@ public @interface EasyView {
      */
     boolean escape() default true;
 
+    /**
+     * <p>
+     * 是否以卡片的形式展示
+     * </p>
+     * 
+     * @author DingLuoFeng 2020年4月3日 下午8:39:42
+     * @return
+     */
+    boolean cardView() default false;
+
 }

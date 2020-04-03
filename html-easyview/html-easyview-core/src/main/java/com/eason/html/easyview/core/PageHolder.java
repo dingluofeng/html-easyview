@@ -1,5 +1,6 @@
 package com.eason.html.easyview.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,24 +16,38 @@ import java.util.List;
  */
 public class PageHolder<T> {
 
-		public final int total;
+    public final int total;
 
-		public final List<T> records;
+    public final List<T> records;
 
-		public PageHolder(int total, List<T> records) {
-			super();
-			this.total = total;
-			this.records = records;
-		}
+    public PageHolder(int total, List<T> records) {
+        super();
+        this.total = total;
+        this.records = records;
+    }
 
-		@Override
-		public String toString() {
-			StringBuilder builder = new StringBuilder();
-			builder.append("Page [total=");
-			builder.append(total);
-			builder.append(", records=");
-			builder.append(records);
-			builder.append("]");
-			return builder.toString();
-		}
-	}
+    public static <T> PageHolder<T> empty() {
+        return new PageHolder<T>(0, new ArrayList<T>());
+    }
+
+    public static <T> PageHolder<T> single(T record) {
+        List<T> records = new ArrayList<>();
+        records.add(record);
+        return new PageHolder<T>(1, records);
+    }
+
+    public static <T> PageHolder<T> pageList(int total, List<T> records) {
+        return new PageHolder<T>(total, records);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Page [total=");
+        builder.append(total);
+        builder.append(", records=");
+        builder.append(records);
+        builder.append("]");
+        return builder.toString();
+    }
+}
