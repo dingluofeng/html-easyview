@@ -15,6 +15,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import com.eason.html.easyview.core.IMessageForm;
 import com.eason.html.easyview.core.annotations.CustomQueryAction;
 import com.eason.html.easyview.core.annotations.TableItemAction;
 import com.eason.html.easyview.core.annotations.ToolItemAction;
@@ -31,7 +32,7 @@ import com.eason.html.easyview.core.utils.JacksonUtils;
 public class CustomQueryActionReturnValueHandler implements HandlerMethodReturnValueHandler {
 
 	private Log logger = LogFactory.getLog(CustomQueryActionReturnValueHandler.class);
-
+	
 	public CustomQueryActionReturnValueHandler(DateFormat dateFormat) {
 		super();
 		if (dateFormat != null) {
@@ -52,13 +53,16 @@ public class CustomQueryActionReturnValueHandler implements HandlerMethodReturnV
 		mavContainer.setRequestHandled(true);
 		HttpServletResponse response = webRequest.getNativeResponse(HttpServletResponse.class);
 		response.setContentType("text/json;charset=UTF-8");
-		PrintWriter writer = null;
+		PrintWriter writer = null; 
 		try {
 			writer = response.getWriter();
 			TableViewResult tableViewResult = null;
 			TableItemAction tableItemAction = returnType.getMethodAnnotation(TableItemAction.class);
 			ToolItemAction toolItemAction = returnType.getMethodAnnotation(ToolItemAction.class);
 			if (tableItemAction != null || toolItemAction != null) {
+				int type = toolItemAction != null ? toolItemAction.msgType() : IMessageForm.MSG_FORM;
+				String title = toolItemAction != null ? toolItemAction.title() : "信息";
+				String area = toolItemAction != null ? toolItemAction.area() : "['auto','auto']";
 				if (returnValue instanceof TableViewResult) {
 					tableViewResult = (TableViewResult) returnValue;
 				} else if (returnValue instanceof String) {
@@ -69,6 +73,9 @@ public class CustomQueryActionReturnValueHandler implements HandlerMethodReturnV
 					tableViewResult = new TableViewResult();
 					tableViewResult.setData(returnValue);
 				}
+				tableViewResult.setMsgType(type);
+				tableViewResult.setMsgTitle(title);
+				tableViewResult.setArea(area);
 			} else {
 				tableViewResult = new TableViewResult();
 				CustomQueryAction customQueryAction = returnType.getMethodAnnotation(CustomQueryAction.class);

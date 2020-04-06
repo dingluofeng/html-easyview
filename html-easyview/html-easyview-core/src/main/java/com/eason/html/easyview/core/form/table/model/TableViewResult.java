@@ -47,7 +47,19 @@ public class TableViewResult extends LinkedHashMap<String, Object> {
 			addAttribute("data", data);
 		}
 	}
-
+	
+	public void setMsgType(int type) {
+		addAttribute("type", type);
+	}
+	
+	public void setMsgTitle(String title) {
+		addAttribute("title", title);
+	}
+	
+	public void setArea(String area) {
+		addAttribute("area", area);
+	}
+	
 	public void setTotal(int total) {
 		addAttribute("total", total);
 	}

@@ -265,7 +265,7 @@ public class TableJsScript {
 			script.add(Text.of("       ,exts: '" + uploadWidgetInfo.getFileExts() + "'"));
 			script.add(Text.of("       ,size: " + uploadWidgetInfo.getLimitSize()));
 			script.add(Text.of("       ,done: function(res){"));
-			script.add(Text.of("           layer.msg('上传成功');"));
+			script.add(Text.of("           layer.msg('上传成功',{icon: 1, time: 2000});"));
 			script.add(Text.of("           console.log(res);"));
 			script.add(Text.of("           refresh();"));
 			script.add(Text.of("       }"));

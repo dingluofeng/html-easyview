@@ -13,6 +13,7 @@ import com.eason.html.demo.service.BlacklistService;
 import com.eason.html.demo.vo.DevRegBlacklistVo;
 import com.eason.html.demo.vo.DevSuspectedBlacklistVo;
 import com.eason.html.demo.vo.UserDeviceVo;
+import com.eason.html.easyview.core.IMessageForm;
 import com.eason.html.easyview.core.PageHolder;
 import com.eason.html.easyview.core.WidgetStyle;
 import com.eason.html.easyview.core.annotations.CustomQueryAction;
@@ -46,10 +47,15 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 		return "Ok";
 	}
 	
-	@ToolItemAction(path = "/send/limit2", title = "限制2")
+	@ToolItemAction(path = "/send/limit2", title = "限制2",msgType = IMessageForm.INFO_FORM)
     public String send2(DevRegBlacklistVo vo) {
 		System.out.println(vo);
-		return "Ok";
+		return "OK";
+	}
+	@ToolItemAction(path = "/send/limit3", title = "限制3",msgType = IMessageForm.PAGE_FORM)
+	public String send3(DevRegBlacklistVo vo) {
+		System.out.println(vo);
+		return "<html><h3>通讯路程yyyyyyjjjjjjjj哈哈哈哈哈哈哈哈哈哈或或或或或或或或或或不不</h3></html>";
 	}
 
 	@CustomQueryAction(path = "/suspectedlist", conditionForm = DevSuspectedBlacklistCo.class, title = "黑名单可疑行为")

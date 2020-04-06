@@ -72,7 +72,7 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 	private RequestMappingHandlerAdapter requestMappingHandlerAdapter;
 
 	private TableColMappingFormatterManager colMappingFormatterManager = new TableColMappingFormatterManager();
-
+	
 	private Comparator<IAction> actionComparator = new Comparator<IAction>() {
 		@Override
 		public int compare(IAction queryAction1, IAction queryAction2) {
@@ -353,8 +353,7 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 	@Override
 	public void afterPropertiesSet() {
 		// HandlerMethodReturnValueHandler
-		List<HandlerMethodReturnValueHandler> returnValueHandlers = requestMappingHandlerAdapter
-				.getReturnValueHandlers();
+		List<HandlerMethodReturnValueHandler> returnValueHandlers = requestMappingHandlerAdapter.getReturnValueHandlers();
 		List<HandlerMethodReturnValueHandler> allReturnValueHandlers = new ArrayList<>();
 		// 自定义returnHandler
 		allReturnValueHandlers.add(new CustomQueryActionReturnValueHandler(dateFormat));
@@ -366,12 +365,11 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 		// 自定义argumentResolvers
 		for (HandlerMethodArgumentResolver handlerMethodArgumentResolver : argumentResolvers) {
 			if (handlerMethodArgumentResolver instanceof org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor) {
-				allArgumentResolvers.add(
-						new TableItemActionMethodArgumentResolver(requestMappingHandlerAdapter.getMessageConverters()));
+				allArgumentResolvers.add(new TableItemActionMethodArgumentResolver(requestMappingHandlerAdapter.getMessageConverters()));
 			}
 			allArgumentResolvers.add(handlerMethodArgumentResolver);
 		}
-		// argumentResolvers
+		//argumentResolvers
 		requestMappingHandlerAdapter.setArgumentResolvers(allArgumentResolvers);
 		colMappingFormatterManager.setServiceFinder(this);
 		// buildCustomQueryAction
