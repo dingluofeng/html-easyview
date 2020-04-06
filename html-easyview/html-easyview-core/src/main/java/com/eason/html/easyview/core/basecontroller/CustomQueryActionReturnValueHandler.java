@@ -31,7 +31,7 @@ import com.eason.html.easyview.core.utils.JacksonUtils;
 public class CustomQueryActionReturnValueHandler implements HandlerMethodReturnValueHandler {
 
 	private Log logger = LogFactory.getLog(CustomQueryActionReturnValueHandler.class);
-
+	
 	public CustomQueryActionReturnValueHandler(DateFormat dateFormat) {
 		super();
 		if (dateFormat != null) {
@@ -52,7 +52,7 @@ public class CustomQueryActionReturnValueHandler implements HandlerMethodReturnV
 		mavContainer.setRequestHandled(true);
 		HttpServletResponse response = webRequest.getNativeResponse(HttpServletResponse.class);
 		response.setContentType("text/json;charset=UTF-8");
-		PrintWriter writer = null;
+		PrintWriter writer = null; 
 		try {
 			writer = response.getWriter();
 			TableViewResult tableViewResult = null;

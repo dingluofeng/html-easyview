@@ -13,7 +13,6 @@ import com.eason.html.demo.service.BlacklistService;
 import com.eason.html.demo.vo.DevRegBlacklistVo;
 import com.eason.html.demo.vo.DevSuspectedBlacklistVo;
 import com.eason.html.demo.vo.UserDeviceVo;
-import com.eason.html.demo.vo.mapping.AddTypeFormatter;
 import com.eason.html.easyview.core.PageHolder;
 import com.eason.html.easyview.core.WidgetStyle;
 import com.eason.html.easyview.core.annotations.CustomQueryAction;
@@ -38,7 +37,6 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 
 	public BlacklistController() {
 		super("黑名单信息", WidgetStyle.ALL);
-		addTableColMappingFormatter(new AddTypeFormatter());
 		setOnlineResource(false);
 	}
 
@@ -48,7 +46,7 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 		return "Ok";
 	}
 	
-	@ToolItemAction(path = "/send/limit2", title = "限制")
+	@ToolItemAction(path = "/send/limit2", title = "限制2")
     public String send2(DevRegBlacklistVo vo) {
 		System.out.println(vo);
 		return "Ok";

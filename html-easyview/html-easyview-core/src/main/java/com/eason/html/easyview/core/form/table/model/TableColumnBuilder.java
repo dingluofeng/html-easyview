@@ -94,6 +94,13 @@ public class TableColumnBuilder {
 			this.formatter = formatter;
 		}
 
+		@Override
+		public String toString() {
+			return "TableColumn [title=" + title + ", field=" + field + ", checkbox=" + checkbox + ", align=" + align
+					+ ", valign=" + valign + ", sortable=" + sortable + ", events=" + events + ", formatter="
+					+ formatter + "]";
+		}
+
 	}
 
 	public static class IndexColumn extends TableColumn {

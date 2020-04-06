@@ -76,7 +76,7 @@ public @interface EasyView {
 	 * @author DingLuoFeng 2020年1月23日 下午1:45:30
 	 * @return 表格第一列是否显示选择框，(<font color="red">表格显示使用</font>)
 	 */
-	boolean checkbox() default true;
+	boolean checkbox() default false;
 
 	/**
 	 * @author DingLuoFeng 2020年1月23日 下午1:45:55

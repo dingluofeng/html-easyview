@@ -26,13 +26,14 @@ public class TableInfo {
 	public String searchHtml="";
 	
     public final Set<DateTimeInfo> datetimeFields = new HashSet<>();
-
-	public TableInfo(List<?> data) {
+    
+    
+    public TableInfo(List<?> data) {
 		super();
 		this.data=data;
         if (CollectionUtils.isNotEmpty(this.data) && this.data.get(0) != null) {
 			Class<? extends Object> beanClass = this.data.get(0).getClass();
-            columns = BeanRefectUtils.parseColumns(beanClass);
+            columns = BeanRefectUtils.parseColumns(beanClass,null);
         } else {
             columns = new ArrayList<>();
 		}
@@ -68,17 +69,17 @@ public class TableInfo {
 	}
 	
 	@Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("TableInfo [columns=");
-        builder.append(columns);
-        builder.append(", data=");
-        builder.append(data);
-        builder.append(", searchHtml=");
-        builder.append(searchHtml);
-        builder.append(", datetimeFields=");
-        builder.append(datetimeFields);
-        builder.append("]");
-        return builder.toString();
-    }
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("TableInfo [columns=");
+		builder.append(columns);
+		builder.append(", data=");
+		builder.append(data);
+		builder.append(", searchHtml=");
+		builder.append(searchHtml);
+		builder.append(", datetimeFields=");
+		builder.append(datetimeFields);
+		builder.append("]");
+		return builder.toString();
+	}
 }

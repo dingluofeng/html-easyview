@@ -114,14 +114,14 @@ public class TableData {
 		EasyView easyView = beanClass.getAnnotation(EasyView.class);
 		if (easyView != null) {
 			tableTitle = easyView.name();
-			if (easyView.checkbox()) {
+			cardView = easyView.cardView();
+			if (!cardView && easyView.checkbox()) {
 				columns.add(TableColumnBuilder.newCheckColumn());
 			}
-			if (easyView.indexed()) {
+			if (!cardView && easyView.indexed()) {
 				columns.add(TableColumnBuilder.newIndexColumn());
 			}
             escape = easyView.escape();
-            cardView = easyView.cardView();
 			//sortable = easyView.sortable();
 		} else {
 			tableTitle = beanClass.getSimpleName().toLowerCase();

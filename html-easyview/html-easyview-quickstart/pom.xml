@@ -21,7 +21,7 @@
 		<dependency>
 			<groupId>com.eason.html</groupId>
 			<artifactId>html-easyview-core</artifactId>
-			<version>1.0.4</version>
+			<version>1.0.7</version> 
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>

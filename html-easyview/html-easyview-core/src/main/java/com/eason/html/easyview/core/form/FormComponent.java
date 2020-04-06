@@ -42,7 +42,7 @@ public class FormComponent extends Node<FormComponent> {
 		}
 
 		Button queryBtn = Button.of().setId(btnPrefix + "_btn_search").setType("button")
-				.addClass("btn btn-primary btn-sm");
+				.addClass("btn btn-primary btn-sm").addStyle("margin: 5px;");
 		queryBtn.add(
 				Span.of().addClass("glyphicon glyphicon-search").addAttribute(Attribute.of("aria-hidden", "true")));
 		queryBtn.add(Text.of("查询"));
@@ -50,7 +50,7 @@ public class FormComponent extends Node<FormComponent> {
 		if (searchInputs.size() > 0) {
 			// 固定两按钮
 			Button cleanBtn = Button.of().setId(btnPrefix + "_btn_clean_search").setType("button")
-					.addClass("btn btn-danger btn-sm").add(Text.of("清空条件"));
+					.addClass("btn btn-danger btn-sm").add(Text.of("清空条件")).addStyle("margin: 5px;");
 			formGroup.add(cleanBtn);
 		}
 		return formComponent;

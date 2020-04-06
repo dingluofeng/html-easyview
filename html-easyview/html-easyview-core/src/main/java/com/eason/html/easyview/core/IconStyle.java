@@ -11,7 +11,23 @@ public interface IconStyle {
 	
 	String OK="glyphicon glyphicon-ok";
 	
+	String COF="glyphicon glyphicon-cog";
+	
+	String LIST="glyphicon glyphicon-list";
+	
 	String SEND="glyphicon glyphicon-send";
+	
+	String HEART="glyphicon glyphicon-heart";
+	
+	String HEART_EMPTY="glyphicon glyphicon-heart-empty";
+	
+	String REPEAT="glyphicon glyphicon-repeat";
+	
+	String PRINT="glyphicon glyphicon-print";
+	
+	String OPEN="glyphicon glyphicon-eye-open";
+	
+	String TRANSFER="glyphicon glyphicon-transfer";
 	
 	String PENCIL="glyphicon glyphicon-pencil";
 	
