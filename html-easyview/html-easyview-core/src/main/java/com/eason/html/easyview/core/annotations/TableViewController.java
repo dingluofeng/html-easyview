@@ -13,14 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Documented
 @Retention(RUNTIME)
-@Target({
-    TYPE})
+@Target({ TYPE })
 @RequestMapping
 @Controller
 public @interface TableViewController {
 
-    @AliasFor(annotation = RequestMapping.class, value = "value")
-    String[] value();
-    
-    boolean showDefaultItemOpt() default false;
+	@AliasFor(annotation = RequestMapping.class, value = "value")
+	String[] value();
+
+	boolean showDefaultItemOpt() default false;
 }

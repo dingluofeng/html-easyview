@@ -76,7 +76,7 @@ public @interface EasyView {
 	 * @author DingLuoFeng 2020年1月23日 下午1:45:30
 	 * @return 表格第一列是否显示选择框，(<font color="red">表格显示使用</font>)
 	 */
-	boolean checkbox() default true;
+	boolean checkbox() default false;
 
 	/**
 	 * @author DingLuoFeng 2020年1月23日 下午1:45:55
@@ -124,10 +124,10 @@ public @interface EasyView {
 	 */
 	boolean queryCondition() default true;
 
-    /**
-     * @return
-     */
-    Class<? extends TableColMappingFormatter> mappingFormatter() default NoneTableColMappingFormatter.class;
+	/**
+	 * @return
+	 */
+	Class<? extends TableColMappingFormatter> mappingFormatter() default NoneTableColMappingFormatter.class;
 
 	/**
 	 * @author DingLuoFeng 2020年2月2日 下午1:43:56
@@ -149,24 +149,24 @@ public @interface EasyView {
 	 */
 	boolean expandRowView() default false;
 
-    /**
-     * <p>
-     * 转义HTML字符串，替换 &, <, >, ", `, 和 ' 字符.
-     * </p>
-     * 
-     * @author DingLuoFeng 2020年3月4日 下午12:40:21
-     * @return
-     */
-    boolean escape() default true;
+	/**
+	 * <p>
+	 * 转义HTML字符串，替换 &, <, >, ", `, 和 ' 字符.
+	 * </p>
+	 * 
+	 * @author DingLuoFeng 2020年3月4日 下午12:40:21
+	 * @return
+	 */
+	boolean escape() default true;
 
-    /**
-     * <p>
-     * 是否以卡片的形式展示
-     * </p>
-     * 
-     * @author DingLuoFeng 2020年4月3日 下午8:39:42
-     * @return
-     */
-    boolean cardView() default false;
+	/**
+	 * <p>
+	 * 是否以卡片的形式展示
+	 * </p>
+	 * 
+	 * @author DingLuoFeng 2020年4月3日 下午8:39:42
+	 * @return
+	 */
+	boolean cardView() default false;
 
 }

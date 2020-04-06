@@ -29,32 +29,32 @@ import com.eason.html.easyview.core.IconStyle;
 @ResponseBody
 public @interface ToolItemAction {
 
-    /**
-     * <p>
-     * 按钮执行URL
-     * </p>
-     * 
-     * @return
-     */
+	/**
+	 * <p>
+	 * 按钮执行URL
+	 * </p>
+	 * 
+	 * @return
+	 */
 	@AliasFor(annotation = RequestMapping.class, value = "value")
-    String[] path();
+	String[] path();
 
-    /**
-     * <p>
-     * 按钮显示文本
-     * </p>
-     * 
-     * @return
-     */
+	/**
+	 * <p>
+	 * 按钮显示文本
+	 * </p>
+	 * 
+	 * @return
+	 */
 	String title() default "";
 
-    /**
-     * <p>
-     * 按钮样式
-     * </p>
-     * 
-     * @return
-     */
-    String styleClass() default IconStyle.STATS;
+	/**
+	 * <p>
+	 * 按钮样式
+	 * </p>
+	 * 
+	 * @return
+	 */
+	String styleClass() default IconStyle.STATS;
 
 }

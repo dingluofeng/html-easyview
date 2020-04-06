@@ -23,7 +23,7 @@ public interface WidgetStyle {
 
 	public final static int IMPORT = 8;
 
-	//public final static int EXPORT = 16;
+	// public final static int EXPORT = 16;
 
 	public final static int ALL = IMPORT | REFLUSH | DEL | ADD;
 

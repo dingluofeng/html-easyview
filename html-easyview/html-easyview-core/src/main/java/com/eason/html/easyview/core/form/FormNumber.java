@@ -32,10 +32,10 @@ public class FormNumber extends FormInput<FormNumber> {
 	public void addAttr(String name) {
 		input.addAttribute(Attribute.of(name));
 	}
-	
+
 	@Override
 	public String getValueScript() {
-		return "$('#" + getId() + "').val()==''?'0':$('#"+getId()+"').val();";
+		return "$('#" + getId() + "').val()==''?'0':$('#" + getId() + "').val();";
 	}
-	
+
 }

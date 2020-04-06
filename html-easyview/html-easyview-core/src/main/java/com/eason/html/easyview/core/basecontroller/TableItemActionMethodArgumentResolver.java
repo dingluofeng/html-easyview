@@ -39,19 +39,21 @@ public class TableItemActionMethodArgumentResolver extends AbstractMessageConver
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasMethodAnnotation(TableItemAction.class);
+		return parameter.hasMethodAnnotation(TableItemAction.class);
 	}
 
 	@Override
 	public boolean supportsReturnType(MethodParameter returnType) {
-        return false;
+		return false;
 	}
 
 	/**
 	 * Throws MethodArgumentNotValidException if validation fails.
-	 * @throws HttpMessageNotReadableException if {@link RequestBody#required()}
-	 * is {@code true} and there is no body content or if there is no suitable
-	 * converter to read the content with.
+	 * 
+	 * @throws HttpMessageNotReadableException if {@link RequestBody#required()} is
+	 *                                         {@code true} and there is no body
+	 *                                         content or if there is no suitable
+	 *                                         converter to read the content with.
 	 */
 	@Override
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
@@ -83,8 +85,8 @@ public class TableItemActionMethodArgumentResolver extends AbstractMessageConver
 		Object arg = readWithMessageConverters(inputMessage, parameter, paramType);
 		if (arg == null) {
 			if (checkRequired(parameter)) {
-				throw new HttpMessageNotReadableException("Required request body is missing: " +
-						parameter.getMethod().toGenericString());
+				throw new HttpMessageNotReadableException(
+						"Required request body is missing: " + parameter.getMethod().toGenericString());
 			}
 		}
 		return arg;
@@ -95,8 +97,8 @@ public class TableItemActionMethodArgumentResolver extends AbstractMessageConver
 	}
 
 	@Override
-	public void handleReturnValue(Object returnValue, MethodParameter returnType,
-			ModelAndViewContainer mavContainer, NativeWebRequest webRequest)
+	public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer,
+			NativeWebRequest webRequest)
 			throws IOException, HttpMediaTypeNotAcceptableException, HttpMessageNotWritableException {
 
 		mavContainer.setRequestHandled(true);

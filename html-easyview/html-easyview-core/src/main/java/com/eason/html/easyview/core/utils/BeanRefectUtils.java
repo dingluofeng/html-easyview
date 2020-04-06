@@ -23,6 +23,7 @@ import com.eason.html.easyview.core.form.FormInput;
 import com.eason.html.easyview.core.form.provider.WidgetsFactory;
 import com.eason.html.easyview.core.form.search.SearchFormGroup;
 import com.eason.html.easyview.core.form.table.formatter.NoneTableColMappingFormatter;
+import com.eason.html.easyview.core.form.table.formatter.TableColMappingFormatterManager;
 import com.eason.html.easyview.core.form.table.model.SearchWidgetInfo;
 import com.eason.html.easyview.core.form.table.model.TableColumnBuilder;
 import com.eason.html.easyview.core.form.table.model.TableColumnBuilder.TableColumn;
@@ -85,7 +86,8 @@ public class BeanRefectUtils {
 		listFields(clazz, data, fieldCallback, fieldFilter);
 	}
 
-	public static final List<TableColumn> parseColumns(Class<?> beanClass) {
+	public static final List<TableColumn> parseColumns(Class<?> beanClass,
+			final TableColMappingFormatterManager colMappingFormatterManager) {
 		List<TableColumn> columns = tableEntitiesMap.get(beanClass);
 		if (CollectionUtils.isNotEmpty(columns)) {
 			return columns;
@@ -103,13 +105,9 @@ public class BeanRefectUtils {
 						tableColumn.title(view.name());
 						tableColumn.align(view.align().value);
 						tableColumn.valign(view.valign().value);
-						if (view.mappingFormatter() != NoneTableColMappingFormatter.class) {
-							String formatter = null;
-							try {
-								formatter = view.mappingFormatter().newInstance().functionName();
-							} catch (InstantiationException | IllegalAccessException e) {
-								logger.warnf("初始化实例失败，mappingclass:%s", view.mappingFormatter(), e);
-							}
+						if ((view.mappingFormatter() != NoneTableColMappingFormatter.class)
+								&& colMappingFormatterManager != null) {
+							String formatter = colMappingFormatterManager.addMappingFormatter(view.mappingFormatter());
 							tableColumn.formatter(formatter);
 						}
 						String colField = view.field();

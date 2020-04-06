@@ -15,7 +15,7 @@ public class TableColumnBuilder {
 	public static TableColumn newCheckColumn() {
 		return new CheckColumn();
 	}
-	
+
 	public static TableColumn newItemOptColumn() {
 		return new ItemOptColumn();
 	}
@@ -94,12 +94,19 @@ public class TableColumnBuilder {
 			this.formatter = formatter;
 		}
 
+		@Override
+		public String toString() {
+			return "TableColumn [title=" + title + ", field=" + field + ", checkbox=" + checkbox + ", align=" + align
+					+ ", valign=" + valign + ", sortable=" + sortable + ", events=" + events + ", formatter="
+					+ formatter + "]";
+		}
+
 	}
 
 	public static class IndexColumn extends TableColumn {
 
 		public IndexColumn() {
-			super("#", "index", false, "center", "middle", false, null,"genderIndex");
+			super("#", "index", false, "center", "middle", false, null, "genderIndex");
 		}
 	}
 

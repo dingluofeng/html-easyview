@@ -7,14 +7,14 @@ package com.eason.html.easyview.core;
  * @author dingluofeng
  *
  */
-public class ToolBarAction implements IAction{
+public class ToolBarAction implements IAction {
 
 	private String id;
 
 	private String name;
 
 	private String url;
-	
+
 	private String classStyle = IconStyle.CHECKED;
 
 	private String customBtnId;

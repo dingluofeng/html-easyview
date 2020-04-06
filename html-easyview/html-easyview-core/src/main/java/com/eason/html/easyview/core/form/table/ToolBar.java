@@ -18,34 +18,34 @@ import com.eason.html.easyview.core.widget.Text;
 public class ToolBar extends Node<ToolBar> implements WidgetStyle {
 
 	public ToolBar() {
-        super("div");
-        addClass("btn-group");
+		super("div");
+		addClass("btn-group");
 	}
 
-    public static ToolBar tableToolbar(String toolbarId, String btnPrefix, int btnStyle, List<ToolItemButton>  buttons) {
-        ToolBar toolBar = new ToolBar();
-        toolBar.setId(toolbarId);
-        if ((ADD & btnStyle) != 0) {
-            Button addBtn = Button.of().setId(btnPrefix+"_btn_add").setType("button").addClass("btn btn-default btn-sm")
-                    .add(Span.of().addClass("glyphicon glyphicon-plus")
-                            .addAttribute(Attribute.of("aria-hidden", "true")))
-                    .add(Text.of("新增"));
-            toolBar.add(addBtn);
-        }
-        if ((DEL & btnStyle) != 0) {
-            Button delBtn = Button
-                    .of().setId(btnPrefix+"_btn_delete").setType("button").addClass("btn btn-default btn-sm").add(Span.of()
-                            .addClass("glyphicon glyphicon-trash").addAttribute(Attribute.of("aria-hidden", "true")))
-                    .add(Text.of("删除"));
-            toolBar.add(delBtn);
-        }
-        if ((REFLUSH & btnStyle) != 0) {
-            Button delBtn = Button
-                    .of().setId(btnPrefix+"_btn_refresh").setType("button").addClass("btn btn-default btn-sm").add(Span.of()
-                            .addClass("glyphicon glyphicon-refresh").addAttribute(Attribute.of("aria-hidden", "true")))
-                    .add(Text.of("刷新"));
-            toolBar.add(delBtn);
-        }
+	public static ToolBar tableToolbar(String toolbarId, String btnPrefix, int btnStyle, List<ToolItemButton> buttons) {
+		ToolBar toolBar = new ToolBar();
+		toolBar.setId(toolbarId);
+		if ((ADD & btnStyle) != 0) {
+			Button addBtn = Button.of().setId(btnPrefix + "_btn_add").setType("button")
+					.addClass("btn btn-default btn-sm").add(Span.of().addClass("glyphicon glyphicon-plus")
+							.addAttribute(Attribute.of("aria-hidden", "true")))
+					.add(Text.of("新增"));
+			toolBar.add(addBtn);
+		}
+		if ((DEL & btnStyle) != 0) {
+			Button delBtn = Button.of().setId(btnPrefix + "_btn_delete").setType("button")
+					.addClass("btn btn-default btn-sm").add(Span.of().addClass("glyphicon glyphicon-trash")
+							.addAttribute(Attribute.of("aria-hidden", "true")))
+					.add(Text.of("删除"));
+			toolBar.add(delBtn);
+		}
+		if ((REFLUSH & btnStyle) != 0) {
+			Button delBtn = Button.of().setId(btnPrefix + "_btn_refresh").setType("button")
+					.addClass("btn btn-default btn-sm").add(Span.of().addClass("glyphicon glyphicon-refresh")
+							.addAttribute(Attribute.of("aria-hidden", "true")))
+					.add(Text.of("刷新"));
+			toolBar.add(delBtn);
+		}
 		if ((IMPORT & btnStyle) != 0) {
 			Button delBtn = Button.of().setId(btnPrefix + "_btn_upload").setType("button")
 					.addClass("btn btn-default btn-sm").add(Span.of().addClass("glyphicon glyphicon-import")
@@ -54,24 +54,24 @@ public class ToolBar extends Node<ToolBar> implements WidgetStyle {
 			toolBar.add(delBtn);
 		}
 
-        for (ToolItemButton button : buttons) {
-            toolBar.add(button);
-        }
-        return toolBar;
-    }
+		for (ToolItemButton button : buttons) {
+			toolBar.add(button);
+		}
+		return toolBar;
+	}
 
-    public static ToolBar customTableToolbar(String toolbarId, List<CustomButton> buttons) {
-        ToolBar toolBar = new ToolBar();
-        toolBar.setId(toolbarId);
+	public static ToolBar customTableToolbar(String toolbarId, List<CustomButton> buttons) {
+		ToolBar toolBar = new ToolBar();
+		toolBar.setId(toolbarId);
 
-        for (CustomButton button : buttons) {
-            toolBar.add(button);
-        }
-        return toolBar;
-    }
+		for (CustomButton button : buttons) {
+			toolBar.add(button);
+		}
+		return toolBar;
+	}
 
-    public static void main(String[] args) {
-        System.out.println((DEL | REFLUSH) & ADD);
-    }
-	
+	public static void main(String[] args) {
+		System.out.println((DEL | REFLUSH) & ADD);
+	}
+
 }

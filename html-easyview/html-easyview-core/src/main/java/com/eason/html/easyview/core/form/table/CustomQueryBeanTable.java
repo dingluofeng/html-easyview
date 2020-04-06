@@ -12,10 +12,11 @@ import com.eason.html.easyview.core.widget.Table;
 
 /**
  * 增删改查的表格组件
+ * 
  * @author dingluofeng
  *
  */
-public class CustomQueryBeanTable extends Node<CustomQueryBeanTable>{
+public class CustomQueryBeanTable extends Node<CustomQueryBeanTable> {
 
 	public CustomQueryBeanTable() {
 		super("div");
@@ -24,8 +25,8 @@ public class CustomQueryBeanTable extends Node<CustomQueryBeanTable>{
 
 	public static CustomQueryBeanTable build(TableData tableData, List<CustomButton> customButtons) {
 		if (CollectionUtils.isNotEmpty(customButtons)) {
-			CustomQueryBeanTable beanTableView= new CustomQueryBeanTable();
-            // 创建容器 Container
+			CustomQueryBeanTable beanTableView = new CustomQueryBeanTable();
+			// 创建容器 Container
 			TableTitle tableTitle = TableTitle.of("更多查询");
 			beanTableView.add(tableTitle);
 			// customToolbar
@@ -34,14 +35,15 @@ public class CustomQueryBeanTable extends Node<CustomQueryBeanTable>{
 					.addStyle("margin: 4px;");
 			tbDiv.add(customTableToolbar);
 			beanTableView.add(tbDiv);
-			//table title
-			TableTitle title=TableTitle.of("custom_title","信息");
+			// table title
+			TableTitle title = TableTitle.of("custom_title", "信息");
 			beanTableView.add(title);
-			
+
 			// 查询表单
-			CustomSearchForm customSearchForm=CustomSearchForm.form(12, "custom_form_div").addStyle("margin-bottom: 10px;");
+			CustomSearchForm customSearchForm = CustomSearchForm.form(12, "custom_form_div")
+					.addStyle("margin-bottom: 10px;");
 			beanTableView.add(customSearchForm);
-			
+
 			Table customTable = Table.of().setId("custom_table").addClass("table table-hover");
 			beanTableView.add(customTable);
 			return beanTableView;

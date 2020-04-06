@@ -10,6 +10,7 @@ package com.eason.html.demo.vo.mapping;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.eason.html.demo.service.BlacklistService;
 import com.eason.html.easyview.core.form.table.formatter.TableColMappingFormatter;
 
 /**
@@ -23,6 +24,8 @@ import com.eason.html.easyview.core.form.table.formatter.TableColMappingFormatte
  * @modify by reason:{方法名}:{原因}
  */
 public class AddTypeFormatter implements TableColMappingFormatter {
+	
+	private BlacklistService blacklistService;
 
 	@Override
 	public String functionName() {
@@ -34,7 +37,16 @@ public class AddTypeFormatter implements TableColMappingFormatter {
 		HashMap<String, String> hashMap = new HashMap<>();
 		hashMap.put("1", "手动");
 		hashMap.put("0", "自动");
+		blacklistService.delete("123456789");
 		return hashMap;
+	}
+
+	public BlacklistService getBlacklistService() {
+		return blacklistService;
+	}
+
+	public void setBlacklistService(BlacklistService blacklistService) {
+		this.blacklistService = blacklistService;
 	}
 
 }

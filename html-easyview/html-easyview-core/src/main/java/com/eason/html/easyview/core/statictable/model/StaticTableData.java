@@ -12,7 +12,6 @@ import com.eason.html.easyview.core.utils.BeanRefectUtils.FieldFilter;
 import com.eason.html.easyview.core.utils.CollectionUtils;
 import com.eason.html.easyview.core.utils.DefaultFieldFilter;
 
-
 /**
  * <p>
  * </p>
@@ -25,111 +24,111 @@ import com.eason.html.easyview.core.utils.DefaultFieldFilter;
  */
 public class StaticTableData {
 
-    private String tableTitle;
+	private String tableTitle;
 
-    private String[] columnTitles;
+	private String[] columnTitles;
 
-    private List<Object[]> rows = new ArrayList<>();
+	private List<Object[]> rows = new ArrayList<>();
 
-    private StaticTableData() {
-        super();
-    }
+	private StaticTableData() {
+		super();
+	}
 
-    public List<Object[]> getRows() {
-        return rows;
-    }
+	public List<Object[]> getRows() {
+		return rows;
+	}
 
-    public String getTableTitle() {
-        return tableTitle;
-    }
+	public String getTableTitle() {
+		return tableTitle;
+	}
 
-    public String[] getColumnTitles() {
-        return columnTitles;
-    }
+	public String[] getColumnTitles() {
+		return columnTitles;
+	}
 
-    public boolean hasData() {
-        return rows != null && !rows.isEmpty();
-    }
+	public boolean hasData() {
+		return rows != null && !rows.isEmpty();
+	}
 
-    public final static class TableDataBuilder {
+	public final static class TableDataBuilder {
 
-        StaticTableData tableData;
+		StaticTableData tableData;
 
-        List<?> rowEntities;
+		List<?> rowEntities;
 
-        private TableDataBuilder() {
-            super();
-        }
+		private TableDataBuilder() {
+			super();
+		}
 
-        public static TableDataBuilder newBuilder() {
-            TableDataBuilder builder = new TableDataBuilder();
-            builder.tableData = new StaticTableData();
-            return builder;
-        }
+		public static TableDataBuilder newBuilder() {
+			TableDataBuilder builder = new TableDataBuilder();
+			builder.tableData = new StaticTableData();
+			return builder;
+		}
 
-        public TableDataBuilder rowEntities(List<?> rowEntities) {
-            this.rowEntities = rowEntities;
-            return this;
-        }
+		public TableDataBuilder rowEntities(List<?> rowEntities) {
+			this.rowEntities = rowEntities;
+			return this;
+		}
 
-        public TableDataBuilder title(String tableTitle) {
-            this.tableData.tableTitle = tableTitle;
-            return this;
-        }
+		public TableDataBuilder title(String tableTitle) {
+			this.tableData.tableTitle = tableTitle;
+			return this;
+		}
 
-        public TableDataBuilder columnTitles(String[] columnTitles) {
-            this.tableData.columnTitles = columnTitles;
-            return this;
-        }
+		public TableDataBuilder columnTitles(String[] columnTitles) {
+			this.tableData.columnTitles = columnTitles;
+			return this;
+		}
 
-        public TableDataBuilder rows(List<Object[]> rows) {
-            this.tableData.rows = rows;
-            return this;
-        }
+		public TableDataBuilder rows(List<Object[]> rows) {
+			this.tableData.rows = rows;
+			return this;
+		}
 
-        private final TableDataBuilder parseRows(List<?> rowEntities) {
-            if (CollectionUtils.isEmpty(rowEntities)) {
-                return this;
-            }
-            EasyView annotation = rowEntities.get(0).getClass().getAnnotation(EasyView.class);
-            FieldFilter fieldFilter = null;
-            if (annotation != null) {
-                tableData.tableTitle = annotation.name();
-                fieldFilter = new AnnotationFieldFilter<>(EasyView.class);
-            } else {
-                fieldFilter = new DefaultFieldFilter();
-            }
-            final List<String> names = new ArrayList<>();
-            int rowIndex = 0;
-            for (Object rowData : rowEntities) {
-                final List<Object> row = new ArrayList<>();
-                final int countIndex = rowIndex;
-                BeanRefectUtils.listObjectFields(rowData, new FieldCallback() {
-                    @Override
-                    public void doWith(Field field, Object fieldValue) {
-                        if (countIndex == 0) {
-                            EasyView column = field.getAnnotation(EasyView.class);
-                            if (column != null) {
-                                names.add(column.name());
-                            } else {
-                                names.add(field.getName());
-                            }
-                        }
-                        row.add(fieldValue);
+		private final TableDataBuilder parseRows(List<?> rowEntities) {
+			if (CollectionUtils.isEmpty(rowEntities)) {
+				return this;
+			}
+			EasyView annotation = rowEntities.get(0).getClass().getAnnotation(EasyView.class);
+			FieldFilter fieldFilter = null;
+			if (annotation != null) {
+				tableData.tableTitle = annotation.name();
+				fieldFilter = new AnnotationFieldFilter<>(EasyView.class);
+			} else {
+				fieldFilter = new DefaultFieldFilter();
+			}
+			final List<String> names = new ArrayList<>();
+			int rowIndex = 0;
+			for (Object rowData : rowEntities) {
+				final List<Object> row = new ArrayList<>();
+				final int countIndex = rowIndex;
+				BeanRefectUtils.listObjectFields(rowData, new FieldCallback() {
+					@Override
+					public void doWith(Field field, Object fieldValue) {
+						if (countIndex == 0) {
+							EasyView column = field.getAnnotation(EasyView.class);
+							if (column != null) {
+								names.add(column.name());
+							} else {
+								names.add(field.getName());
+							}
+						}
+						row.add(fieldValue);
 
-                    }
-                }, fieldFilter);
-                rowIndex++;
-                tableData.rows.add(row.toArray());
-            }
-            tableData.columnTitles = names.toArray(new String[names.size()]);
-            return this;
-        }
+					}
+				}, fieldFilter);
+				rowIndex++;
+				tableData.rows.add(row.toArray());
+			}
+			tableData.columnTitles = names.toArray(new String[names.size()]);
+			return this;
+		}
 
-        public StaticTableData build() {
-            parseRows(rowEntities);
-            return tableData;
-        }
-    }
+		public StaticTableData build() {
+			parseRows(rowEntities);
+			return tableData;
+		}
+	}
 
 }

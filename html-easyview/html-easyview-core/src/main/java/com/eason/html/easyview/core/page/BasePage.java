@@ -39,14 +39,14 @@ public abstract class BasePage {
 
 	private int toolbarStyle = WidgetStyle.ADD | WidgetStyle.REFLUSH | WidgetStyle.DEL;
 
-    protected final List<CustomButton> customButtons = new ArrayList<>();
-    
-    protected List<ToolItemButton> toolItemActions=new ArrayList<>();
+	protected final List<CustomButton> customButtons = new ArrayList<>();
 
-    protected final List<TableItemLink> tableItemsLinks = new ArrayList<>();
+	protected List<ToolItemButton> toolItemActions = new ArrayList<>();
+
+	protected final List<TableItemLink> tableItemsLinks = new ArrayList<>();
 
 	public BasePage() {
-        this("/icon/favicon.ico");
+		this("/icon/favicon.ico");
 	}
 
 	public BasePage(String iconPath) {
@@ -132,20 +132,20 @@ public abstract class BasePage {
 	}
 
 	public void addCustomButton(CustomButton button) {
-		if (button!=null) {
+		if (button != null) {
 			this.customButtons.add(button);
 		}
 	}
 
-    public void addTableItemsLink(TableItemLink tableItemLink) {
-        if (tableItemLink!=null) {
-        	this.tableItemsLinks.add(tableItemLink);
+	public void addTableItemsLink(TableItemLink tableItemLink) {
+		if (tableItemLink != null) {
+			this.tableItemsLinks.add(tableItemLink);
 		}
-    }
-    
-    public void addToolItemButton(ToolItemButton toolItemButton) {
-    	if (toolItemButton!=null) {
-    		toolItemActions.add(toolItemButton);
+	}
+
+	public void addToolItemButton(ToolItemButton toolItemButton) {
+		if (toolItemButton != null) {
+			toolItemActions.add(toolItemButton);
 		}
 	}
 

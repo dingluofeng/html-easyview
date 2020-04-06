@@ -8,6 +8,7 @@ import com.eason.html.easyview.core.widget.Button;
 import com.eason.html.easyview.core.widget.Node;
 import com.eason.html.easyview.core.widget.Span;
 import com.eason.html.easyview.core.widget.Text;
+
 /**
  * 
  * @author dingluofeng
@@ -28,8 +29,10 @@ public class SearchFormGroup extends Node<SearchFormGroup> {
 		}
 
 		String id = btnPrefix + "_custom_btn_search";
-		Button queryBtn = Button.of().addAttribute(Attribute.of("onclick", id+"onclick();")).setId(id).setType("button").addClass("btn btn-primary btn-sm");
-		queryBtn.add(Span.of().addClass("glyphicon glyphicon-search").addAttribute(Attribute.of("aria-hidden", "true")));
+		Button queryBtn = Button.of().addAttribute(Attribute.of("onclick", id + "onclick();")).setId(id)
+				.setType("button").addClass("btn btn-primary btn-sm");
+		queryBtn.add(
+				Span.of().addClass("glyphicon glyphicon-search").addAttribute(Attribute.of("aria-hidden", "true")));
 		queryBtn.add(Text.of("查询"));
 		searchFormGroup.add(queryBtn);
 //		if (searchInputs.size() > 0) {

@@ -13,7 +13,6 @@ import com.eason.html.demo.service.BlacklistService;
 import com.eason.html.demo.vo.DevRegBlacklistVo;
 import com.eason.html.demo.vo.DevSuspectedBlacklistVo;
 import com.eason.html.demo.vo.UserDeviceVo;
-import com.eason.html.demo.vo.mapping.AddTypeFormatter;
 import com.eason.html.easyview.core.PageHolder;
 import com.eason.html.easyview.core.WidgetStyle;
 import com.eason.html.easyview.core.annotations.CustomQueryAction;
@@ -34,11 +33,10 @@ import com.eason.html.easyview.core.basecontroller.ResponseResult;
 public class BlacklistController extends BaseTableViewerController<DevRegBlacklistVo, DevRegBlacklistVo> {
 
 	@Resource
-	private BlacklistService blacklistStorageService;
+	private BlacklistService blacklistService;
 
 	public BlacklistController() {
 		super("黑名单信息", WidgetStyle.ALL);
-		addTableColMappingFormatter(new AddTypeFormatter());
 		setOnlineResource(false);
 	}
 
@@ -48,7 +46,7 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 		return "Ok";
 	}
 	
-	@ToolItemAction(path = "/send/limit2", title = "限制")
+	@ToolItemAction(path = "/send/limit2", title = "限制2")
     public String send2(DevRegBlacklistVo vo) {
 		System.out.println(vo);
 		return "Ok";
@@ -58,7 +56,7 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 	public List<DevSuspectedBlacklistVo> suspectedlist(DevRegBlacklistVo co, DevSuspectedBlacklistCo uc) {
 		System.out.println("custom:" + co);
 		System.out.println("custom:" + uc);
-		return blacklistStorageService.pagedSuspectedBlacklist(co.getSubSerial(), uc.getRegTime(), 0, 20);
+		return blacklistService.pagedSuspectedBlacklist(co.getSubSerial(), uc.getRegTime(), 0, 20);
 	}
 
 	@CustomQueryAction(id = "userDevice", path = "/userDevice", title = "用户设备列表")
@@ -80,7 +78,7 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 	protected PageHolder<DevRegBlacklistVo> list(PageParams pageParams, DevRegBlacklistVo co) {
 		int curPage = pageParams.getCurPage();
 		int limit = pageParams.getLimit();
-		PageHolder<DevRegBlacklistVo> pageHolder = blacklistStorageService.pagedBlacklist(co.getSubSerial(),
+		PageHolder<DevRegBlacklistVo> pageHolder = blacklistService.pagedBlacklist(co.getSubSerial(),
 				curPage - 1, limit);
 		return pageHolder;
 	}
@@ -93,19 +91,19 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 
     @Override
     protected ResponseResult add(DevRegBlacklistVo vo) {
-		blacklistStorageService.saveBlacklist(vo);
+    	blacklistService.saveBlacklist(vo);
 		return super.add(vo);
 	}
 
 	@Override
     protected ResponseResult update(DevRegBlacklistVo vo) {
-		blacklistStorageService.saveBlacklist(vo);
+		blacklistService.saveBlacklist(vo);
 		return super.update(vo);
 	}
 
 	@Override
     protected ResponseResult delete(String... subSerials) {
-		blacklistStorageService.delete(subSerials);
+		blacklistService.delete(subSerials);
 		return super.delete(subSerials);
 	}
 

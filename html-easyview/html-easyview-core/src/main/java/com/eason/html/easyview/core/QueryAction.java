@@ -20,7 +20,7 @@ import com.eason.html.easyview.core.utils.StringUtils;
  * @author dingluofeng
  *
  */
-public class QueryAction implements IAction{
+public class QueryAction implements IAction {
 
 	private String id;
 
@@ -93,8 +93,8 @@ public class QueryAction implements IAction{
 				}
 				if (viewData.queryCondition) {
 					viewData.searchView = true;
-                    FormInput<?> formInput = WidgetsFactory.getInstance().create(field, fieldValue, viewData);
-                    searchInputs.add(formInput);
+					FormInput<?> formInput = WidgetsFactory.getInstance().create(field, fieldValue, viewData);
+					searchInputs.add(formInput);
 				}
 			}
 		}, new DefaultFieldFilter());

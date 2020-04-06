@@ -10,10 +10,10 @@ import java.util.Map;
  *
  */
 public interface TableColMappingFormatter {
-	
+
 	String functionName();
-	
-    // String columnField();
+
+	// String columnField();
 
 	Map<String, String> mapping();
 

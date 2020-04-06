@@ -18,26 +18,26 @@ import com.eason.html.easyview.core.utils.CollectionUtils;
  *
  */
 public class TableInfo {
-	
+
 	public final List<TableColumn> columns;
-	
+
 	public List<?> data;
-	
-	public String searchHtml="";
-	
-    public final Set<DateTimeInfo> datetimeFields = new HashSet<>();
+
+	public String searchHtml = "";
+
+	public final Set<DateTimeInfo> datetimeFields = new HashSet<>();
 
 	public TableInfo(List<?> data) {
 		super();
-		this.data=data;
-        if (CollectionUtils.isNotEmpty(this.data) && this.data.get(0) != null) {
+		this.data = data;
+		if (CollectionUtils.isNotEmpty(this.data) && this.data.get(0) != null) {
 			Class<? extends Object> beanClass = this.data.get(0).getClass();
-            columns = BeanRefectUtils.parseColumns(beanClass);
-        } else {
-            columns = new ArrayList<>();
+			columns = BeanRefectUtils.parseColumns(beanClass, null);
+		} else {
+			columns = new ArrayList<>();
 		}
 	}
-	
+
 	/**
 	 * @return the columns
 	 */
@@ -60,25 +60,25 @@ public class TableInfo {
 	}
 
 	public void setConditionClass(Class<?> conditionClass) {
-        SearchWidgetInfo searchWidgetInfo = BeanRefectUtils.parseSearchForm(conditionClass);
-        if (searchWidgetInfo != null) {
-            searchHtml = searchWidgetInfo.searchHtml;
-            datetimeFields.addAll(searchWidgetInfo.datetimeFields);
-        }
+		SearchWidgetInfo searchWidgetInfo = BeanRefectUtils.parseSearchForm(conditionClass);
+		if (searchWidgetInfo != null) {
+			searchHtml = searchWidgetInfo.searchHtml;
+			datetimeFields.addAll(searchWidgetInfo.datetimeFields);
+		}
 	}
-	
+
 	@Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("TableInfo [columns=");
-        builder.append(columns);
-        builder.append(", data=");
-        builder.append(data);
-        builder.append(", searchHtml=");
-        builder.append(searchHtml);
-        builder.append(", datetimeFields=");
-        builder.append(datetimeFields);
-        builder.append("]");
-        return builder.toString();
-    }
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("TableInfo [columns=");
+		builder.append(columns);
+		builder.append(", data=");
+		builder.append(data);
+		builder.append(", searchHtml=");
+		builder.append(searchHtml);
+		builder.append(", datetimeFields=");
+		builder.append(datetimeFields);
+		builder.append("]");
+		return builder.toString();
+	}
 }

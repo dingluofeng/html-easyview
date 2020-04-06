@@ -8,7 +8,7 @@ package com.eason.html.easyview.core;
  *
  */
 public interface IAction {
-	
+
 	String id();
 
 }
