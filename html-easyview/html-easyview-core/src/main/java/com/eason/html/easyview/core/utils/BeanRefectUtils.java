@@ -86,8 +86,7 @@ public class BeanRefectUtils {
 		listFields(clazz, data, fieldCallback, fieldFilter);
 	}
 
-	public static final List<TableColumn> parseColumns(Class<?> beanClass,
-			final TableColMappingFormatterManager colMappingFormatterManager) {
+	public static final List<TableColumn> parseColumns(Class<?> beanClass,final TableColMappingFormatterManager colMappingFormatterManager) {
 		List<TableColumn> columns = tableEntitiesMap.get(beanClass);
 		if (CollectionUtils.isNotEmpty(columns)) {
 			return columns;
@@ -105,8 +104,7 @@ public class BeanRefectUtils {
 						tableColumn.title(view.name());
 						tableColumn.align(view.align().value);
 						tableColumn.valign(view.valign().value);
-						if ((view.mappingFormatter() != NoneTableColMappingFormatter.class)
-								&& colMappingFormatterManager != null) {
+						if ((view.mappingFormatter() != NoneTableColMappingFormatter.class) && colMappingFormatterManager != null) {
 							String formatter = colMappingFormatterManager.addMappingFormatter(view.mappingFormatter());
 							tableColumn.formatter(formatter);
 						}
