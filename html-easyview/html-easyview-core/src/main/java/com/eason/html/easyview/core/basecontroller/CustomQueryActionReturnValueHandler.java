@@ -4,9 +4,11 @@
 package com.eason.html.easyview.core.basecontroller;
 
 import java.io.PrintWriter;
+import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,10 +21,12 @@ import com.eason.html.easyview.core.IMessageForm;
 import com.eason.html.easyview.core.annotations.CustomQueryAction;
 import com.eason.html.easyview.core.annotations.TableItemAction;
 import com.eason.html.easyview.core.annotations.ToolItemAction;
+import com.eason.html.easyview.core.form.table.model.TableColumnBuilder.TableColumn;
 import com.eason.html.easyview.core.form.table.model.TableInfo;
 import com.eason.html.easyview.core.form.table.model.TableViewResult;
 import com.eason.html.easyview.core.logging.Log;
 import com.eason.html.easyview.core.logging.LogFactory;
+import com.eason.html.easyview.core.utils.BeanRefectUtils;
 import com.eason.html.easyview.core.utils.JacksonUtils;
 
 /**
@@ -47,7 +51,8 @@ public class CustomQueryActionReturnValueHandler implements HandlerMethodReturnV
 				|| returnType.hasMethodAnnotation(ToolItemAction.class);
 	}
 
-	@Override
+    @SuppressWarnings("unchecked")
+    @Override
 	public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest) throws Exception {
 		mavContainer.setRequestHandled(true);
@@ -79,15 +84,24 @@ public class CustomQueryActionReturnValueHandler implements HandlerMethodReturnV
 			} else {
 				tableViewResult = new TableViewResult();
 				CustomQueryAction customQueryAction = returnType.getMethodAnnotation(CustomQueryAction.class);
+				Method method = returnType.getMethod();
 				TableInfo tableInfo = null;
+                // 判断返回原始数据类型
+				Class<?> returnClass = BeanRefectUtils.getReturnClassFromMethod(method);
+                List<TableColumn> columns = new ArrayList<>();
+                if (Map.class.isAssignableFrom(returnClass)) {
+                    columns = BeanRefectUtils.parseColumnsfromMap(method, (Map<Object, Object>) returnValue);
+                } else {
+                    columns = BeanRefectUtils.parseColumns(method, null);
+                }
 				if (List.class.isAssignableFrom(returnType.getParameterType())) {
-					tableInfo = new TableInfo((List<?>) returnValue);
+                    tableInfo = new TableInfo((List<?>) returnValue, columns);
 				} else {
 					List<Object> ret = new ArrayList<>();
 					if (returnValue != null) {
 						ret.add(returnValue);
 					}
-					tableInfo = new TableInfo(ret);
+                    tableInfo = new TableInfo(ret, columns);
 				}
 				Class<?> conditionForm = customQueryAction.conditionForm();
 				if (conditionForm != Object.class) {
@@ -95,7 +109,6 @@ public class CustomQueryActionReturnValueHandler implements HandlerMethodReturnV
 				}
 				tableViewResult.setData(tableInfo);
 			}
-
 			writer.print(JacksonUtils.toJsonString(tableViewResult));
 			writer.flush();
 		} catch (Exception e) {

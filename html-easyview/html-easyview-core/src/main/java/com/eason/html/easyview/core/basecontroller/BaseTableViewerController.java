@@ -140,17 +140,7 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 			if (StringUtils.isBlank(id)) {
 				id = method.getName();
 			}
-			Class<?> returnType = method.getReturnType();
-			if (List.class.isAssignableFrom(returnType)) {
-				Type genericReturnType = method.getGenericReturnType();
-				if (genericReturnType instanceof ParameterizedType) {
-					ParameterizedType parameterizedType = (ParameterizedType) genericReturnType;
-					Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
-					BeanRefectUtils.parseColumns(Class.class.cast(actualTypeArguments[0]), colMappingFormatterManager);
-				}
-			} else {
-				BeanRefectUtils.parseColumns(returnType, colMappingFormatterManager);
-			}
+            BeanRefectUtils.parseColumns(method, colMappingFormatterManager);
 
 			QueryAction queryAction = new QueryAction(id, customQueryAction.title(),
 					baseUrl + customQueryAction.path()[0]);

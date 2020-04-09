@@ -2,7 +2,9 @@ package com.eason.html.demo.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -13,10 +15,13 @@ import com.eason.html.demo.service.BlacklistService;
 import com.eason.html.demo.vo.DevRegBlacklistVo;
 import com.eason.html.demo.vo.DevSuspectedBlacklistVo;
 import com.eason.html.demo.vo.UserDeviceVo;
+import com.eason.html.demo.vo.mapping.ValueFormatter;
 import com.eason.html.easyview.core.IMessageForm;
 import com.eason.html.easyview.core.PageHolder;
 import com.eason.html.easyview.core.WidgetStyle;
 import com.eason.html.easyview.core.annotations.CustomQueryAction;
+import com.eason.html.easyview.core.annotations.TableColumn;
+import com.eason.html.easyview.core.annotations.TableColumns;
 import com.eason.html.easyview.core.annotations.TableItemAction;
 import com.eason.html.easyview.core.annotations.TableViewController;
 import com.eason.html.easyview.core.annotations.ToolItemAction;
@@ -64,6 +69,20 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 		System.out.println("custom:" + uc);
 		return blacklistService.pagedSuspectedBlacklist(co.getSubSerial(), uc.getRegTime(), 0, 20);
 	}
+
+    @CustomQueryAction(path = "/mapped", title = "map测试")
+    @TableColumns({
+        @TableColumn(field = "mappedkey1", title = "key1显示值", mappingFormatter = ValueFormatter.class),
+        @TableColumn(field = "mappedkey2", title = "key2显示值")})
+    public Map<String, String> mapped(DevRegBlacklistVo co, DevSuspectedBlacklistCo uc) {
+        System.out.println("custom:" + co);
+        System.out.println("custom:" + uc);
+        Map<String, String> mapped = new HashMap<String, String>();
+        for (int i = 0; i < 20; i++) {
+            mapped.put("mappedkey" + i, "value" + i);
+        }
+        return mapped;
+    }
 
 	@CustomQueryAction(id = "userDevice", path = "/userDevice", title = "用户设备列表")
 	public UserDeviceVo userDevice(String subSerial) {
