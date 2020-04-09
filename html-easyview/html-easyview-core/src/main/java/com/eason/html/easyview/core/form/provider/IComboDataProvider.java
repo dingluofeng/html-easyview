@@ -6,5 +6,5 @@ public interface IComboDataProvider {
 
 	public String[] getValue();
 
-	public int getDefault();
+	public String getDefault();
 }
