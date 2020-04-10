@@ -10,7 +10,7 @@ package com.eason.html.demo.vo.mapping;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.eason.html.easyview.core.form.table.formatter.TableColMappingFormatter;
+import com.eason.html.easyview.core.form.table.formatter.AbstractTableColMappingFormatter;
 
 /**
  * <p>
@@ -22,7 +22,7 @@ import com.eason.html.easyview.core.form.table.formatter.TableColMappingFormatte
  * @modify by user: {修改人} 2020年2月1日
  * @modify by reason:{方法名}:{原因}
  */
-public class ValueFormatter implements TableColMappingFormatter {
+public class ValueFormatter extends AbstractTableColMappingFormatter {
 	
 	@Override
 	public String functionName() {

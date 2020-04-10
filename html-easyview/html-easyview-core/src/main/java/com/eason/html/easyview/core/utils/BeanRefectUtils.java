@@ -141,6 +141,11 @@ public class BeanRefectUtils {
         com.eason.html.easyview.core.annotations.TableColumn[] columns_ = tableColumns.value();
         for (com.eason.html.easyview.core.annotations.TableColumn tableColumn : columns_) {
             TableColumnBuilder columnBuilder = TableColumnBuilder.newBuildWith(tableColumn);
+            String mapping = tableColumn.mapping();
+            if (StringUtils.isNotBlank(mapping)) {
+                String formatter = colMappingFormatterManager.addMappingFormatter(tableColumn.field(), mapping);
+                columnBuilder.formatter(formatter);
+            }
             Class<? extends TableColMappingFormatter> mappingFormatter = tableColumn.mappingFormatter();
             if ((mappingFormatter != NoneTableColMappingFormatter.class)
                     && colMappingFormatterManager != null) {

@@ -59,5 +59,15 @@ public @interface TableColumn {
      */
     boolean columnHidden() default false;
 
+    /**
+     * <p>
+     * mapping 映射 json字符串
+     * </p>
+     * 
+     * @author DingLuoFeng 2020年4月10日 上午9:53:30
+     * @return
+     */
+    String mapping() default "";
+
     Class<? extends TableColMappingFormatter> mappingFormatter() default NoneTableColMappingFormatter.class;
 }

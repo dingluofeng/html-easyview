@@ -1,7 +1,5 @@
 package com.eason.html.easyview.core.form.table.formatter;
 
-import java.util.Map;
-
 /**
  * <p>
  * </p>
@@ -14,7 +12,11 @@ import java.util.Map;
  */
 public final class NoneTableColMappingFormatter implements TableColMappingFormatter {
 
-	/*
+	private static final String NONE = "NONE";
+
+    private static final String STRING = "{}";
+
+    /*
 	 * (non-Javadoc)
 	 * 
 	 * @see
@@ -22,17 +24,12 @@ public final class NoneTableColMappingFormatter implements TableColMappingFormat
 	 */
 	@Override
 	public String functionName() {
-		return null;
+        return NONE;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.html.widget.table.js.functions.TableColMappingFormatter#mapping()
-	 */
-	@Override
-	public Map<String, String> mapping() {
-		return null;
-	}
+    @Override
+    public String jsonMapping() {
+        return STRING;
+    }
 
 }

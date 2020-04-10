@@ -73,14 +73,16 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
     @CustomQueryAction(path = "/mapped", title = "map测试")
     @TableColumns({
         @TableColumn(field = "mappedkey1", title = "key1显示值", mappingFormatter = ValueFormatter.class),
-        @TableColumn(field = "mappedkey2", title = "key2显示值")})
-    public Map<String, String> mapped(DevRegBlacklistVo co, DevSuspectedBlacklistCo uc) {
+        @TableColumn(field = "mappedkey2", title = "key2显示值", mapping = "{'value2':'key2显示值'}"),
+        @TableColumn(field = "mappedkey11", title = "key11显示值", mapping = "{1:'key11显示值'}")})
+    public Map<Object, Object> mapped(DevRegBlacklistVo co, DevSuspectedBlacklistCo uc) {
         System.out.println("custom:" + co);
         System.out.println("custom:" + uc);
-        Map<String, String> mapped = new HashMap<String, String>();
-        for (int i = 0; i < 20; i++) {
+        Map<Object, Object> mapped = new HashMap<>();
+        for (int i = 0; i < 10; i++) {
             mapped.put("mappedkey" + i, "value" + i);
         }
+        mapped.put("mappedkey11", 1);
         return mapped;
     }
 

@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.eason.html.demo.service.BlacklistService;
-import com.eason.html.easyview.core.form.table.formatter.TableColMappingFormatter;
+import com.eason.html.easyview.core.form.table.formatter.AbstractTableColMappingFormatter;
 
 /**
  * <p>
@@ -23,7 +23,7 @@ import com.eason.html.easyview.core.form.table.formatter.TableColMappingFormatte
  * @modify by user: {修改人} 2020年2月1日
  * @modify by reason:{方法名}:{原因}
  */
-public class AddTypeFormatter implements TableColMappingFormatter {
+public class AddTypeFormatter extends AbstractTableColMappingFormatter {
 	
 	private BlacklistService blacklistService;
 

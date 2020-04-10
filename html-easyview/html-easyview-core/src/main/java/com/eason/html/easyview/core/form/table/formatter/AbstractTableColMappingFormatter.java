@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.eason.html.easyview.core.utils.JacksonUtils;
+
 /**
  * <p>
  * </p>
@@ -20,17 +22,17 @@ public abstract class AbstractTableColMappingFormatter implements TableColMappin
     private List<String> keyList = new ArrayList<>();
 
     private Map<String, String> colValueMapping = new HashMap<>();
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.html.widget.table.js.functions.TableColMappingFormatter#mapping()
-	 */
-	@Override
-    public Map<String, String> mapping() {
-        return colValueMapping;
-	}
 
-    public void add(String value, String viewLabel) {
+    @Override
+    public final String jsonMapping() {
+        return JacksonUtils.toJsonString(mapping());
+    }
+
+    protected Map<String, String> mapping() {
+        return colValueMapping;
+    }
+
+    protected void add(String value, String viewLabel) {
         keyList.add(value);
         colValueMapping.put(value, viewLabel);
     }
