@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -128,39 +129,15 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 					// buildToolbarAction
 					buildToolbarAction(method, toolItemAction);
 				}
-				if (annotation instanceof CustomQueryAction) {
-					CustomQueryAction customQueryAction = (CustomQueryAction) annotation;
+				if (annotation instanceof CustomQueryAction || annotation instanceof CustomTableViewAction) {
+					CustomQueryAction customQueryAction = AnnotatedElementUtils.findMergedAnnotation(method, CustomQueryAction.class);
 					// buildCustomAction
 					buildCustomAction(method, customQueryAction);
-				}
-				if (annotation instanceof CustomTableViewAction) {
-					CustomTableViewAction customTableViewAction = (CustomTableViewAction) annotation;
-					// buildCustomAction
-					buildCustomAction(method, customTableViewAction);
 				}
 			}
 		}
 		Collections.sort(customActions, actionComparator);
 		Collections.sort(toolBarActions, actionComparator);
-	}
-
-	private final void buildCustomAction(Method method, CustomTableViewAction customTableViewAction) {
-		if (customTableViewAction == null) {
-			return;
-		}
-		String id = customTableViewAction.id();
-		if (StringUtils.isBlank(id)) {
-			id = method.getName();
-		}
-		BeanRefectUtils.parseColumns(method, colMappingFormatterManager);
-		QueryAction queryAction = new QueryAction(id, customTableViewAction.title(),
-				baseUrl + customTableViewAction.path()[0]);
-		Class<?> conditionForm = customTableViewAction.conditionForm();
-		if (conditionForm != Object.class) {
-			queryAction.setSearchCondition(conditionForm);
-		}
-		checkedUniqId(customActions, queryAction);
-		this.customActions.add(queryAction);
 	}
 
 	private final void buildTableItemAction(Method method, TableItemAction tableItemAction) {

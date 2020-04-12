@@ -8,7 +8,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.springframework.core.annotation.AliasFor;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * <p>
@@ -24,16 +23,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.METHOD })
 @Inherited
-@RequestMapping
+@CustomQueryAction
 public @interface CustomTableViewAction {
 
-	@AliasFor(annotation = RequestMapping.class, value = "value")
+	@AliasFor(annotation = CustomQueryAction.class)
 	String[] path() default "";
 
+	@AliasFor(annotation = CustomQueryAction.class)
 	Class<?> conditionForm() default Object.class;
 
+	@AliasFor(annotation = CustomQueryAction.class)
 	String title() default "";
 
+	@AliasFor(annotation = CustomQueryAction.class)
 	String id() default "";
 
 }
