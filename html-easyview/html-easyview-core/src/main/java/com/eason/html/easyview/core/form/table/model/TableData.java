@@ -37,7 +37,7 @@ public class TableData {
 
 	public String tableTitle;
 
-    public boolean escape;
+	public boolean escape;
 
 	public String btnPrefix;
 
@@ -48,6 +48,8 @@ public class TableData {
 	public String baseUrl;
 
 	public String uniqueId;
+	
+	public int pageSize = 10;
 
 	public final List<TableColumn> columns = new ArrayList<>();
 
@@ -56,16 +58,16 @@ public class TableData {
 	public final List<FormInput<?>> formInputs = new ArrayList<>();
 
 	public final Set<DateTimeInfo> datetimeFields = new HashSet<>();
-	
-    public final List<TableItemLink> customItemLinks = new ArrayList<>();
+
+	public final List<TableItemLink> customItemLinks = new ArrayList<>();
 
 	public List<?> rows;
 
-    public boolean cardView = false;
+	public boolean cardView = false;
 
 	private TableColMappingFormatterManager formatterManager;
 
-	public TableData(Class<?> coClass,Class<?> beanClass, TableColMappingFormatterManager formatterManager) {
+	public TableData(Class<?> coClass, Class<?> beanClass, TableColMappingFormatterManager formatterManager) {
 		super();
 		this.formatterManager = formatterManager;
 		if (coClass != null) {
@@ -75,37 +77,38 @@ public class TableData {
 			parseColumns(beanClass);
 		}
 	}
-	
+
 	private final void parseSearch(Class<?> beanClass) {
-        BeanRefectUtils.listClassFields(beanClass, new FieldCallback() {
-            @Override
-            public void doWith(Field field, Object fieldValue) {
-            	EasyView view = field.getAnnotation(EasyView.class);
-            	EasyViewData control = null;
-                if (view != null) {
-                    control = new EasyViewData(field.getName(), view);
-                } else {
-                    if (field.getType().isPrimitive() || Number.class.isAssignableFrom(field.getType())) {
-                        control = new EasyViewData(field.getName(), "Number", field.getName());
-                    }else if(Map.class.isAssignableFrom(field.getType())||List.class.isAssignableFrom(field.getType())) {
-                    	return;
-                    } else {
-                        control = new EasyViewData(field.getName(), "Text", field.getName());
-                    }
-                }
-                if (control.queryCondition) {
-                    control.searchView = true;
-                    FormInput<?> formInput = WidgetsFactory.getInstance().create(field, fieldValue, control);
-                    searchInputs.add(formInput);
-                    if (formInput instanceof DatetimeInput) {
-                        String type = ((DatetimeInput) formInput).type();
-                        DateTimeInfo dateTimeInfo = new DateTimeInfo(formInput.getId(), type, control.dateRange);
-                        datetimeFields.add(dateTimeInfo);
-                    }
-                }
-            }
-        }, new DefaultFieldFilter());
-    }
+		BeanRefectUtils.listClassFields(beanClass, new FieldCallback() {
+			@Override
+			public void doWith(Field field, Object fieldValue) {
+				EasyView view = field.getAnnotation(EasyView.class);
+				EasyViewData control = null;
+				if (view != null) {
+					control = new EasyViewData(field, view);
+				} else {
+					if (field.getType().isPrimitive() || Number.class.isAssignableFrom(field.getType())) {
+						control = new EasyViewData(field, "Number", field.getName());
+					} else if (Map.class.isAssignableFrom(field.getType())
+							|| List.class.isAssignableFrom(field.getType())) {
+						return;
+					} else {
+						control = new EasyViewData(field, "Text", field.getName());
+					}
+				}
+				if (control.queryCondition) {
+					control.searchView = true;
+					FormInput<?> formInput = WidgetsFactory.getInstance().create(field, fieldValue, control);
+					searchInputs.add(formInput);
+					if (formInput instanceof DatetimeInput) {
+						String type = ((DatetimeInput) formInput).type();
+						DateTimeInfo dateTimeInfo = new DateTimeInfo(formInput.getId(), type, control.dateRange);
+						datetimeFields.add(dateTimeInfo);
+					}
+				}
+			}
+		}, new DefaultFieldFilter());
+	}
 
 	private final void parseColumns(Class<?> beanClass) {
 		btnPrefix = beanClass.getSimpleName().toLowerCase();
@@ -121,8 +124,8 @@ public class TableData {
 			if (!cardView && easyView.indexed()) {
 				columns.add(TableColumnBuilder.newIndexColumn());
 			}
-            escape = easyView.escape();
-			//sortable = easyView.sortable();
+			escape = easyView.escape();
+			// sortable = easyView.sortable();
 		} else {
 			tableTitle = beanClass.getSimpleName().toLowerCase();
 		}
@@ -155,7 +158,7 @@ public class TableData {
 						uniqueId = colField;
 					}
 					if (!view.columnHidden()) {
-						control = new EasyViewData(field.getName(), view);
+						control = new EasyViewData(field, view);
 					} else {
 						hiddenColumn = true;
 					}
@@ -165,9 +168,9 @@ public class TableData {
 				} else {
 					tableColumn.title(field.getName());
 					if (field.getType().isPrimitive() || Number.class.isAssignableFrom(field.getType())) {
-						control = new EasyViewData(field.getName(), "Number", field.getName());
+						control = new EasyViewData(field, "Number", field.getName());
 					} else {
-						control = new EasyViewData(field.getName(), "Text", field.getName());
+						control = new EasyViewData(field, "Text", field.getName());
 						if (Map.class.isAssignableFrom(field.getType())) {
 							control.expandRowView = true;
 							hiddenColumn = true;
@@ -193,8 +196,8 @@ public class TableData {
 				}
 			}
 		}, new DefaultFieldFilter());
-		//itemOpt
-		if (easyView!=null && easyView.itemOpt()) {
+		// itemOpt
+		if (easyView != null && easyView.itemOpt()) {
 			columns.add(TableColumnBuilder.newItemOptColumn());
 		}
 	}

@@ -2,10 +2,23 @@ package com.eason.html.easyview.core.form.table.model;
 
 public class TableColumnBuilder {
 
-	TableColumn column = new TableColumn();
+	final TableColumn column;
+
+	public TableColumnBuilder(com.eason.html.easyview.core.annotations.TableColumn column) {
+		super();
+		this.column = new TableColumn(column);
+	}
+
+	public TableColumnBuilder() {
+		this.column = new TableColumn();
+	}
 
 	public static TableColumnBuilder newBuild() {
 		return new TableColumnBuilder();
+	}
+
+	public static TableColumnBuilder newBuildWith(com.eason.html.easyview.core.annotations.TableColumn tableColumn) {
+		return new TableColumnBuilder(tableColumn);
 	}
 
 	public static TableColumn newIndexColumn() {
@@ -79,6 +92,15 @@ public class TableColumnBuilder {
 
 		private TableColumn() {
 			super();
+		}
+
+		public TableColumn(com.eason.html.easyview.core.annotations.TableColumn tableColumn) {
+			super();
+			this.title = tableColumn.title();
+			this.field = tableColumn.field();
+			this.align = tableColumn.align().value;
+			this.valign = tableColumn.valign().value;
+			this.sortable = tableColumn.sortable();
 		}
 
 		public TableColumn(String title, String field, boolean checkbox, String align, String valign, boolean sortable,

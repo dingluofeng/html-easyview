@@ -8,7 +8,6 @@ import java.util.List;
 import com.eason.html.easyview.core.form.table.TableItemLink;
 import com.eason.html.easyview.core.form.table.model.TableData;
 import com.eason.html.easyview.core.utils.CollectionUtils;
-import com.eason.html.easyview.core.utils.JacksonUtils;
 import com.eason.html.easyview.core.utils.StringUtils;
 import com.eason.html.easyview.core.widget.Script;
 import com.eason.html.easyview.core.widget.Text;
@@ -96,8 +95,7 @@ public class TableColumnFormatterFunction {
 				script.add(Text.of("     if (value == null || value == undefined) {"));
 				script.add(Text.of("        return \"-\";"));
 				script.add(Text.of("     }"));
-				script.add(Text
-						.of("     var mapping=" + JacksonUtils.toJsonString(tableColMappingFormatter.mapping()) + ";"));
+				script.add(Text.of("     var mapping=" + tableColMappingFormatter.jsonMapping() + ";"));
 				script.add(Text.of("     var ret=mapping[value];"));
 				script.add(Text.of("     if (ret== undefined) {"));
 				script.add(Text.of("        ret= '<span style=\"color:#FF0000\">Unknown</span>';"));

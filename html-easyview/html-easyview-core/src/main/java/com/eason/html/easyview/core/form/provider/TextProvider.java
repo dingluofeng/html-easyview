@@ -15,7 +15,7 @@ public class TextProvider implements IWidgetProvider {
 
 	@Override
 	public FormInput<?> create(Field field, Object value, EasyViewData view) {
-		return FormText.of(view.id(), view.field, view.name());
+		return FormText.of(view.id(), view.field(), view.name());
 	}
 
 }

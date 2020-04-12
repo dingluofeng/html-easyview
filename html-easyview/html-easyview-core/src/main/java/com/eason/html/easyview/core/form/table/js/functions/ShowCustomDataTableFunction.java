@@ -21,7 +21,7 @@ public class ShowCustomDataTableFunction {
 		script.add(Text.of("    //动态增加查询条件"));
 		script.add(Text.of("    if(needCreadsearchForm){"));
 		script.add(Text.of("    	$('#custom_form_div').html(tableData.searchHtml);"));
-		script.add(Text.of("    //初始化laydate组件"));
+		script.add(Text.of("    	//初始化laydate组件"));
 		script.add(Text.of("        for (var i = 0; i < tableData.datetimeFields.length; i++) {"));
 		script.add(Text.of("            var date_info=tableData.datetimeFields[i];"));
 		script.add(Text.of("            layui.laydate.render({"));
@@ -40,6 +40,16 @@ public class ShowCustomDataTableFunction {
 		script.add(Text.of("        striped: true,"));
 		script.add(Text.of("        //是否显示父子表"));
 		script.add(Text.of("        detailView: true,"));
+		script.add(Text.of("        //显示隐藏列"));
+		script.add(Text.of("        showColumns: true,"));
+		script.add(Text.of("        //显示刷新按钮"));
+		script.add(Text.of("        showRefresh: true,"));
+		script.add(Text.of("        //转义HTML字符串，替换 &, <, >, \", `, 和 ' 字符."));
+		script.add(Text.of("        escape: true,"));
+		script.add(Text.of("        //切换显示样式"));
+		script.add(Text.of("        showToggle: true,"));
+		script.add(Text.of("        //显示Table脚部"));
+		script.add(Text.of("        showFooter: false,"));
 		script.add(Text.of("        //detail格式化"));
 		script.add(Text.of("        detailFormatter: genderDetail,"));
 		script.add(Text.of("        //是否显示分页"));
@@ -56,7 +66,11 @@ public class ShowCustomDataTableFunction {
 		script.add(Text.of("        //可供选择的每页的行数"));
 		script.add(Text.of("        pageList: \"[10, 25, 50, 100, all]\","));
 		script.add(Text.of("        buttonsClass: 'default',"));
-		script.add(Text.of("        columns: tableData.columns"));
+		script.add(Text.of("        columns: tableData.columns,"));
+		script.add(Text.of("        formatNoMatches: function () {"));
+		script.add(Text.of("            //没有匹配的结果"));
+		script.add(Text.of("            return 'No Data';"));
+		script.add(Text.of("        }"));
 		script.add(Text.of("    })"));
 		script.add(Text.of("}"));
 

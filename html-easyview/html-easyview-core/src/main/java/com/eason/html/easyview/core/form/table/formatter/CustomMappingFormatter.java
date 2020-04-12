@@ -10,11 +10,17 @@ package com.eason.html.easyview.core.form.table.formatter;
  * @modify by user: {修改人} 2020年2月1日
  * @modify by reason:{方法名}:{原因}
  */
-public final class NoneTableColMappingFormatter implements TableColMappingFormatter {
+class CustomMappingFormatter implements TableColMappingFormatter {
 
-	private static final String NONE = "NONE";
+	private final String functionName;
 
-	private static final String STRING = "{}";
+	private final String mapping;
+
+	public CustomMappingFormatter(String functionName, String mapping) {
+		super();
+		this.functionName = functionName;
+		this.mapping = mapping;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -24,12 +30,12 @@ public final class NoneTableColMappingFormatter implements TableColMappingFormat
 	 */
 	@Override
 	public String functionName() {
-		return NONE;
+		return functionName;
 	}
 
 	@Override
 	public String jsonMapping() {
-		return STRING;
+		return mapping;
 	}
 
 }

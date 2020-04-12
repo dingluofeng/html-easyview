@@ -3,7 +3,6 @@
  */
 package com.eason.html.easyview.core.form.table.model;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,34 +10,44 @@ import java.util.Set;
 import com.eason.html.easyview.core.DateTimeInfo;
 import com.eason.html.easyview.core.form.table.model.TableColumnBuilder.TableColumn;
 import com.eason.html.easyview.core.utils.BeanRefectUtils;
-import com.eason.html.easyview.core.utils.CollectionUtils;
 
 /**
  * @author dingluofeng
  *
  */
 public class TableInfo {
-	
+
 	public final List<TableColumn> columns;
-	
+
 	public List<?> data;
-	
-	public String searchHtml="";
-	
-    public final Set<DateTimeInfo> datetimeFields = new HashSet<>();
-    
-    
-    public TableInfo(List<?> data) {
+
+	public String searchHtml = "";
+
+	public final Set<DateTimeInfo> datetimeFields = new HashSet<>();
+
+	public TableInfo(List<?> data, List<TableColumn> columns) {
 		super();
-		this.data=data;
-        if (CollectionUtils.isNotEmpty(this.data) && this.data.get(0) != null) {
-			Class<? extends Object> beanClass = this.data.get(0).getClass();
-            columns = BeanRefectUtils.parseColumns(beanClass,null);
-        } else {
-            columns = new ArrayList<>();
-		}
+		this.data = data;
+		this.columns = columns;
 	}
-	
+
+//    public TableInfo(List<?> data) {
+//		super();
+//		this.data=data;
+//        if (CollectionUtils.isNotEmpty(this.data) && this.data.get(0) != null) {
+//			Class<? extends Object> beanClass = this.data.get(0).getClass();
+//            if (Map.class.isAssignableFrom(beanClass)) {
+//                @SuppressWarnings("unchecked")
+//                Map<Object, Object> dataMap = (Map<Object, Object>) data.get(0);
+//                columns = BeanRefectUtils.parseColumnsfromMap(dataMap);
+//            } else {
+//                columns = BeanRefectUtils.parseColumns(beanClass, null);
+//            }
+//        } else {
+//            columns = new ArrayList<>();
+//		}
+//	}
+
 	/**
 	 * @return the columns
 	 */
@@ -61,13 +70,13 @@ public class TableInfo {
 	}
 
 	public void setConditionClass(Class<?> conditionClass) {
-        SearchWidgetInfo searchWidgetInfo = BeanRefectUtils.parseSearchForm(conditionClass);
-        if (searchWidgetInfo != null) {
-            searchHtml = searchWidgetInfo.searchHtml;
-            datetimeFields.addAll(searchWidgetInfo.datetimeFields);
-        }
+		SearchWidgetInfo searchWidgetInfo = BeanRefectUtils.parseSearchForm(conditionClass);
+		if (searchWidgetInfo != null) {
+			searchHtml = searchWidgetInfo.searchHtml;
+			datetimeFields.addAll(searchWidgetInfo.datetimeFields);
+		}
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

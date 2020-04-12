@@ -44,13 +44,22 @@ public class AjaxQueryDataFunction {
 		script.add(Text.of("      data: params,"));
 		script.add(Text.of("      success: function (msg) {"));
 		script.add(Text.of("          if (msg.status==0||msg.status==200) {"));
-		script.add(Text.of("              layer.msg(msg.msg, {icon: 1, time: 1500});"));
+		script.add(Text.of("          	  if (msg.type==4) {"));
+		script.add(Text.of("              	 layer.msg(msg.msg, {icon: 1, time: 1500});"));
+		script.add(Text.of("              }else{"));
+		script.add(
+				Text.of("              	 layer.open({type: msg.type,title: msg.title,shadeClose: true,shade: 0.3,"));
+		script.add(Text.of("              	       area: msg.area,maxmin: true,content: msg.msg}); "));
+		script.add(Text.of("              }"));
 		script.add(Text.of("          } else {"));
 		script.add(Text.of("              layer.msg(msg.msg, {icon: 2, time: 1500});"));
 		script.add(Text.of("          }"));
 		script.add(Text.of("       }"));
 		script.add(Text.of("  })"));
 		script.add(Text.of("}"));
+
+//		layer.open({type: 2,title: '信息',shadeClose: true,shade: 0.8,area: 'auto',
+//		  content: 'mobile/'}); 
 
 		return script.toString();
 	}

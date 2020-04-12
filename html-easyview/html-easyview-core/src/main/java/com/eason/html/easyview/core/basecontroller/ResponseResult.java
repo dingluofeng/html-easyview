@@ -16,9 +16,11 @@ public class ResponseResult {
 
 	private static final ResponseResult OK = new ResponseResult();
 
-	public final int status;
+	public int status;
 
-	public final String msg;
+	public String msg;
+
+	public String url;
 
 	public ResponseResult(int status, String msg) {
 		super();
@@ -38,8 +40,52 @@ public class ResponseResult {
 		return OK;
 	}
 
-	public static ResponseResult with(HttpStatus httpStatus) {
+	public static ResponseResult newBuild(HttpStatus httpStatus) {
 		return new ResponseResult(httpStatus);
+	}
+
+	public ResponseResult url(String url) {
+		this.url = url;
+		return this;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	@Override
+	public String toString() {
+		return "ResponseResult [status=" + status + ", msg=" + msg + ", url=" + url + "]";
+	}
+
+	public class ResponseResultBuilder {
+
+		private ResponseResult responseResult;
+
+		public ResponseResultBuilder newBuilder() {
+			responseResult = new ResponseResult();
+			return this;
+		}
+
+		public ResponseResult build() {
+			return responseResult;
+		}
+
+		public ResponseResultBuilder url(String url) {
+			responseResult.url = url;
+			return this;
+		}
+
+		public ResponseResultBuilder status(HttpStatus httpStatus) {
+			responseResult.status = httpStatus.value();
+			responseResult.msg = httpStatus.getReasonPhrase();
+			return this;
+		}
+
 	}
 
 }

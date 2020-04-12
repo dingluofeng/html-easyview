@@ -3,6 +3,7 @@
  */
 package com.eason.html.easyview.core.form;
 
+import com.eason.html.easyview.core.form.provider.IComboDataProvider;
 import com.eason.html.easyview.core.widget.Attribute;
 import com.eason.html.easyview.core.widget.Label;
 import com.eason.html.easyview.core.widget.Option;
@@ -16,6 +17,8 @@ import com.eason.html.easyview.core.widget.Text;
 public class FormCombo extends FormInput<FormCombo> {
 
 	private Select select;
+
+	private String defaultValue = "-1";
 
 	public FormCombo(String id, String field, String lable, String[] names, String[] values) {
 		super("div", id, field);
@@ -32,9 +35,15 @@ public class FormCombo extends FormInput<FormCombo> {
 		return new FormCombo(id, field, lable, names, values);
 	}
 
+	public static FormCombo of(String id, String field, String lable, IComboDataProvider dataProvider) {
+		FormCombo formCombo = new FormCombo(id, field, lable, dataProvider.getItem(), dataProvider.getValue());
+		formCombo.defaultValue = dataProvider.getDefault();
+		return formCombo;
+	}
+
 	@Override
 	public String getDefaultValue() {
-		return "-1";
+		return defaultValue;
 	}
 
 	@Override

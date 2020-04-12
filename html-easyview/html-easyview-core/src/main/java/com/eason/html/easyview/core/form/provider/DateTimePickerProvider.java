@@ -22,7 +22,7 @@ public class DateTimePickerProvider implements IWidgetProvider {
 
 	@Override
 	public FormInput<?> create(Field field, Object value, EasyViewData view) {
-		return FormDateTimePicker.of(view.id(), view.field, view.name(), name);
+		return FormDateTimePicker.of(view.id(), view.field(), view.name(), name);
 	}
 
 }

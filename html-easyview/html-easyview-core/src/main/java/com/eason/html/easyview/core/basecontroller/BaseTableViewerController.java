@@ -1,5 +1,6 @@
 package com.eason.html.easyview.core.basecontroller;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,6 +33,7 @@ import com.eason.html.easyview.core.QueryAction;
 import com.eason.html.easyview.core.ToolBarAction;
 import com.eason.html.easyview.core.WidgetStyle;
 import com.eason.html.easyview.core.annotations.CustomQueryAction;
+import com.eason.html.easyview.core.annotations.CustomTableViewAction;
 import com.eason.html.easyview.core.annotations.TableItemAction;
 import com.eason.html.easyview.core.annotations.TableViewController;
 import com.eason.html.easyview.core.annotations.ToolItemAction;
@@ -55,6 +58,8 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 	protected int toolbarStyle = WidgetStyle.NONE /* WidgetStyle.ADD |WidgetStyle.REFLUSH */ ;
 
 	private boolean onlineResource = false;
+	
+	private int pageSize = 10;
 
 	private String baseUrl;
 
@@ -72,7 +77,7 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 	private RequestMappingHandlerAdapter requestMappingHandlerAdapter;
 
 	private TableColMappingFormatterManager colMappingFormatterManager = new TableColMappingFormatterManager();
-	
+
 	private Comparator<IAction> actionComparator = new Comparator<IAction>() {
 		@Override
 		public int compare(IAction queryAction1, IAction queryAction2) {
@@ -100,69 +105,82 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 		TableViewController tableViewController = AnnotationUtils.findAnnotation(clazz, TableViewController.class);
 		if (tableViewController != null) {
 			baseUrl = tableViewController.value()[0];
+			pageSize = tableViewController.pageSize();
 			if (tableViewController.showDefaultItemOpt()) {
 				enableDefaultTableItemOpt();
 			}
 		} else {
+			pageSize = 10;
 			RequestMapping mapping = AnnotationUtils.findAnnotation(clazz, RequestMapping.class);
 			if (mapping != null) {
 				baseUrl = mapping.value()[0];
 			}
 		}
 		for (Method method : declaredMethods) {
-			CustomQueryAction customQueryAction = method.getAnnotation(CustomQueryAction.class);
-			TableItemAction tableItemAction = method.getAnnotation(TableItemAction.class);
-			ToolItemAction toolItemAction = method.getAnnotation(ToolItemAction.class);
-			if (tableItemAction != null) {
-				String title = tableItemAction.title();
-				if (StringUtils.isBlank(title)) {
-					title = method.getName();
+			Annotation[] customQueryActions = AnnotationUtils.getAnnotations(method);
+			for (Annotation annotation : customQueryActions) {
+				if (annotation instanceof TableItemAction) {
+					TableItemAction tableItemAction = (TableItemAction) annotation;
+					// buildTableItemAction
+					buildTableItemAction(method, tableItemAction);
 				}
-				TableItemLink itemLink = TableItemLink.of(method.getName(), title, tableItemAction.styleClass(),
-						baseUrl + tableItemAction.path()[0]);
-				checkedUniqId(tableItemsLinks, itemLink);
-				tableItemsLinks.add(itemLink);
-			}
-			if (toolItemAction != null) {
-				String title = toolItemAction.title();
-				String styleClass = toolItemAction.styleClass();
-				String url = baseUrl + toolItemAction.path()[0];
-				ToolBarAction toolBarAction = new ToolBarAction(method.getName(), title, url);
-				toolBarAction.setClassStyle(styleClass);
-				checkedUniqId(toolBarActions, toolBarAction);
-				toolBarActions.add(toolBarAction);
-			}
-
-			if (customQueryAction == null) {
-				continue;
-			}
-			String id = customQueryAction.id();
-			if (StringUtils.isBlank(id)) {
-				id = method.getName();
-			}
-			Class<?> returnType = method.getReturnType();
-			if (List.class.isAssignableFrom(returnType)) {
-				Type genericReturnType = method.getGenericReturnType();
-				if (genericReturnType instanceof ParameterizedType) {
-					ParameterizedType parameterizedType = (ParameterizedType) genericReturnType;
-					Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
-					BeanRefectUtils.parseColumns(Class.class.cast(actualTypeArguments[0]), colMappingFormatterManager);
+				if (annotation instanceof ToolItemAction) {
+					ToolItemAction toolItemAction = (ToolItemAction) annotation;
+					// buildToolbarAction
+					buildToolbarAction(method, toolItemAction);
 				}
-			} else {
-				BeanRefectUtils.parseColumns(returnType, colMappingFormatterManager);
+				if (annotation instanceof CustomQueryAction || annotation instanceof CustomTableViewAction) {
+					CustomQueryAction customQueryAction = AnnotatedElementUtils.findMergedAnnotation(method, CustomQueryAction.class);
+					// buildCustomAction
+					buildCustomAction(method, customQueryAction);
+				}
 			}
-
-			QueryAction queryAction = new QueryAction(id, customQueryAction.title(),
-					baseUrl + customQueryAction.path()[0]);
-			Class<?> conditionForm = customQueryAction.conditionForm();
-			if (conditionForm != Object.class) {
-				queryAction.setSearchCondition(conditionForm);
-			}
-			checkedUniqId(customActions, queryAction);
-			this.customActions.add(queryAction);
 		}
 		Collections.sort(customActions, actionComparator);
 		Collections.sort(toolBarActions, actionComparator);
+	}
+
+	private final void buildTableItemAction(Method method, TableItemAction tableItemAction) {
+		if (tableItemAction != null) {
+			String title = tableItemAction.title();
+			if (StringUtils.isBlank(title)) {
+				title = method.getName();
+			}
+			TableItemLink itemLink = TableItemLink.of(method.getName(), title, tableItemAction.styleClass(),
+					baseUrl + tableItemAction.path()[0]);
+			checkedUniqId(tableItemsLinks, itemLink);
+			tableItemsLinks.add(itemLink);
+		}
+	}
+
+	private final void buildCustomAction(Method method, CustomQueryAction customQueryAction) {
+		if (customQueryAction == null) {
+			return;
+		}
+		String id = customQueryAction.id();
+		if (StringUtils.isBlank(id)) {
+			id = method.getName();
+		}
+		BeanRefectUtils.parseColumns(method, colMappingFormatterManager);
+		QueryAction queryAction = new QueryAction(id, customQueryAction.title(), baseUrl + customQueryAction.path()[0]);
+		Class<?> conditionForm = customQueryAction.conditionForm();
+		if (conditionForm != Object.class) {
+			queryAction.setSearchCondition(conditionForm);
+		}
+		checkedUniqId(customActions, queryAction);
+		this.customActions.add(queryAction);
+	}
+
+	private final void buildToolbarAction(Method method, ToolItemAction toolItemAction) {
+		if (toolItemAction != null) {
+			String title = toolItemAction.title();
+			String styleClass = toolItemAction.styleClass();
+			String url = baseUrl + toolItemAction.path()[0];
+			ToolBarAction toolBarAction = new ToolBarAction(method.getName(), title, url);
+			toolBarAction.setClassStyle(styleClass);
+			checkedUniqId(toolBarActions, toolBarAction);
+			toolBarActions.add(toolBarAction);
+		}
 	}
 
 	@RequestMapping(value = "/tableview", produces = { "text/html; charset=UTF-8" })
@@ -173,6 +191,7 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 			baseUrl = requestURI + "/..";
 		}
 		SingleTableViewPage tableViewPage = new SingleTableViewPage(titleName);
+		tableViewPage.setPageSize(pageSize);
 		if (CollectionUtils.isNotEmpty(customActions)) {
 			for (QueryAction queryAction : customActions) {
 				CustomButton queryBtn = CustomButton.of(queryAction);
@@ -353,7 +372,8 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 	@Override
 	public void afterPropertiesSet() {
 		// HandlerMethodReturnValueHandler
-		List<HandlerMethodReturnValueHandler> returnValueHandlers = requestMappingHandlerAdapter.getReturnValueHandlers();
+		List<HandlerMethodReturnValueHandler> returnValueHandlers = requestMappingHandlerAdapter
+				.getReturnValueHandlers();
 		List<HandlerMethodReturnValueHandler> allReturnValueHandlers = new ArrayList<>();
 		// 自定义returnHandler
 		allReturnValueHandlers.add(new CustomQueryActionReturnValueHandler(dateFormat));
@@ -365,11 +385,12 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 		// 自定义argumentResolvers
 		for (HandlerMethodArgumentResolver handlerMethodArgumentResolver : argumentResolvers) {
 			if (handlerMethodArgumentResolver instanceof org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor) {
-				allArgumentResolvers.add(new TableItemActionMethodArgumentResolver(requestMappingHandlerAdapter.getMessageConverters()));
+				allArgumentResolvers.add(
+						new TableItemActionMethodArgumentResolver(requestMappingHandlerAdapter.getMessageConverters()));
 			}
 			allArgumentResolvers.add(handlerMethodArgumentResolver);
 		}
-		//argumentResolvers
+		// argumentResolvers
 		requestMappingHandlerAdapter.setArgumentResolvers(allArgumentResolvers);
 		colMappingFormatterManager.setServiceFinder(this);
 		// buildCustomQueryAction

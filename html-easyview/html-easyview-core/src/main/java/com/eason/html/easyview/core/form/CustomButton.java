@@ -2,6 +2,7 @@ package com.eason.html.easyview.core.form;
 
 import java.util.List;
 
+import com.eason.html.easyview.core.DateTimeInfo;
 import com.eason.html.easyview.core.QueryAction;
 import com.eason.html.easyview.core.widget.Attribute;
 import com.eason.html.easyview.core.widget.Node;
@@ -52,6 +53,10 @@ public class CustomButton extends Node<CustomButton> {
 	 */
 	public List<FormInput<?>> getSearchInputs() {
 		return queryAction.getSearchInputs();
+	}
+
+	public List<DateTimeInfo> getDatetimeFields() {
+		return queryAction.getDatetimeFields();
 	}
 
 	@Override

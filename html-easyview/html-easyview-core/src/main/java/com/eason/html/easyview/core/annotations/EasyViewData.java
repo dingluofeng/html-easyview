@@ -1,5 +1,6 @@
 package com.eason.html.easyview.core.annotations;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 
 /**
@@ -14,7 +15,7 @@ import java.util.Arrays;
  */
 public class EasyViewData {
 
-	public final String field;
+	public final Field field;
 
 	public boolean searchView;
 
@@ -47,7 +48,7 @@ public class EasyViewData {
 
 	public boolean queryCondition = false;
 
-	public EasyViewData(String field, EasyView view) {
+	public EasyViewData(Field field, EasyView view) {
 		super();
 		this.field = field;
 		this.type = view.type();
@@ -62,7 +63,7 @@ public class EasyViewData {
 		this.queryCondition = view.queryCondition();
 	}
 
-	public EasyViewData(String field, String type, String name) {
+	public EasyViewData(Field field, String type, String name) {
 		super();
 		this.field = field;
 		this.type = type;
@@ -110,15 +111,15 @@ public class EasyViewData {
 	}
 
 	public String field() {
-		return field;
+		return field.getName();
 	}
 
 	protected String getSearchId() {
-		return "txt_search_" + field;
+		return "txt_search_" + field.getDeclaringClass().getSimpleName().toLowerCase() + "_" + field.getName();
 	}
 
 	protected String getInputId() {
-		return "txt_input_" + field;
+		return "txt_input_" + field.getDeclaringClass().getSimpleName().toLowerCase() + "_" + field.getName();
 	}
 
 	public String id() {

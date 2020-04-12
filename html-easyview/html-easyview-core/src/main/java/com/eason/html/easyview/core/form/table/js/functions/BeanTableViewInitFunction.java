@@ -82,7 +82,7 @@ public class BeanTableViewInitFunction {
 		script.add(Text.of("        //分页方式：client客户端分页，server服务端分页"));
 		script.add(Text.of("        sidePagination: \"server\","));
 		script.add(Text.of("        //每页的记录行数"));
-		script.add(Text.of("        pageSize: 10,"));
+		script.add(Text.of("        pageSize: " + tableData.pageSize + ","));
 		script.add(Text.of("        //初始化加载第1页，默认第1页"));
 		script.add(Text.of("        pageNumber: 1,"));
 		script.add(Text.of("        //可供选择的每页的行数"));
@@ -157,7 +157,7 @@ public class BeanTableViewInitFunction {
 		script.add(Text.of("            return \"please wait，Loading...\";"));
 		script.add(Text.of("        }, formatNoMatches: function () {"));
 		script.add(Text.of("            //没有匹配的结果"));
-		script.add(Text.of("            return 'No Result';"));
+		script.add(Text.of("            return 'No Data';"));
 		script.add(Text.of("        }"));
 		script.add(Text.of("    })"));
 		script.add(Text.of("}"));

@@ -20,6 +20,8 @@ public class SingleTableViewPage extends BasePage {
 	private TableColMappingFormatterManager colMappingFormatterManager;
 
 	private boolean onlineResource = true;
+	
+	private int pageSize = 10;
 
 	public static void main(String[] args) {
 		new SingleTableViewPage("用户信息表").html("user", Object.class, Object.class);
@@ -37,6 +39,7 @@ public class SingleTableViewPage extends BasePage {
 		// BeanTableView
 		TableData tableData = new TableData(coClass, beanClass, colMappingFormatterManager);
 		tableData.baseUrl = baseUrl;
+		tableData.pageSize = pageSize;
 
 		UploadWidgetInfo uploadWidgetInfo = null;
 		if ((WidgetStyle.IMPORT & getToolbarStyle()) != 0) {
@@ -156,6 +159,14 @@ public class SingleTableViewPage extends BasePage {
 
 	public void setOnlineResource(boolean onlineResource) {
 		this.onlineResource = onlineResource;
+	}
+
+	public int getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
 	}
 
 }

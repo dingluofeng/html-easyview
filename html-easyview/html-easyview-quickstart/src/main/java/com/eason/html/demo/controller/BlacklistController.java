@@ -2,7 +2,9 @@ package com.eason.html.demo.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -13,9 +15,14 @@ import com.eason.html.demo.service.BlacklistService;
 import com.eason.html.demo.vo.DevRegBlacklistVo;
 import com.eason.html.demo.vo.DevSuspectedBlacklistVo;
 import com.eason.html.demo.vo.UserDeviceVo;
+import com.eason.html.demo.vo.mapping.ValueFormatter;
+import com.eason.html.easyview.core.IMessageForm;
 import com.eason.html.easyview.core.PageHolder;
 import com.eason.html.easyview.core.WidgetStyle;
 import com.eason.html.easyview.core.annotations.CustomQueryAction;
+import com.eason.html.easyview.core.annotations.CustomTableViewAction;
+import com.eason.html.easyview.core.annotations.TableColumn;
+import com.eason.html.easyview.core.annotations.TableColumns;
 import com.eason.html.easyview.core.annotations.TableItemAction;
 import com.eason.html.easyview.core.annotations.TableViewController;
 import com.eason.html.easyview.core.annotations.ToolItemAction;
@@ -29,7 +36,7 @@ import com.eason.html.easyview.core.basecontroller.ResponseResult;
  * @author dingluofeng
  *
  */
-@TableViewController(value = "/blacklist", showDefaultItemOpt = false)
+@TableViewController(value = "/blacklist", showDefaultItemOpt = true)
 public class BlacklistController extends BaseTableViewerController<DevRegBlacklistVo, DevRegBlacklistVo> {
 
 	@Resource
@@ -46,18 +53,39 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 		return "Ok";
 	}
 	
-	@ToolItemAction(path = "/send/limit2", title = "限制2")
+	@ToolItemAction(path = "/send/limit2", title = "限制2",msgType = IMessageForm.INFO_FORM)
     public String send2(DevRegBlacklistVo vo) {
 		System.out.println(vo);
-		return "Ok";
+		return "OK";
+	}
+	@ToolItemAction(path = "/send/limit3", title = "限制3",msgType = IMessageForm.PAGE_FORM)
+	public String send3(DevRegBlacklistVo vo) {
+		System.out.println(vo);
+		return "<html><h3>通讯路程yyyyyyjjjjjjjj哈哈哈哈哈哈哈哈哈哈或或或或或或或或或或不不</h3></html>";
 	}
 
-	@CustomQueryAction(path = "/suspectedlist", conditionForm = DevSuspectedBlacklistCo.class, title = "黑名单可疑行为")
+	@CustomTableViewAction(path = "/suspectedlist", conditionForm = DevSuspectedBlacklistCo.class, title = "黑名单可疑行为")
 	public List<DevSuspectedBlacklistVo> suspectedlist(DevRegBlacklistVo co, DevSuspectedBlacklistCo uc) {
 		System.out.println("custom:" + co);
 		System.out.println("custom:" + uc);
 		return blacklistService.pagedSuspectedBlacklist(co.getSubSerial(), uc.getRegTime(), 0, 20);
 	}
+
+	@CustomTableViewAction(path = "/mapped", title = "map测试")
+    @TableColumns({
+        @TableColumn(field = "mappedkey1", title = "key1显示值", mappingFormatter = ValueFormatter.class),
+        @TableColumn(field = "mappedkey2", title = "key2显示值", mapping = "{'value2':'key2显示值'}"),
+        @TableColumn(field = "mappedkey3", title = "key3显示值", mapping = "{1:'key3显示值'}")})
+    public Map<Object, Object> mapped(DevRegBlacklistVo co, DevSuspectedBlacklistCo uc) {
+        System.out.println("custom:" + co);
+        System.out.println("custom:" + uc);
+        Map<Object, Object> mapped = new HashMap<>();
+        for (int i = 0; i < 10; i++) {
+            mapped.put("mappedkey" + i, "value" + i);
+        }
+        mapped.put("mappedkey3", 1);
+        return mapped;
+    }
 
 	@CustomQueryAction(id = "userDevice", path = "/userDevice", title = "用户设备列表")
 	public UserDeviceVo userDevice(String subSerial) {

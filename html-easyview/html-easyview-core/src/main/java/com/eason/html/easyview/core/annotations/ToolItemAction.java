@@ -57,4 +57,13 @@ public @interface ToolItemAction {
 	 */
 	String styleClass() default IconStyle.STATS;
 
+	/**
+	 * 可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（msg层）
+	 * 
+	 * @return
+	 */
+	int msgType() default 4;
+
+	String area() default "['auto','auto']";
+
 }

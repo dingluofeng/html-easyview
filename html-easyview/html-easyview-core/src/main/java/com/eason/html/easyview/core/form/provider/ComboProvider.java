@@ -23,18 +23,13 @@ public class ComboProvider implements IWidgetProvider {
 		if (view.dataProvider() != Object.class) {
 			Class<?> cls = view.dataProvider();
 			try {
-				Object obj = cls.newInstance();
-				if (obj instanceof IComboDataProvider) {
-					IComboDataProvider dataProvider = (IComboDataProvider) obj;
-					if (dataProvider.getItem() != null) {
-						names = dataProvider.getItem();
-					}
-					if (dataProvider.getValue() != null) {
-						values = (dataProvider.getValue());
-					}
-				}
+				Object instance = cls.newInstance();
 				if (serviceFinder != null) {
-					serviceFinder.injectExtension(obj);
+					serviceFinder.injectExtension(instance);
+				}
+				if (instance instanceof IComboDataProvider) {
+					IComboDataProvider dataProvider = (IComboDataProvider) instance;
+					return FormCombo.of(view.id(), view.field(), view.name(), dataProvider);
 				}
 			} catch (Exception e1) {
 				throw new RuntimeException(e1);
@@ -47,7 +42,6 @@ public class ComboProvider implements IWidgetProvider {
 				values = (view.values());
 			}
 		}
-
 		return FormCombo.of(view.id(), view.field(), view.name(), names, values);
 	}
 
