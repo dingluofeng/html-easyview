@@ -75,7 +75,7 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
     @TableColumns({
         @TableColumn(field = "mappedkey1", title = "key1显示值", mappingFormatter = ValueFormatter.class),
         @TableColumn(field = "mappedkey2", title = "key2显示值", mapping = "{'value2':'key2显示值'}"),
-        @TableColumn(field = "mappedkey11", title = "key11显示值", mapping = "{1:'key11显示值'}")})
+        @TableColumn(field = "mappedkey3", title = "key3显示值", mapping = "{1:'key3显示值'}")})
     public Map<Object, Object> mapped(DevRegBlacklistVo co, DevSuspectedBlacklistCo uc) {
         System.out.println("custom:" + co);
         System.out.println("custom:" + uc);
@@ -83,7 +83,7 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
         for (int i = 0; i < 10; i++) {
             mapped.put("mappedkey" + i, "value" + i);
         }
-        mapped.put("mappedkey11", 1);
+        mapped.put("mappedkey3", 1);
         return mapped;
     }
 

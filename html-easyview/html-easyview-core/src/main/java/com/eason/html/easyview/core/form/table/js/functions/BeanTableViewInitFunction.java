@@ -157,7 +157,7 @@ public class BeanTableViewInitFunction {
 		script.add(Text.of("            return \"please wait，Loading...\";"));
 		script.add(Text.of("        }, formatNoMatches: function () {"));
 		script.add(Text.of("            //没有匹配的结果"));
-		script.add(Text.of("            return 'No Result';"));
+		script.add(Text.of("            return 'No Data';"));
 		script.add(Text.of("        }"));
 		script.add(Text.of("    })"));
 		script.add(Text.of("}"));

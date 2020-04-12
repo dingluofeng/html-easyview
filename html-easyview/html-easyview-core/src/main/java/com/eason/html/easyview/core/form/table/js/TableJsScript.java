@@ -181,7 +181,7 @@ public class TableJsScript {
 
 		script.add(Text.of("//tr中删除按钮点击事件"));
 		script.add(Text.of("function delData(id, type) {"));
-		script.add(Text.of("    layer.confirm('确定要删除用户编号为' + id+ '数据?', {icon: 3, title: '提示'}, function () {"));
+		script.add(Text.of("    layer.confirm('确定要删除用户编号为' + id+ '数据?', {icon: 3, title: 'Confirm'}, function () {"));
 		script.add(Text.of("        $.ajax({"));
 		script.add(Text.of("            url: '" + baseUrl + "/delete',"));
 		script.add(Text.of("            method: 'post',"));
@@ -204,7 +204,7 @@ public class TableJsScript {
 
 		script.add(Text.of("//tr中自定义扩展按钮点击事件"));
 		script.add(Text.of("function customOpt(text,url,data) {"));
-		script.add(Text.of("    layer.confirm('确定要执行' + text+ '操作?', {icon: 3, title: '提示'}, function () {"));
+		script.add(Text.of("    layer.confirm('确定要执行' + text+ '操作?', {icon: 3, title: 'Confirm'}, function () {"));
 		script.add(Text.of("        $.ajax({"));
 		script.add(Text.of("            url: url,"));
 		script.add(Text.of("            method: 'post',"));
@@ -282,7 +282,7 @@ public class TableJsScript {
 			script.add(Text.of("       ,exts: '" + uploadWidgetInfo.getFileExts() + "'"));
 			script.add(Text.of("       ,size: " + uploadWidgetInfo.getLimitSize()));
 			script.add(Text.of("       ,done: function(res){"));
-			script.add(Text.of("           layer.msg('上传成功',{icon: 1, time: 2000});"));
+			script.add(Text.of("           layer.msg('Upload Success',{icon: 1, time: 2000});"));
 			script.add(Text.of("           console.log(res);"));
 			script.add(Text.of("           refresh();"));
 			script.add(Text.of("       }"));

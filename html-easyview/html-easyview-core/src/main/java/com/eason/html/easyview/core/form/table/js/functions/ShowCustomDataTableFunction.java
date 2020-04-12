@@ -66,7 +66,11 @@ public class ShowCustomDataTableFunction {
 		script.add(Text.of("        //可供选择的每页的行数"));
 		script.add(Text.of("        pageList: \"[10, 25, 50, 100, all]\","));
 		script.add(Text.of("        buttonsClass: 'default',"));
-		script.add(Text.of("        columns: tableData.columns"));
+		script.add(Text.of("        columns: tableData.columns,"));
+		script.add(Text.of("        formatNoMatches: function () {"));
+		script.add(Text.of("            //没有匹配的结果"));
+		script.add(Text.of("            return 'No Data';"));
+		script.add(Text.of("        }"));
 		script.add(Text.of("    })"));
 		script.add(Text.of("}"));
 
