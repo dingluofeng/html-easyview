@@ -95,8 +95,7 @@ public class TableColumnFormatterFunction {
 				script.add(Text.of("     if (value == null || value == undefined) {"));
 				script.add(Text.of("        return \"-\";"));
 				script.add(Text.of("     }"));
-				script.add(Text
-                        .of("     var mapping=" + tableColMappingFormatter.jsonMapping() + ";"));
+				script.add(Text.of("     var mapping=" + tableColMappingFormatter.jsonMapping() + ";"));
 				script.add(Text.of("     var ret=mapping[value];"));
 				script.add(Text.of("     if (ret== undefined) {"));
 				script.add(Text.of("        ret= '<span style=\"color:#FF0000\">Unknown</span>';"));

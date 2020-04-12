@@ -45,7 +45,7 @@ public class BeanRefectUtils {
 
 	static final Log logger = LogFactory.getLog(BeanRefectUtils.class);
 
-    private static Map<Method, List<TableColumn>> tableEntitiesMap = new ConcurrentHashMap<>();
+	private static Map<Method, List<TableColumn>> tableEntitiesMap = new ConcurrentHashMap<>();
 
 	private static Map<Class<?>, SearchWidgetInfo> searchHtmlMap = new ConcurrentHashMap<>();
 
@@ -93,119 +93,118 @@ public class BeanRefectUtils {
 		listFields(clazz, data, fieldCallback, fieldFilter);
 	}
 
-    public static final List<TableColumn> parseColumns(Method method,
-            final TableColMappingFormatterManager colMappingFormatterManager) {
-        List<TableColumn> columns = tableEntitiesMap.get(method);
+	public static final List<TableColumn> parseColumns(Method method,
+			final TableColMappingFormatterManager colMappingFormatterManager) {
+		List<TableColumn> columns = tableEntitiesMap.get(method);
 		if (CollectionUtils.isNotEmpty(columns)) {
 			return columns;
 		} else {
-            logger.debugf("parseColumns:init method= %s", method);
-            List<TableColumn> cols = new ArrayList<>();
-            tableEntitiesMap.put(method, cols);
-            TableColumns tableColumns = method.getAnnotation(TableColumns.class);
-            if (tableColumns != null) {
-                cols.addAll(parseColumnsFromAnnotations(tableColumns, colMappingFormatterManager));
-            } else {
-                Class<?> returnClass = getReturnClassFromMethod(method);
-                if (isUserDefinedClass(returnClass)) {
-                    cols.addAll(parseColumnsFromReturnType(returnClass, colMappingFormatterManager));
-                }
-            }
-            return cols;
+			logger.debugf("parseColumns:init method= %s", method);
+			List<TableColumn> cols = new ArrayList<>();
+			tableEntitiesMap.put(method, cols);
+			TableColumns tableColumns = method.getAnnotation(TableColumns.class);
+			if (tableColumns != null) {
+				cols.addAll(parseColumnsFromAnnotations(tableColumns, colMappingFormatterManager));
+			} else {
+				Class<?> returnClass = getReturnClassFromMethod(method);
+				if (isUserDefinedClass(returnClass)) {
+					cols.addAll(parseColumnsFromReturnType(returnClass, colMappingFormatterManager));
+				}
+			}
+			return cols;
 		}
 	}
 
-    public final static List<TableColumn> parseColumnsfromMap(Method method, Map<Object, Object> dataMap) {
-        List<TableColumn> columns = tableEntitiesMap.get(method);
-        if (CollectionUtils.isNotEmpty(columns)) {
-            return columns;
-        } else {
-            logger.debugf("parseColumnsfromMap init method= %s", method);
-            final List<TableColumn> cols = new ArrayList<>();
-            for (Entry<Object, Object> entry : dataMap.entrySet()) {
-                TableColumnBuilder tableColumn = TableColumnBuilder.newBuild();
-                String field = String.valueOf(entry.getKey());
-                tableColumn.field(field);
-                tableColumn.align(Align.CENTER.value);
-                tableColumn.title(field);
-                tableColumn.valign(Valign.MIDDLE.value);
-                cols.add(tableColumn.build());
-            }
-            return cols;
-        }
-    }
+	public final static List<TableColumn> parseColumnsfromMap(Method method, Map<Object, Object> dataMap) {
+		List<TableColumn> columns = tableEntitiesMap.get(method);
+		if (CollectionUtils.isNotEmpty(columns)) {
+			return columns;
+		} else {
+			logger.debugf("parseColumnsfromMap init method= %s", method);
+			final List<TableColumn> cols = new ArrayList<>();
+			for (Entry<Object, Object> entry : dataMap.entrySet()) {
+				TableColumnBuilder tableColumn = TableColumnBuilder.newBuild();
+				String field = String.valueOf(entry.getKey());
+				tableColumn.field(field);
+				tableColumn.align(Align.CENTER.value);
+				tableColumn.title(field);
+				tableColumn.valign(Valign.MIDDLE.value);
+				cols.add(tableColumn.build());
+			}
+			return cols;
+		}
+	}
 
-    private final static List<TableColumn> parseColumnsFromAnnotations(TableColumns tableColumns,
-            final TableColMappingFormatterManager colMappingFormatterManager) {
-        List<TableColumn> cols = new ArrayList<>();
-        com.eason.html.easyview.core.annotations.TableColumn[] columns_ = tableColumns.value();
-        for (com.eason.html.easyview.core.annotations.TableColumn tableColumn : columns_) {
-            TableColumnBuilder columnBuilder = TableColumnBuilder.newBuildWith(tableColumn);
-            String mapping = tableColumn.mapping();
-            if (StringUtils.isNotBlank(mapping)) {
-                String formatter = colMappingFormatterManager.addMappingFormatter(tableColumn.field(), mapping);
-                columnBuilder.formatter(formatter);
-            }
-            Class<? extends TableColMappingFormatter> mappingFormatter = tableColumn.mappingFormatter();
-            if ((mappingFormatter != NoneTableColMappingFormatter.class)
-                    && colMappingFormatterManager != null) {
-                String formatter = colMappingFormatterManager.addMappingFormatter(mappingFormatter);
-                columnBuilder.formatter(formatter);
-            }
-            cols.add(columnBuilder.build());
-        }
-        return cols;
-    }
+	private final static List<TableColumn> parseColumnsFromAnnotations(TableColumns tableColumns,
+			final TableColMappingFormatterManager colMappingFormatterManager) {
+		List<TableColumn> cols = new ArrayList<>();
+		com.eason.html.easyview.core.annotations.TableColumn[] columns_ = tableColumns.value();
+		for (com.eason.html.easyview.core.annotations.TableColumn tableColumn : columns_) {
+			TableColumnBuilder columnBuilder = TableColumnBuilder.newBuildWith(tableColumn);
+			String mapping = tableColumn.mapping();
+			if (StringUtils.isNotBlank(mapping)) {
+				String formatter = colMappingFormatterManager.addMappingFormatter(tableColumn.field(), mapping);
+				columnBuilder.formatter(formatter);
+			}
+			Class<? extends TableColMappingFormatter> mappingFormatter = tableColumn.mappingFormatter();
+			if ((mappingFormatter != NoneTableColMappingFormatter.class) && colMappingFormatterManager != null) {
+				String formatter = colMappingFormatterManager.addMappingFormatter(mappingFormatter);
+				columnBuilder.formatter(formatter);
+			}
+			cols.add(columnBuilder.build());
+		}
+		return cols;
+	}
 
-    private final static List<TableColumn> parseColumnsFromReturnType(Class<?> returnClass,
-            final TableColMappingFormatterManager colMappingFormatterManager) {
-        final List<TableColumn> cols = new ArrayList<>();
-        BeanRefectUtils.listClassFields(returnClass, new FieldCallback() {
-            @Override
-            public void doWith(Field field, Object fieldValue) {
-                TableColumnBuilder tableColumn = TableColumnBuilder.newBuild();
-                tableColumn.field(field.getName());
-                EasyView view = field.getAnnotation(EasyView.class);
-                if (view != null) {
-                    tableColumn.title(view.name());
-                    tableColumn.align(view.align().value);
-                    tableColumn.valign(view.valign().value);
-                    if ((view.mappingFormatter() != NoneTableColMappingFormatter.class)
-                            && colMappingFormatterManager != null) {
-                        String formatter = colMappingFormatterManager.addMappingFormatter(view.mappingFormatter());
-                        tableColumn.formatter(formatter);
-                    }
-                    String colField = view.field();
-                    if (StringUtils.isBlank(colField)) {
-                        colField = field.getName();
-                    }
-                    tableColumn.field(field.getName());
-                    tableColumn.sortable(view.sortable());
-                } else {
-                    tableColumn.title(field.getName());
-                }
-                if (view == null || !view.columnHidden()) {
-                    cols.add(tableColumn.build());
-                }
-            }
-        }, new DefaultFieldFilter());
-        return cols;
-    }
+	private final static List<TableColumn> parseColumnsFromReturnType(Class<?> returnClass,
+			final TableColMappingFormatterManager colMappingFormatterManager) {
+		final List<TableColumn> cols = new ArrayList<>();
+		BeanRefectUtils.listClassFields(returnClass, new FieldCallback() {
+			@Override
+			public void doWith(Field field, Object fieldValue) {
+				TableColumnBuilder tableColumn = TableColumnBuilder.newBuild();
+				tableColumn.field(field.getName());
+				EasyView view = field.getAnnotation(EasyView.class);
+				if (view != null) {
+					tableColumn.title(view.name());
+					tableColumn.align(view.align().value);
+					tableColumn.valign(view.valign().value);
+					if ((view.mappingFormatter() != NoneTableColMappingFormatter.class)
+							&& colMappingFormatterManager != null) {
+						String formatter = colMappingFormatterManager.addMappingFormatter(view.mappingFormatter());
+						tableColumn.formatter(formatter);
+					}
+					String colField = view.field();
+					if (StringUtils.isBlank(colField)) {
+						colField = field.getName();
+					}
+					tableColumn.field(field.getName());
+					tableColumn.sortable(view.sortable());
+				} else {
+					tableColumn.title(field.getName());
+				}
+				if (view == null || !view.columnHidden()) {
+					cols.add(tableColumn.build());
+				}
+			}
+		}, new DefaultFieldFilter());
+		return cols;
+	}
 
-    public final static Class<?> getReturnClassFromMethod(Method method) {
-        Class<?> returnType = method.getReturnType();
-        if (List.class.isAssignableFrom(returnType)) {
-            Type genericReturnType = method.getGenericReturnType();
-            if (genericReturnType instanceof ParameterizedType) {
-                ParameterizedType parameterizedType = (ParameterizedType) genericReturnType;
-                Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
-                return Class.class.cast(actualTypeArguments[0]);
-            }
-        } else {
-            return returnType;
-        }
-        return returnType;
-    }
+	public final static Class<?> getReturnClassFromMethod(Method method) {
+		Class<?> returnType = method.getReturnType();
+		if (List.class.isAssignableFrom(returnType)) {
+			Type genericReturnType = method.getGenericReturnType();
+			if (genericReturnType instanceof ParameterizedType) {
+				ParameterizedType parameterizedType = (ParameterizedType) genericReturnType;
+				Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+				return Class.class.cast(actualTypeArguments[0]);
+			}
+		} else {
+			return returnType;
+		}
+		return returnType;
+	}
 
 	public static final SearchWidgetInfo parseSearchForm(Class<?> beanClass) {
 		if (beanClass == null) {
@@ -231,12 +230,12 @@ public class BeanRefectUtils {
 					if (StringUtils.isBlank(colField)) {
 						colField = field.getName();
 					}
-					control = new EasyViewData(field.getName(), view);
+					control = new EasyViewData(field, view);
 				} else {
 					if (field.getType().isPrimitive() || Number.class.isAssignableFrom(field.getType())) {
-						control = new EasyViewData(field.getName(), "Number", field.getName());
+						control = new EasyViewData(field, "Number", field.getName());
 					} else {
-						control = new EasyViewData(field.getName(), "Text", field.getName());
+						control = new EasyViewData(field, "Text", field.getName());
 					}
 				}
 				// if (control.queryCondition) {

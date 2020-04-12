@@ -12,28 +12,30 @@ package com.eason.html.easyview.core.form.table.formatter;
  */
 class CustomMappingFormatter implements TableColMappingFormatter {
 
-    private final String functionName;
+	private final String functionName;
 
-    private final String mapping;
+	private final String mapping;
 
-    public CustomMappingFormatter(String functionName, String mapping) {
-        super();
-        this.functionName = functionName;
-        this.mapping = mapping;
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see com.html.widget.table.js.functions.TableColMappingFormatter#functionName()
-     */
-	@Override
-	public String functionName() {
-        return functionName;
+	public CustomMappingFormatter(String functionName, String mapping) {
+		super();
+		this.functionName = functionName;
+		this.mapping = mapping;
 	}
 
-    @Override
-    public String jsonMapping() {
-        return mapping;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.html.widget.table.js.functions.TableColMappingFormatter#functionName()
+	 */
+	@Override
+	public String functionName() {
+		return functionName;
+	}
+
+	@Override
+	public String jsonMapping() {
+		return mapping;
+	}
 
 }

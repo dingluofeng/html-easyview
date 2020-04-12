@@ -11,6 +11,6 @@ public interface TableColMappingFormatter {
 
 	String functionName();
 
-    String jsonMapping();
+	String jsonMapping();
 
 }

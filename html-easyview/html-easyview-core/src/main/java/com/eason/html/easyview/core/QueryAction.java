@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.eason.html.easyview.core.annotations.EasyView;
 import com.eason.html.easyview.core.annotations.EasyViewData;
+import com.eason.html.easyview.core.form.DatetimeInput;
 import com.eason.html.easyview.core.form.FormInput;
 import com.eason.html.easyview.core.form.provider.WidgetsFactory;
 import com.eason.html.easyview.core.utils.BeanRefectUtils;
@@ -32,7 +33,9 @@ public class QueryAction implements IAction {
 
 	private String customBtnId;
 
-	private List<FormInput<?>> searchInputs = new ArrayList<>();;
+	private List<FormInput<?>> searchInputs = new ArrayList<>();
+
+	private List<DateTimeInfo> datetimeFields = new ArrayList<>();
 
 	public QueryAction(String id, String name, String url) {
 		super();
@@ -83,18 +86,23 @@ public class QueryAction implements IAction {
 					if (StringUtils.isBlank(colField)) {
 						colField = field.getName();
 					}
-					viewData = new EasyViewData(field.getName(), view);
+					viewData = new EasyViewData(field, view);
 				} else {
 					if (field.getType().isPrimitive() || Number.class.isAssignableFrom(field.getType())) {
-						viewData = new EasyViewData(field.getName(), "Number", field.getName());
+						viewData = new EasyViewData(field, "Number", field.getName());
 					} else {
-						viewData = new EasyViewData(field.getName(), "Text", field.getName());
+						viewData = new EasyViewData(field, "Text", field.getName());
 					}
 				}
 				if (viewData.queryCondition) {
 					viewData.searchView = true;
 					FormInput<?> formInput = WidgetsFactory.getInstance().create(field, fieldValue, viewData);
 					searchInputs.add(formInput);
+					if (formInput instanceof DatetimeInput) {
+						String type = ((DatetimeInput) formInput).type();
+						DateTimeInfo dateTimeInfo = new DateTimeInfo(formInput.getId(), type, viewData.dateRange);
+						datetimeFields.add(dateTimeInfo);
+					}
 				}
 			}
 		}, new DefaultFieldFilter());
@@ -112,6 +120,10 @@ public class QueryAction implements IAction {
 
 	public List<FormInput<?>> getSearchInputs() {
 		return searchInputs;
+	}
+
+	public List<DateTimeInfo> getDatetimeFields() {
+		return datetimeFields;
 	}
 
 }

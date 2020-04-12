@@ -19,33 +19,33 @@ import com.eason.html.easyview.core.utils.JacksonUtils;
  */
 public abstract class AbstractTableColMappingFormatter implements TableColMappingFormatter {
 
-    private List<String> keyList = new ArrayList<>();
+	private List<String> keyList = new ArrayList<>();
 
-    private Map<String, String> colValueMapping = new HashMap<>();
+	private Map<String, String> colValueMapping = new HashMap<>();
 
-    @Override
-    public final String jsonMapping() {
-        return JacksonUtils.toJsonString(mapping());
-    }
+	@Override
+	public final String jsonMapping() {
+		return JacksonUtils.toJsonString(mapping());
+	}
 
-    protected Map<String, String> mapping() {
-        return colValueMapping;
-    }
+	protected Map<String, String> mapping() {
+		return colValueMapping;
+	}
 
-    protected void add(String value, String viewLabel) {
-        keyList.add(value);
-        colValueMapping.put(value, viewLabel);
-    }
+	protected void add(String value, String viewLabel) {
+		keyList.add(value);
+		colValueMapping.put(value, viewLabel);
+	}
 
-    public List<String> keys() {
-        return keyList;
-    }
+	public List<String> keys() {
+		return keyList;
+	}
 
-    public List<String> values() {
-        List<String> values = new ArrayList<>();
-        for (String key : keyList) {
-            values.add(colValueMapping.get(key));
-        }
-        return values;
-    }
+	public List<String> values() {
+		List<String> values = new ArrayList<>();
+		for (String key : keyList) {
+			values.add(colValueMapping.get(key));
+		}
+		return values;
+	}
 }

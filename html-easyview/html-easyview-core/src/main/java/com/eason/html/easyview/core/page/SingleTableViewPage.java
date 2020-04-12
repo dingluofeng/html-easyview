@@ -21,7 +21,7 @@ public class SingleTableViewPage extends BasePage {
 
 	private boolean onlineResource = true;
 
-	public static void main(String[] args) { 
+	public static void main(String[] args) {
 		new SingleTableViewPage("用户信息表").html("user", Object.class, Object.class);
 	}
 

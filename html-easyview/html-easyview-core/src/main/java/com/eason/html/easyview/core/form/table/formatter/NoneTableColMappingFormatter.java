@@ -14,9 +14,9 @@ public final class NoneTableColMappingFormatter implements TableColMappingFormat
 
 	private static final String NONE = "NONE";
 
-    private static final String STRING = "{}";
+	private static final String STRING = "{}";
 
-    /*
+	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
@@ -24,12 +24,12 @@ public final class NoneTableColMappingFormatter implements TableColMappingFormat
 	 */
 	@Override
 	public String functionName() {
-        return NONE;
+		return NONE;
 	}
 
-    @Override
-    public String jsonMapping() {
-        return STRING;
-    }
+	@Override
+	public String jsonMapping() {
+		return STRING;
+	}
 
 }

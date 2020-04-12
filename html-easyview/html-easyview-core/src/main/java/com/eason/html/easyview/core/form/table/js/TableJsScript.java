@@ -252,6 +252,23 @@ public class TableJsScript {
 				script.add(Text.of("    });"));
 			}
 		}
+		if (CollectionUtils.isNotEmpty(customBtns)) {
+			for (CustomButton customButton : customBtns) {
+				List<DateTimeInfo> dateTimeInfos = customButton.getDatetimeFields();
+				if (CollectionUtils.isNotEmpty(dateTimeInfos)) {
+					for (DateTimeInfo dateField : dateTimeInfos) {
+						script.add(Text.of("    laydate.render({"));
+						script.add(Text.of("        type: '" + dateField.type + "',"));
+						if (StringUtils.isNotBlank(dateField.range)) {
+							script.add(Text.of("        range: '" + dateField.range + "',"));
+						}
+						script.add(Text.of("        elem: '#" + dateField.id + "'"));
+						script.add(Text.of("    });"));
+					}
+				}
+			}
+		}
+
 		script.add(Text.of("});"));
 
 		if (uploadWidgetInfo != null) {

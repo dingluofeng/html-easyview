@@ -21,9 +21,9 @@ import com.eason.html.easyview.core.utils.StringUtils;
  */
 public final class TableColMappingFormatterManager {
 
-    private static final String FORMATTER = "Formatter";
+	private static final String FORMATTER = "Formatter";
 
-    private Log logger = LogFactory.getLog(TableColMappingFormatterManager.class);
+	private Log logger = LogFactory.getLog(TableColMappingFormatterManager.class);
 
 	private final List<TableColMappingFormatter> tableColMappingFormatters = new ArrayList<>();
 
@@ -31,12 +31,12 @@ public final class TableColMappingFormatterManager {
 
 	private AtomicBoolean isInjectExtension = new AtomicBoolean();
 
-    public String addMappingFormatter(String field, String jsonMapping) {
-        String functionName = field + FORMATTER;
-        CustomMappingFormatter tableColMappingFormatter = new CustomMappingFormatter(functionName, jsonMapping);
-        addTableColMappingFormatter(tableColMappingFormatter);
-        return tableColMappingFormatter.functionName();
-    }
+	public String addMappingFormatter(String field, String jsonMapping) {
+		String functionName = field + FORMATTER;
+		CustomMappingFormatter tableColMappingFormatter = new CustomMappingFormatter(functionName, jsonMapping);
+		addTableColMappingFormatter(tableColMappingFormatter);
+		return tableColMappingFormatter.functionName();
+	}
 
 	public String addMappingFormatter(Class<? extends TableColMappingFormatter> formatterClass) {
 		TableColMappingFormatter tableColMappingFormatter;

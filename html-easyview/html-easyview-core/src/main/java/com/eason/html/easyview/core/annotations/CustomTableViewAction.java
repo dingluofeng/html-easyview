@@ -2,15 +2,13 @@ package com.eason.html.easyview.core.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.eason.html.easyview.core.IconStyle;
 
 /**
  * <p>
@@ -25,45 +23,17 @@ import com.eason.html.easyview.core.IconStyle;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.METHOD })
+@Inherited
 @RequestMapping
-@ResponseBody
-public @interface ToolItemAction {
+public @interface CustomTableViewAction {
 
-	/**
-	 * <p>
-	 * 按钮执行URL
-	 * </p>
-	 * 
-	 * @return
-	 */
 	@AliasFor(annotation = RequestMapping.class, value = "value")
-	String[] path();
+	String[] path() default "";
 
-	/**
-	 * <p>
-	 * 按钮显示文本
-	 * </p>
-	 * 
-	 * @return
-	 */
+	Class<?> conditionForm() default Object.class;
+
 	String title() default "";
 
-	/**
-	 * <p>
-	 * 按钮样式
-	 * </p>
-	 * 
-	 * @return
-	 */
-	String styleClass() default IconStyle.STATS;
-
-	/**
-	 * 可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（msg层）
-	 * 
-	 * @return
-	 */
-	int msgType() default 4;
-
-	String area() default "['auto','auto']";
+	String id() default "";
 
 }

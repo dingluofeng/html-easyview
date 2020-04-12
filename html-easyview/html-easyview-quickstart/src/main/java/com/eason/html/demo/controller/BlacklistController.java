@@ -20,6 +20,7 @@ import com.eason.html.easyview.core.IMessageForm;
 import com.eason.html.easyview.core.PageHolder;
 import com.eason.html.easyview.core.WidgetStyle;
 import com.eason.html.easyview.core.annotations.CustomQueryAction;
+import com.eason.html.easyview.core.annotations.CustomTableViewAction;
 import com.eason.html.easyview.core.annotations.TableColumn;
 import com.eason.html.easyview.core.annotations.TableColumns;
 import com.eason.html.easyview.core.annotations.TableItemAction;
@@ -35,7 +36,7 @@ import com.eason.html.easyview.core.basecontroller.ResponseResult;
  * @author dingluofeng
  *
  */
-@TableViewController(value = "/blacklist", showDefaultItemOpt = false)
+@TableViewController(value = "/blacklist", showDefaultItemOpt = true)
 public class BlacklistController extends BaseTableViewerController<DevRegBlacklistVo, DevRegBlacklistVo> {
 
 	@Resource
@@ -63,14 +64,14 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 		return "<html><h3>通讯路程yyyyyyjjjjjjjj哈哈哈哈哈哈哈哈哈哈或或或或或或或或或或不不</h3></html>";
 	}
 
-	@CustomQueryAction(path = "/suspectedlist", conditionForm = DevSuspectedBlacklistCo.class, title = "黑名单可疑行为")
+	@CustomTableViewAction(path = "/suspectedlist", conditionForm = DevSuspectedBlacklistCo.class, title = "黑名单可疑行为")
 	public List<DevSuspectedBlacklistVo> suspectedlist(DevRegBlacklistVo co, DevSuspectedBlacklistCo uc) {
 		System.out.println("custom:" + co);
 		System.out.println("custom:" + uc);
 		return blacklistService.pagedSuspectedBlacklist(co.getSubSerial(), uc.getRegTime(), 0, 20);
 	}
 
-    @CustomQueryAction(path = "/mapped", title = "map测试")
+	@CustomTableViewAction(path = "/mapped", title = "map测试")
     @TableColumns({
         @TableColumn(field = "mappedkey1", title = "key1显示值", mappingFormatter = ValueFormatter.class),
         @TableColumn(field = "mappedkey2", title = "key2显示值", mapping = "{'value2':'key2显示值'}"),

@@ -16,21 +16,21 @@ import com.eason.html.easyview.core.utils.BeanRefectUtils;
  *
  */
 public class TableInfo {
-	
+
 	public final List<TableColumn> columns;
-	
+
 	public List<?> data;
-	
-	public String searchHtml="";
-	
-    public final Set<DateTimeInfo> datetimeFields = new HashSet<>();
-    
-    public TableInfo(List<?> data, List<TableColumn> columns) {
-        super();
-        this.data = data;
-        this.columns = columns;
-    }
-    
+
+	public String searchHtml = "";
+
+	public final Set<DateTimeInfo> datetimeFields = new HashSet<>();
+
+	public TableInfo(List<?> data, List<TableColumn> columns) {
+		super();
+		this.data = data;
+		this.columns = columns;
+	}
+
 //    public TableInfo(List<?> data) {
 //		super();
 //		this.data=data;
@@ -47,7 +47,7 @@ public class TableInfo {
 //            columns = new ArrayList<>();
 //		}
 //	}
-	
+
 	/**
 	 * @return the columns
 	 */
@@ -70,13 +70,13 @@ public class TableInfo {
 	}
 
 	public void setConditionClass(Class<?> conditionClass) {
-        SearchWidgetInfo searchWidgetInfo = BeanRefectUtils.parseSearchForm(conditionClass);
-        if (searchWidgetInfo != null) {
-            searchHtml = searchWidgetInfo.searchHtml;
-            datetimeFields.addAll(searchWidgetInfo.datetimeFields);
-        }
+		SearchWidgetInfo searchWidgetInfo = BeanRefectUtils.parseSearchForm(conditionClass);
+		if (searchWidgetInfo != null) {
+			searchHtml = searchWidgetInfo.searchHtml;
+			datetimeFields.addAll(searchWidgetInfo.datetimeFields);
+		}
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

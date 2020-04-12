@@ -104,7 +104,7 @@ public @interface EasyView {
 	String type() default WidgetType.Text;
 
 	/**
-	 * @return key的列表。
+	 * @return key对应的values的列表。
 	 */
 	String[] values() default {};
 

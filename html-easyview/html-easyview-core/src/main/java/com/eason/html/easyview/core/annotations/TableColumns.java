@@ -12,18 +12,16 @@ import java.lang.annotation.Target;
  *
  * @see TableColumn
  */
-@Target({
-    ElementType.TYPE,
-    ElementType.METHOD})
+@Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface TableColumns {
 
-    /**
-     * The value of {@link TableColumns}
-     *
-     * @return non-null
-     */
-    TableColumn[] value();
+	/**
+	 * The value of {@link TableColumns}
+	 *
+	 * @return non-null
+	 */
+	TableColumn[] value();
 
 }

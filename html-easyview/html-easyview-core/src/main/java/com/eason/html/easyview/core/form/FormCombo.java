@@ -17,8 +17,8 @@ import com.eason.html.easyview.core.widget.Text;
 public class FormCombo extends FormInput<FormCombo> {
 
 	private Select select;
-	
-	private String defaultValue="-1";
+
+	private String defaultValue = "-1";
 
 	public FormCombo(String id, String field, String lable, String[] names, String[] values) {
 		super("div", id, field);
@@ -34,10 +34,10 @@ public class FormCombo extends FormInput<FormCombo> {
 	public static FormCombo of(String id, String field, String lable, String[] names, String[] values) {
 		return new FormCombo(id, field, lable, names, values);
 	}
-	
+
 	public static FormCombo of(String id, String field, String lable, IComboDataProvider dataProvider) {
 		FormCombo formCombo = new FormCombo(id, field, lable, dataProvider.getItem(), dataProvider.getValue());
-		formCombo.defaultValue=dataProvider.getDefault();
+		formCombo.defaultValue = dataProvider.getDefault();
 		return formCombo;
 	}
 

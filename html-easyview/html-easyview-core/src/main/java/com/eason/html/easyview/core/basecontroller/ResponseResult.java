@@ -19,7 +19,7 @@ public class ResponseResult {
 	public int status;
 
 	public String msg;
-	
+
 	public String url;
 
 	public ResponseResult(int status, String msg) {
@@ -43,9 +43,9 @@ public class ResponseResult {
 	public static ResponseResult newBuild(HttpStatus httpStatus) {
 		return new ResponseResult(httpStatus);
 	}
-	
+
 	public ResponseResult url(String url) {
-		this.url=url;
+		this.url = url;
 		return this;
 	}
 
@@ -61,7 +61,7 @@ public class ResponseResult {
 	public String toString() {
 		return "ResponseResult [status=" + status + ", msg=" + msg + ", url=" + url + "]";
 	}
-	
+
 	public class ResponseResultBuilder {
 
 		private ResponseResult responseResult;
