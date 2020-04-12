@@ -57,6 +57,8 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 	protected int toolbarStyle = WidgetStyle.NONE /* WidgetStyle.ADD |WidgetStyle.REFLUSH */ ;
 
 	private boolean onlineResource = false;
+	
+	private int pageSize = 10;
 
 	private String baseUrl;
 
@@ -102,10 +104,12 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 		TableViewController tableViewController = AnnotationUtils.findAnnotation(clazz, TableViewController.class);
 		if (tableViewController != null) {
 			baseUrl = tableViewController.value()[0];
+			pageSize = tableViewController.pageSize();
 			if (tableViewController.showDefaultItemOpt()) {
 				enableDefaultTableItemOpt();
 			}
 		} else {
+			pageSize = 10;
 			RequestMapping mapping = AnnotationUtils.findAnnotation(clazz, RequestMapping.class);
 			if (mapping != null) {
 				baseUrl = mapping.value()[0];
@@ -210,6 +214,7 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 			baseUrl = requestURI + "/..";
 		}
 		SingleTableViewPage tableViewPage = new SingleTableViewPage(titleName);
+		tableViewPage.setPageSize(pageSize);
 		if (CollectionUtils.isNotEmpty(customActions)) {
 			for (QueryAction queryAction : customActions) {
 				CustomButton queryBtn = CustomButton.of(queryAction);

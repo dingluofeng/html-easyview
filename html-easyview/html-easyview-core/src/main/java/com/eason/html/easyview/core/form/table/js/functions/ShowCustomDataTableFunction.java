@@ -21,7 +21,7 @@ public class ShowCustomDataTableFunction {
 		script.add(Text.of("    //动态增加查询条件"));
 		script.add(Text.of("    if(needCreadsearchForm){"));
 		script.add(Text.of("    	$('#custom_form_div').html(tableData.searchHtml);"));
-		script.add(Text.of("    //初始化laydate组件"));
+		script.add(Text.of("    	//初始化laydate组件"));
 		script.add(Text.of("        for (var i = 0; i < tableData.datetimeFields.length; i++) {"));
 		script.add(Text.of("            var date_info=tableData.datetimeFields[i];"));
 		script.add(Text.of("            layui.laydate.render({"));

@@ -22,4 +22,10 @@ public @interface TableViewController {
 	String[] value();
 
 	boolean showDefaultItemOpt() default false;
+	
+	/**
+	 * 默认分页：size 10
+	 * @return
+	 */
+	int pageSize() default 10;
 }

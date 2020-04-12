@@ -48,6 +48,8 @@ public class TableData {
 	public String baseUrl;
 
 	public String uniqueId;
+	
+	public int pageSize = 10;
 
 	public final List<TableColumn> columns = new ArrayList<>();
 

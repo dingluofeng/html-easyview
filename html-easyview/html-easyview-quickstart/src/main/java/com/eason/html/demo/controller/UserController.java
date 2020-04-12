@@ -18,7 +18,7 @@ import com.eason.html.easyview.core.basecontroller.PageParams;
  * @author dingluofeng
  *
  */
-@TableViewController(value = "/user", showDefaultItemOpt = true)
+@TableViewController(value = "/user", showDefaultItemOpt = true, pageSize = 20)
 public class UserController extends BaseTableViewerController<UserInfoVo, UserInfoVo> {
 
 	public UserController() {
@@ -29,7 +29,7 @@ public class UserController extends BaseTableViewerController<UserInfoVo, UserIn
 	@Override
 	protected PageHolder<UserInfoVo> list(PageParams pageParams, UserInfoVo co) {
 		List<UserInfoVo> records = new ArrayList<UserInfoVo>();
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < pageParams.getLimit(); i++) {
 			UserInfoVo user = new UserInfoVo();
 			user.setAddress("address" + i);
 			user.setUserName("userName" + i);
