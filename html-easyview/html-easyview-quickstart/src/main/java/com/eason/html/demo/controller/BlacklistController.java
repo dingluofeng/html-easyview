@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,6 +30,7 @@ import com.eason.html.easyview.core.annotations.ToolItemAction;
 import com.eason.html.easyview.core.basecontroller.BaseTableViewerController;
 import com.eason.html.easyview.core.basecontroller.PageParams;
 import com.eason.html.easyview.core.basecontroller.ResponseResult;
+import com.eason.html.easyview.core.utils.HttpRequestHolder;
 
 /**
  * 黑名单列表查询
@@ -106,6 +108,8 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 	protected PageHolder<DevRegBlacklistVo> list(PageParams pageParams, DevRegBlacklistVo co) {
 		int curPage = pageParams.getCurPage();
 		int limit = pageParams.getLimit();
+        HttpServletRequest request = HttpRequestHolder.getRequest();
+        System.out.println(request);
 		PageHolder<DevRegBlacklistVo> pageHolder = blacklistService.pagedBlacklist(co.getSubSerial(),
 				curPage - 1, limit);
 		return pageHolder;
