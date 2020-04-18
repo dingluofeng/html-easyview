@@ -61,7 +61,7 @@ public class TableColumnFormatterFunction {
 		script.add(Text.of("    return ["));
 		script.add(Text.of("        ''"));
 		// 自定义操作列link
-		List<TableItemLink> itemLinks = tableData.customItemLinks;
+		List<TableItemLink> itemLinks = tableData.getCustomItemLinks();
 		for (TableItemLink itemLink : itemLinks) {
 			script.add(Text.of("        ,'" + itemLink.buildLink() + "'"));
 		}

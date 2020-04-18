@@ -85,14 +85,6 @@ public @interface EasyView {
 	boolean indexed() default true;
 
 	/**
-	 * @author DingLuoFeng 2020年1月23日 下午1:46:17
-	 * @return 表格最后是否显示操作列(修改|删除)，(<font color="red">表格显示使用</font>)
-	 * @see BaseTableViewerController#update(Object)
-	 * @see BaseTableViewerController#delete(String[])
-	 */
-	boolean itemOpt() default false;
-
-	/**
 	 * ============================================================================
 	 * =============================控件注解方法类=================================
 	 * ============================================================================
@@ -123,6 +115,16 @@ public @interface EasyView {
 	 * @return 是否作为查询条件
 	 */
 	boolean queryCondition() default true;
+	
+	/**
+	 * <p>
+	 * mapping 映射 json字符串
+	 * </p>
+	 * 
+	 * @author DingLuoFeng 2020年4月10日 上午9:53:30
+	 * @return
+	 */
+	String mapping() default "";
 
 	/**
 	 * @return

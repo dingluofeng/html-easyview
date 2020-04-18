@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,6 +30,10 @@ import com.eason.html.easyview.core.annotations.ToolItemAction;
 import com.eason.html.easyview.core.basecontroller.BaseTableViewerController;
 import com.eason.html.easyview.core.basecontroller.PageParams;
 import com.eason.html.easyview.core.basecontroller.ResponseResult;
+import com.eason.html.easyview.core.statictable.HtmlStaticTableBuilder;
+import com.eason.html.easyview.core.statictable.model.StaticTableData;
+import com.eason.html.easyview.core.statictable.model.StaticTableData.TableDataBuilder;
+import com.eason.html.easyview.core.utils.HttpRequestHolder;
 
 /**
  * 黑名单列表查询
@@ -36,7 +41,7 @@ import com.eason.html.easyview.core.basecontroller.ResponseResult;
  * @author dingluofeng
  *
  */
-@TableViewController(value = "/blacklist", showDefaultItemOpt = true)
+@TableViewController(value = "/blacklist")
 public class BlacklistController extends BaseTableViewerController<DevRegBlacklistVo, DevRegBlacklistVo> {
 
 	@Resource
@@ -58,10 +63,33 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 		System.out.println(vo);
 		return "OK";
 	}
-	@ToolItemAction(path = "/send/limit3", title = "限制3",msgType = IMessageForm.PAGE_FORM)
+	@ToolItemAction(path = "/send/limit3", title = "限制3",msgType = IMessageForm.INFO_FORM)
 	public String send3(DevRegBlacklistVo vo) {
 		System.out.println(vo);
-		return "<html><h3>通讯路程yyyyyyjjjjjjjj哈哈哈哈哈哈哈哈哈哈或或或或或或或或或或不不</h3></html>";
+		StringBuilder sb=new StringBuilder();
+		sb.append("限制1").append(System.lineSeparator());
+		sb.append("限制2").append(System.lineSeparator());
+		sb.append("限制3").append(System.lineSeparator());
+		sb.append("限制4").append(System.lineSeparator());
+		sb.append("限制5").append(System.lineSeparator());
+		sb.append("限制6").append(System.lineSeparator());
+		sb.append("限制7").append(System.lineSeparator());
+		sb.append("限制8").append(System.lineSeparator());
+		sb.append("限制9").append(System.lineSeparator());
+		sb.append("限制10").append(System.lineSeparator());
+		sb.append("限制11").append(System.lineSeparator());
+//		StaticTableData
+		HtmlStaticTableBuilder builder = new HtmlStaticTableBuilder();
+		builder.headBuider();
+		String[] columns=new String[] {"执行结果"};
+		List<Object[]> rows=new ArrayList<>();
+		String[] split = sb.toString().split(System.lineSeparator());
+		for (String string : split) {
+			rows.add(new Object[] {string});
+		}
+		StaticTableData tableData = TableDataBuilder.newBuilder().columnTitles(columns).rows(rows).build();
+		builder.bodyBuilder().newTableBuilder(tableData);
+		return builder.build();
 	}
 
 	@CustomTableViewAction(path = "/suspectedlist", conditionForm = DevSuspectedBlacklistCo.class, title = "黑名单可疑行为")
@@ -106,6 +134,9 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 	protected PageHolder<DevRegBlacklistVo> list(PageParams pageParams, DevRegBlacklistVo co) {
 		int curPage = pageParams.getCurPage();
 		int limit = pageParams.getLimit();
+        HttpServletRequest request = HttpRequestHolder.getRequest();
+        System.out.println(request);
+        System.out.println(co);
 		PageHolder<DevRegBlacklistVo> pageHolder = blacklistService.pagedBlacklist(co.getSubSerial(),
 				curPage - 1, limit);
 		return pageHolder;

@@ -122,15 +122,17 @@ public class BeanRefectUtils {
 		} else {
 			logger.debugf("parseColumnsfromMap init method= %s", method);
 			final List<TableColumn> cols = new ArrayList<>();
-			for (Entry<Object, Object> entry : dataMap.entrySet()) {
-				TableColumnBuilder tableColumn = TableColumnBuilder.newBuild();
-				String field = String.valueOf(entry.getKey());
-				tableColumn.field(field);
-				tableColumn.align(Align.CENTER.value);
-				tableColumn.title(field);
-				tableColumn.valign(Valign.MIDDLE.value);
-				cols.add(tableColumn.build());
-			}
+            if (CollectionUtils.isNotEmpty(dataMap)) {
+                for (Entry<Object, Object> entry : dataMap.entrySet()) {
+                    TableColumnBuilder tableColumn = TableColumnBuilder.newBuild();
+                    String field = String.valueOf(entry.getKey());
+                    tableColumn.field(field);
+                    tableColumn.align(Align.CENTER.value);
+                    tableColumn.title(field);
+                    tableColumn.valign(Valign.MIDDLE.value);
+                    cols.add(tableColumn.build());
+                }
+            }
 			return cols;
 		}
 	}
@@ -169,6 +171,11 @@ public class BeanRefectUtils {
 					tableColumn.title(view.name());
 					tableColumn.align(view.align().value);
 					tableColumn.valign(view.valign().value);
+					String mapping = view.mapping();
+					if (StringUtils.isNotBlank(mapping)) {
+						String formatter = colMappingFormatterManager.addMappingFormatter(field.getName(), mapping);
+						tableColumn.formatter(formatter);
+					}
 					if ((view.mappingFormatter() != NoneTableColMappingFormatter.class)
 							&& colMappingFormatterManager != null) {
 						String formatter = colMappingFormatterManager.addMappingFormatter(view.mappingFormatter());

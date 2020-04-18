@@ -113,5 +113,11 @@ public class JacksonUtils {
 	public static ObjectMapper getMapper() {
 		return objectMapper;
 	}
+	
+	public static void main(String[] args) {
+		System.out.println(JacksonUtils.parseObject("{1:'1value',2:'2value'}"));
+		System.out.println(JacksonUtils.parseObject("{'1':'1value','2':'2value'}"));
+		System.out.println(JacksonUtils.parseObject("{\"1\":'1value',2:'2value'}"));
+	}
 
 }

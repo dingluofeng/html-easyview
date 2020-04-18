@@ -32,6 +32,7 @@ import com.eason.html.easyview.core.PageHolder;
 import com.eason.html.easyview.core.QueryAction;
 import com.eason.html.easyview.core.ToolBarAction;
 import com.eason.html.easyview.core.WidgetStyle;
+import com.eason.html.easyview.core.WidgetType;
 import com.eason.html.easyview.core.annotations.CustomQueryAction;
 import com.eason.html.easyview.core.annotations.CustomTableViewAction;
 import com.eason.html.easyview.core.annotations.TableItemAction;
@@ -48,6 +49,7 @@ import com.eason.html.easyview.core.logging.LogFactory;
 import com.eason.html.easyview.core.page.SingleTableViewPage;
 import com.eason.html.easyview.core.utils.BeanRefectUtils;
 import com.eason.html.easyview.core.utils.CollectionUtils;
+import com.eason.html.easyview.core.utils.HttpRequestHolder;
 import com.eason.html.easyview.core.utils.ServiceFinder;
 import com.eason.html.easyview.core.utils.StringUtils;
 
@@ -92,11 +94,16 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 		super();
 		this.titleName = titleName;
 		this.toolbarStyle = toolbarStyle;
+		enableDefaultTableItemOpt();
 	}
 
 	protected void enableDefaultTableItemOpt() {
-		tableItemsLinks.add(TableItemLink.of("edit", "编辑", IconStyle.PENCIL, ""));
-		tableItemsLinks.add(TableItemLink.of("remove", "删除", IconStyle.TRASH, ""));
+		if ((WidgetStyle.ADD & toolbarStyle) != 0) {
+			tableItemsLinks.add(TableItemLink.of("edit", "编辑", IconStyle.ICON_PENCIL, ""));
+		}
+		if ((WidgetStyle.DEL & toolbarStyle) != 0) {
+			tableItemsLinks.add(TableItemLink.of("remove", "删除", IconStyle.ICON_TRASH, ""));
+		}
 	}
 
 	private final void buildCustomQueryAction() {
@@ -106,9 +113,6 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 		if (tableViewController != null) {
 			baseUrl = tableViewController.value()[0];
 			pageSize = tableViewController.pageSize();
-			if (tableViewController.showDefaultItemOpt()) {
-				enableDefaultTableItemOpt();
-			}
 		} else {
 			pageSize = 10;
 			RequestMapping mapping = AnnotationUtils.findAnnotation(clazz, RequestMapping.class);
@@ -218,7 +222,8 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 
 	@RequestMapping("/list")
 	@ResponseBody
-	public final TableViewResult listInfos(PageParams pageParams, Co co) {
+    public final TableViewResult listInfos(PageParams pageParams, Co co, HttpServletRequest servletRequest) {
+        HttpRequestHolder.setRequest(servletRequest);
 		try {
 			logger.infof("列表查询请求，pageParams:%s,condition:%s", pageParams, co);
 			PageHolder<Vo> page = list(pageParams, co);
@@ -227,6 +232,8 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 		} catch (Throwable e) {
 			logger.error("获取列表信息失败,page:" + pageParams + ",co:" + co, e);
 			return null;
+        } finally {
+            HttpRequestHolder.resetRequestContext();
 		}
 	}
 
@@ -241,7 +248,8 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 
 	@RequestMapping("/add")
 	@ResponseBody
-	public final TableViewResult addInfo(Vo vo) {
+    public final TableViewResult addInfo(Vo vo, HttpServletRequest servletRequest) {
+        HttpRequestHolder.setRequest(servletRequest);
 		try {
 			logger.infof("添加请求，vo:%s", vo);
 			ResponseResult result = add(vo);
@@ -249,6 +257,8 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 		} catch (Exception e) {
 			logger.error("添加信息失败,vo:" + vo, e);
 			return new TableViewResult(-1, e.getMessage());
+        } finally {
+            HttpRequestHolder.resetRequestContext();
 		}
 	}
 
@@ -264,7 +274,8 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 
 	@RequestMapping("/update")
 	@ResponseBody
-	public final TableViewResult updateInfo(Vo vo) {
+    public final TableViewResult updateInfo(Vo vo, HttpServletRequest servletRequest) {
+        HttpRequestHolder.setRequest(servletRequest);
 		try {
 			logger.infof("更新请求，vo:%s", vo);
 			ResponseResult result = update(vo);
@@ -272,7 +283,9 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 		} catch (Exception e) {
 			logger.error("更新信息失败,vo" + vo, e);
 			return new TableViewResult(-1, e.getMessage());
-		}
+        } finally {
+            HttpRequestHolder.resetRequestContext();
+        }
 	}
 
 	/**
@@ -287,7 +300,8 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 
 	@RequestMapping("/delete")
 	@ResponseBody
-	public final TableViewResult delInfo(String id, String type) {
+    public final TableViewResult delInfo(String id, String type, HttpServletRequest servletRequest) {
+        HttpRequestHolder.setRequest(servletRequest);
 		try {
 			logger.infof("删除请求，id:%s,type:%s", id, type);
 			String[] ids = StringUtils.split(id, ",");
@@ -296,7 +310,9 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 		} catch (Exception e) {
 			logger.error("删除失败,id:" + id + ",type:" + type, e);
 			return new TableViewResult(-1, e.getMessage());
-		}
+        } finally {
+            HttpRequestHolder.resetRequestContext();
+        }
 	}
 
 	/**
@@ -311,7 +327,8 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 
 	@RequestMapping("/fileimport")
 	@ResponseBody
-	public final TableViewResult fileImport_(MultipartHttpServletRequest request) {
+    public final TableViewResult fileImport_(MultipartHttpServletRequest request, HttpServletRequest servletRequest) {
+        HttpRequestHolder.setRequest(servletRequest);
 		MultipartFile multipartFile = request.getFile("file");
 		try {
 			logger.infof("收到上传请求，file:%s", multipartFile.getOriginalFilename());
@@ -320,7 +337,9 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 		} catch (Exception e) {
 			logger.error("上传信息失败,file:" + multipartFile.getOriginalFilename(), e);
 			return new TableViewResult(-1, e.getMessage());
-		}
+        } finally {
+            HttpRequestHolder.resetRequestContext();
+        }
 	}
 
 	protected ResponseResult fileImport(MultipartFile multipartFile) {
@@ -385,8 +404,7 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 		// 自定义argumentResolvers
 		for (HandlerMethodArgumentResolver handlerMethodArgumentResolver : argumentResolvers) {
 			if (handlerMethodArgumentResolver instanceof org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor) {
-				allArgumentResolvers.add(
-						new TableItemActionMethodArgumentResolver(requestMappingHandlerAdapter.getMessageConverters()));
+				allArgumentResolvers.add(new TableItemActionMethodArgumentResolver(requestMappingHandlerAdapter.getMessageConverters()));
 			}
 			allArgumentResolvers.add(handlerMethodArgumentResolver);
 		}

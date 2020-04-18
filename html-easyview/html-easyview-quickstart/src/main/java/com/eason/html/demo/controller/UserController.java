@@ -18,11 +18,11 @@ import com.eason.html.easyview.core.basecontroller.PageParams;
  * @author dingluofeng
  *
  */
-@TableViewController(value = "/user", showDefaultItemOpt = true, pageSize = 20)
+@TableViewController(value = "/user", pageSize = 20)
 public class UserController extends BaseTableViewerController<UserInfoVo, UserInfoVo> {
 
 	public UserController() {
-		super("用户信息", WidgetStyle.IMPORT);
+		super("用户信息1", WidgetStyle.IMPORT);
 		setOnlineResource(false);
 	}
 

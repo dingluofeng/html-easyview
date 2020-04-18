@@ -1,5 +1,9 @@
 package com.eason.html.easyview.core.form.table.formatter;
 
+import java.util.Map;
+
+import com.eason.html.easyview.core.utils.JacksonUtils;
+
 /**
  * <p>
  * </p>
@@ -19,7 +23,8 @@ class CustomMappingFormatter implements TableColMappingFormatter {
 	public CustomMappingFormatter(String functionName, String mapping) {
 		super();
 		this.functionName = functionName;
-		this.mapping = mapping;
+		Map<String, Object> parseObject = JacksonUtils.parseObject(mapping);
+		this.mapping = JacksonUtils.toJsonString(parseObject);
 	}
 
 	/*

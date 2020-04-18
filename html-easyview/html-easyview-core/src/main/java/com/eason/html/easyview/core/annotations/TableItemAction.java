@@ -55,6 +55,6 @@ public @interface TableItemAction {
 	 * 
 	 * @return
 	 */
-	String styleClass() default IconStyle.HAND_DOWN;
+	String styleClass() default IconStyle.ICON_HAND_DOWN;
 
 }

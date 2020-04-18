@@ -15,11 +15,13 @@ import com.eason.html.easyview.core.form.FormInput;
 import com.eason.html.easyview.core.form.provider.WidgetsFactory;
 import com.eason.html.easyview.core.form.table.TableItemLink;
 import com.eason.html.easyview.core.form.table.formatter.NoneTableColMappingFormatter;
+import com.eason.html.easyview.core.form.table.formatter.TableColMappingFormatter;
 import com.eason.html.easyview.core.form.table.formatter.TableColMappingFormatterManager;
 import com.eason.html.easyview.core.form.table.model.TableColumnBuilder.TableColumn;
 import com.eason.html.easyview.core.form.validate.Validate;
 import com.eason.html.easyview.core.utils.BeanRefectUtils;
 import com.eason.html.easyview.core.utils.BeanRefectUtils.FieldCallback;
+import com.eason.html.easyview.core.utils.CollectionUtils;
 import com.eason.html.easyview.core.utils.DefaultFieldFilter;
 import com.eason.html.easyview.core.utils.StringUtils;
 
@@ -59,7 +61,7 @@ public class TableData {
 
 	public final Set<DateTimeInfo> datetimeFields = new HashSet<>();
 
-	public final List<TableItemLink> customItemLinks = new ArrayList<>();
+	private final List<TableItemLink> customItemLinks = new ArrayList<>();
 
 	public List<?> rows;
 
@@ -67,9 +69,10 @@ public class TableData {
 
 	private TableColMappingFormatterManager formatterManager;
 
-	public TableData(Class<?> coClass, Class<?> beanClass, TableColMappingFormatterManager formatterManager) {
+	public TableData(String title,Class<?> coClass, Class<?> beanClass, TableColMappingFormatterManager formatterManager) {
 		super();
 		this.formatterManager = formatterManager;
+		this.tableTitle = title;
 		if (coClass != null) {
 			parseSearch(coClass);
 		}
@@ -127,7 +130,9 @@ public class TableData {
 			escape = easyView.escape();
 			// sortable = easyView.sortable();
 		} else {
-			tableTitle = beanClass.getSimpleName().toLowerCase();
+			if (StringUtils.isBlank(tableTitle)) {
+				tableTitle = beanClass.getSimpleName().toLowerCase();
+			}
 		}
 		BeanRefectUtils.listClassFields(beanClass, new FieldCallback() {
 			@Override
@@ -144,8 +149,14 @@ public class TableData {
 					tableColumn.title(view.name());
 					tableColumn.align(view.align().value);
 					tableColumn.valign(view.valign().value);
-					if ((view.mappingFormatter() != NoneTableColMappingFormatter.class) && formatterManager != null) {
-						String formatter = formatterManager.addMappingFormatter(view.mappingFormatter());
+					Class<? extends TableColMappingFormatter> mappingFormatter = view.mappingFormatter();
+					String mapping = view.mapping();
+					if (StringUtils.isNotBlank(mapping)) {
+						String formatter = formatterManager.addMappingFormatter(field.getName(), mapping);
+						tableColumn.formatter(formatter);
+					}
+					if ((mappingFormatter != NoneTableColMappingFormatter.class) && formatterManager != null) {
+						String formatter = formatterManager.addMappingFormatter(mappingFormatter);
 						tableColumn.formatter(formatter);
 					}
 					String colField = view.field();
@@ -196,9 +207,16 @@ public class TableData {
 				}
 			}
 		}, new DefaultFieldFilter());
-		// itemOpt
-		if (easyView != null && easyView.itemOpt()) {
+	}
+	
+	public void setCustomItemLinks(List<TableItemLink> customItemLinks) {
+		if (CollectionUtils.isNotEmpty(customItemLinks)) {
 			columns.add(TableColumnBuilder.newItemOptColumn());
+			this.customItemLinks.addAll(customItemLinks);
 		}
+	}
+	
+	public List<TableItemLink> getCustomItemLinks(){
+		return this.customItemLinks;
 	}
 }
