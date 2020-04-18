@@ -6,7 +6,7 @@ import java.util.Map;
 import com.eason.html.easyview.core.WidgetType;
 import com.eason.html.easyview.core.annotations.EasyView;
 
-@EasyView(name = "用户信息", sortable = true, itemOpt = true)
+@EasyView(name = "用户信息")
 public class UserInfoVo implements Serializable {
 
 	/**

@@ -22,6 +22,8 @@ public class SingleTableViewPage extends BasePage {
 	private boolean onlineResource = true;
 	
 	private int pageSize = 10;
+	
+	private String title;
 
 	public static void main(String[] args) {
 		new SingleTableViewPage("用户信息表").html("user", Object.class, Object.class);
@@ -30,6 +32,7 @@ public class SingleTableViewPage extends BasePage {
 	public SingleTableViewPage(String title) {
 		super();
 		// set Title
+		this.title = title;
 		setPageTitle(title);
 	}
 
@@ -37,7 +40,7 @@ public class SingleTableViewPage extends BasePage {
 		// build header
 		buildHeader();
 		// BeanTableView
-		TableData tableData = new TableData(coClass, beanClass, colMappingFormatterManager);
+		TableData tableData = new TableData(title, coClass, beanClass, colMappingFormatterManager);
 		tableData.baseUrl = baseUrl;
 		tableData.pageSize = pageSize;
 
@@ -51,8 +54,8 @@ public class SingleTableViewPage extends BasePage {
 			uploadWidgetInfo.setFileExts("txt|xlsx");
 			uploadWidgetInfo.setLimitSize(10240);
 		}
-
-		tableData.customItemLinks.addAll(tableItemsLinks);
+		// setCustomItemLinks
+		tableData.setCustomItemLinks(tableItemsLinks);
 
 		BeanTableView tableView = BeanTableView.build(tableData, getToolbarStyle(), toolItemActions);
 		addBody(tableView);

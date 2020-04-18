@@ -32,6 +32,7 @@ import com.eason.html.easyview.core.PageHolder;
 import com.eason.html.easyview.core.QueryAction;
 import com.eason.html.easyview.core.ToolBarAction;
 import com.eason.html.easyview.core.WidgetStyle;
+import com.eason.html.easyview.core.WidgetType;
 import com.eason.html.easyview.core.annotations.CustomQueryAction;
 import com.eason.html.easyview.core.annotations.CustomTableViewAction;
 import com.eason.html.easyview.core.annotations.TableItemAction;
@@ -93,11 +94,16 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 		super();
 		this.titleName = titleName;
 		this.toolbarStyle = toolbarStyle;
+		enableDefaultTableItemOpt();
 	}
 
 	protected void enableDefaultTableItemOpt() {
-		tableItemsLinks.add(TableItemLink.of("edit", "编辑", IconStyle.ICON_PENCIL, ""));
-		tableItemsLinks.add(TableItemLink.of("remove", "删除", IconStyle.ICON_TRASH, ""));
+		if ((WidgetStyle.ADD & toolbarStyle) != 0) {
+			tableItemsLinks.add(TableItemLink.of("edit", "编辑", IconStyle.ICON_PENCIL, ""));
+		}
+		if ((WidgetStyle.DEL & toolbarStyle) != 0) {
+			tableItemsLinks.add(TableItemLink.of("remove", "删除", IconStyle.ICON_TRASH, ""));
+		}
 	}
 
 	private final void buildCustomQueryAction() {
@@ -107,9 +113,6 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 		if (tableViewController != null) {
 			baseUrl = tableViewController.value()[0];
 			pageSize = tableViewController.pageSize();
-			if (tableViewController.showDefaultItemOpt()) {
-				enableDefaultTableItemOpt();
-			}
 		} else {
 			pageSize = 10;
 			RequestMapping mapping = AnnotationUtils.findAnnotation(clazz, RequestMapping.class);

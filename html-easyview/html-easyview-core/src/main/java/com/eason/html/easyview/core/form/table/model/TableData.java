@@ -21,6 +21,7 @@ import com.eason.html.easyview.core.form.table.model.TableColumnBuilder.TableCol
 import com.eason.html.easyview.core.form.validate.Validate;
 import com.eason.html.easyview.core.utils.BeanRefectUtils;
 import com.eason.html.easyview.core.utils.BeanRefectUtils.FieldCallback;
+import com.eason.html.easyview.core.utils.CollectionUtils;
 import com.eason.html.easyview.core.utils.DefaultFieldFilter;
 import com.eason.html.easyview.core.utils.StringUtils;
 
@@ -60,7 +61,7 @@ public class TableData {
 
 	public final Set<DateTimeInfo> datetimeFields = new HashSet<>();
 
-	public final List<TableItemLink> customItemLinks = new ArrayList<>();
+	private final List<TableItemLink> customItemLinks = new ArrayList<>();
 
 	public List<?> rows;
 
@@ -68,9 +69,10 @@ public class TableData {
 
 	private TableColMappingFormatterManager formatterManager;
 
-	public TableData(Class<?> coClass, Class<?> beanClass, TableColMappingFormatterManager formatterManager) {
+	public TableData(String title,Class<?> coClass, Class<?> beanClass, TableColMappingFormatterManager formatterManager) {
 		super();
 		this.formatterManager = formatterManager;
+		this.tableTitle = title;
 		if (coClass != null) {
 			parseSearch(coClass);
 		}
@@ -128,7 +130,9 @@ public class TableData {
 			escape = easyView.escape();
 			// sortable = easyView.sortable();
 		} else {
-			tableTitle = beanClass.getSimpleName().toLowerCase();
+			if (StringUtils.isBlank(tableTitle)) {
+				tableTitle = beanClass.getSimpleName().toLowerCase();
+			}
 		}
 		BeanRefectUtils.listClassFields(beanClass, new FieldCallback() {
 			@Override
@@ -203,9 +207,16 @@ public class TableData {
 				}
 			}
 		}, new DefaultFieldFilter());
-		// itemOpt
-		if (easyView != null && easyView.itemOpt()) {
+	}
+	
+	public void setCustomItemLinks(List<TableItemLink> customItemLinks) {
+		if (CollectionUtils.isNotEmpty(customItemLinks)) {
 			columns.add(TableColumnBuilder.newItemOptColumn());
+			this.customItemLinks.addAll(customItemLinks);
 		}
+	}
+	
+	public List<TableItemLink> getCustomItemLinks(){
+		return this.customItemLinks;
 	}
 }

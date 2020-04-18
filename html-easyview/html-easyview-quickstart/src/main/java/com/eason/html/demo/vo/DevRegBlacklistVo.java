@@ -5,7 +5,7 @@ import java.io.Serializable;
 import com.eason.html.easyview.core.WidgetType;
 import com.eason.html.easyview.core.annotations.EasyView;
 
-@EasyView(name = "黑名单查询", itemOpt = true,cardView = false,checkbox = true)
+@EasyView(name = "黑名单查询", cardView = false,checkbox = true)
 public class DevRegBlacklistVo implements Serializable {
 	
 	@EasyView(name="设备短序列号")

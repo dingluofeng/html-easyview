@@ -45,7 +45,7 @@ public interface IconStyle {
 
 	String ICON_HAND_DOWN = "glyphicon glyphicon-hand-down";
 
-	String ICON_CHECKED = "lyphicon glyphicon-check";
+	String ICON_CHECKED = "glyphicon glyphicon-check";
 
 	String ICON_UNCHECKED = "glyphicon glyphicon-unchecked";
 

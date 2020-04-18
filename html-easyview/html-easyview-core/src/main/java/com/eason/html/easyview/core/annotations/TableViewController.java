@@ -21,8 +21,6 @@ public @interface TableViewController {
 	@AliasFor(annotation = RequestMapping.class, value = "value")
 	String[] value();
 
-	boolean showDefaultItemOpt() default false;
-	
 	/**
 	 * 默认分页：size 10
 	 * @return

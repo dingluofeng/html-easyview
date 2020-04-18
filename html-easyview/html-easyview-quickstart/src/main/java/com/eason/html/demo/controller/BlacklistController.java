@@ -41,7 +41,7 @@ import com.eason.html.easyview.core.utils.HttpRequestHolder;
  * @author dingluofeng
  *
  */
-@TableViewController(value = "/blacklist", showDefaultItemOpt = true)
+@TableViewController(value = "/blacklist")
 public class BlacklistController extends BaseTableViewerController<DevRegBlacklistVo, DevRegBlacklistVo> {
 
 	@Resource
