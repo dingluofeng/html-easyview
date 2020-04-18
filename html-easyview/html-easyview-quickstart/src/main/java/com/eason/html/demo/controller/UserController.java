@@ -22,7 +22,7 @@ import com.eason.html.easyview.core.basecontroller.PageParams;
 public class UserController extends BaseTableViewerController<UserInfoVo, UserInfoVo> {
 
 	public UserController() {
-		super("用户信息1", WidgetStyle.IMPORT);
+		super("用户信息1", WidgetStyle.IMPORT|WidgetStyle.ADD|WidgetStyle.DEL);
 		setOnlineResource(false);
 	}
 

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.eason.html.easyview.core.statictable.model.StaticTableData;
-import com.eason.html.easyview.core.statictable.model.StaticTableData.TableDataBuilder;
+import com.eason.html.easyview.core.statictable.model.StaticTableData.StaticTableColumn;
+import com.eason.html.easyview.core.statictable.model.StaticTableData.StaticTableRow;
+import com.eason.html.easyview.core.statictable.model.StaticTableData.TableCell;
 import com.eason.html.easyview.core.statictable.tablecss.BoxTablecss;
 import com.eason.html.easyview.core.statictable.tablecss.HorMinimalistTablecss;
 import com.eason.html.easyview.core.statictable.tablecss.HorZebraTablecss;
@@ -24,6 +26,8 @@ import com.eason.html.easyview.core.statictable.tablecss.VerMinimalistTablecss;
  */
 public class HtmlStaticTableBuilder {
 
+	public static final String ENTER_R_N = "\r\n";
+	
 	private final StringBuilder html = new StringBuilder();
 
 	HtmlHeadBiulder htmlHeadBiulder;
@@ -45,14 +49,14 @@ public class HtmlStaticTableBuilder {
 	}
 
 	public String build() {
-		html.append("<html>").append("\r\n");
+		html.append("<html>").append(ENTER_R_N);
 		if (htmlHeadBiulder != null) {
 			html.append(htmlHeadBiulder.build());
 		}
 		if (htmlBodyBiulder != null) {
 			html.append(htmlBodyBiulder.build());
 		}
-		html.append("</html>").append("\r\n");
+		html.append("</html>").append(ENTER_R_N);
 		return html.toString();
 	}
 
@@ -68,7 +72,7 @@ public class HtmlStaticTableBuilder {
 			return this;
 		}
 
-		public String build() {
+		private String build() {
 			return body.build();
 		}
 	}
@@ -77,12 +81,12 @@ public class HtmlStaticTableBuilder {
 
 		private HtmlHead head = new HtmlHead();
 
-		HtmlHeadBiulder title(String title) {
+		public HtmlHeadBiulder title(String title) {
 			head.title = title;
 			return this;
 		}
 
-		public String build() {
+		private String build() {
 			return head.build();
 		}
 
@@ -102,13 +106,13 @@ public class HtmlStaticTableBuilder {
 			return this;
 		}
 
-		public HtmlTableBiulder columns(String[] columns) {
-			table.columns = columns;
+		public HtmlTableBiulder columns(List<StaticTableColumn> tableColumns) {
+			table.columns = tableColumns;
 			return this;
 		}
 
-		public HtmlTableBiulder rows(List<Object[]> rows) {
-			table.rows = rows;
+		public HtmlTableBiulder rows(List<StaticTableRow> tableRows) {
+			table.rows = tableRows;
 			return this;
 		}
 
@@ -130,14 +134,14 @@ public class HtmlStaticTableBuilder {
 
 		String build() {
 			StringBuilder body = new StringBuilder();
-			body.append("<body>").append("\r\n");
+			body.append("<body>").append(ENTER_R_N);
 			for (HtmlTableBiulder tableBiulder : tableBiulders) {
 				if (tableBiulder != null) {
 					body.append(tableBiulder.build());
 				}
-				body.append("<hr style=\"height:1px;border:none;border-top:1px dashed #0066CC;\" />").append("\r\n");
+				body.append("<hr style=\"height:1px;border:none;border-top:1px dashed #0066CC;\" />").append(ENTER_R_N);
 			}
-			body.append("</body>").append("\r\n");
+			body.append("</body>").append(ENTER_R_N);
 			return body.toString();
 		}
 
@@ -151,17 +155,17 @@ public class HtmlStaticTableBuilder {
 
 		String build() {
 			StringBuilder head = new StringBuilder();
-			head.append("<head>").append("\r\n");
-			head.append("<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">").append("\r\n");
+			head.append("<head>").append(ENTER_R_N);
+			head.append("<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">").append(ENTER_R_N);
 			if (title != null) {
-				head.append("<h1>").append("\r\n");
+				head.append("<h1>").append(ENTER_R_N);
 				head.append(title);
-				head.append("</h1>").append("\r\n");
+				head.append("</h1>").append(ENTER_R_N);
 			}
 			if (htmlStyle != null) {
 				head.append(htmlStyle.build());
 			}
-			head.append("</head>").append("\r\n");
+			head.append("</head>").append(ENTER_R_N);
 			return head.toString();
 		}
 
@@ -199,9 +203,9 @@ public class HtmlStaticTableBuilder {
 		String build() {
 			StringBuilder css = new StringBuilder();
 			if (tablecss != null) {
-				css.append("<style type=\"text/css\">").append("\r\n");
+				css.append("<style type=\"text/css\">").append(ENTER_R_N);
 				css.append(tablecss.cssText());
-				css.append("</style>").append("\r\n");
+				css.append("</style>").append(ENTER_R_N);
 			}
 			return css.toString();
 		}
@@ -211,69 +215,83 @@ public class HtmlStaticTableBuilder {
 
 		String tableTitle;
 
-		String[] columns;
+		List<StaticTableColumn> columns;
 
-		List<Object[]> rows;
+		List<StaticTableRow> rows;
 
 		String build() {
+			return buildTable(columns,rows,true);
+		}
+		
+		String buildTable(List<StaticTableColumn> columns,List<StaticTableRow> rows,boolean indexCreate){
 			StringBuilder table = new StringBuilder();
-			table.append("<table class=\"\" style=\"min-width:300px\">").append("\r\n");
+			table.append("<table class=\"\" style=\"min-width:300px;margin:5px;\">").append(ENTER_R_N);
 			if (tableTitle != null) {
 				table.append("<caption>");
 				table.append(tableTitle);
 				table.append("</caption>");
 			}
-			buildTableHead(table);
-			buildTableBody(table);
-			table.append("</table>").append("\r\n");
+			boolean indexed=indexCreate && columns.isEmpty();
+			buildTableHead(table,columns,rows,indexed);
+			buildTableBody(table,rows,indexed);
+			table.append("</table>").append(ENTER_R_N);
 			return table.toString();
 		}
 
-		private final void buildTableBody(StringBuilder table) {
+		private final void buildTableBody(StringBuilder table,List<StaticTableRow> rows,boolean indexCreate) {
 			if (rows == null) {
 				return;
 			}
-			table.append("<tbody>").append("\r\n");
+			table.append("<tbody>").append(ENTER_R_N);
 			int i = 0;
-			for (Object[] rowData : rows) {
+			for (StaticTableRow rowData : rows) {
 				if (i++ % 2 == 0) {
-					table.append("<tr class=\"odd\">").append("\r\n");
+					table.append("<tr class=\"odd\">").append(ENTER_R_N);
 				} else {
-					table.append("<tr>").append("\r\n");
+					table.append("<tr>").append(ENTER_R_N);
 				}
 				// 列索引
-				table.append("<td>");
-				table.append(i);
-				table.append("</td>").append("\r\n");
-
-				for (Object data : rowData) {
+				if (indexCreate) {
 					table.append("<td>");
-					table.append(data);
-					table.append("</td>").append("\r\n");
+					table.append(i);
+					table.append("</td>").append(ENTER_R_N);
 				}
-				table.append("</tr>").append("\r\n");
+
+				for (TableCell data : rowData.tableCells) {
+					table.append("<td>");
+					if (data.value instanceof StaticTableData) {
+						StaticTableData td=(StaticTableData) data.value;
+						table.append(buildTable(td.getColumnTitles(),td.getRows(),false));
+					}else {
+						table.append(data.value);
+					}
+					table.append("</td>").append(ENTER_R_N);
+				}
+				table.append("</tr>").append(ENTER_R_N);
 			}
-			table.append("</tbody>").append("\r\n");
+			table.append("</tbody>").append(ENTER_R_N);
 		}
 
-		private final void buildTableHead(StringBuilder table) {
+		private final void buildTableHead(StringBuilder table,List<StaticTableColumn> columns,List<StaticTableRow> rows,boolean indexCreate) {
 			if (columns == null) {
 				return;
 			}
-			table.append("<thead>").append("\r\n");
-			table.append("<tr>").append("\r\n");
+			table.append("<thead>").append(ENTER_R_N);
+			table.append("<tr>").append(ENTER_R_N);
 			// 列表索引序列
-			table.append("<th scope=\"col\">");
-			table.append("#");
-			table.append("</th>").append("\r\n");
-			// titles
-			for (String col : columns) {
+			if (indexCreate) {
 				table.append("<th scope=\"col\">");
-				table.append(col);
-				table.append("</th>").append("\r\n");
+				table.append("#");
+				table.append("</th>").append(ENTER_R_N);
 			}
-			table.append("</tr>").append("\r\n");
-			table.append("</thead>").append("\r\n");
+			// titles
+			for (StaticTableColumn col : columns) {
+                table.append("<th scope=\"col\"").append(" colspan=\"").append(col.colspan).append("\">");
+				table.append(col.title);
+				table.append("</th>").append(ENTER_R_N);
+			}
+			table.append("</tr>").append(ENTER_R_N);
+			table.append("</thead>").append(ENTER_R_N);
 		}
 	}
 
@@ -289,19 +307,6 @@ public class HtmlStaticTableBuilder {
 		builder.headBuider().title("").tableStyle(htmlStyle);
 		builder.bodyBuilder().newTableBuilder(tableData);
 		return builder.build();
-	}
-
-	public static void main(String[] args) {
-		HtmlStaticTableBuilder builder = new HtmlStaticTableBuilder();
-		builder.headBuider().title("my title").tableStyle(TableStyle.NEWSPAPER_TABLE_STYLE);
-		String[] columns = new String[] { "t1", "t2", "t3" };
-		List<Object[]> rows = new ArrayList<>();
-		for (int i = 0; i < columns.length; i++) {
-			rows.add(new String[] { "value1" + i, "value2" + i, "value3" + i });
-		}
-		StaticTableData tableData = TableDataBuilder.newBuilder().columnTitles(columns).rows(rows).build();
-		builder.bodyBuilder().newTableBuilder(tableData);
-		System.out.println(builder.build());
 	}
 
 }

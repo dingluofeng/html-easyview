@@ -17,5 +17,7 @@ public interface IMessageForm {
 	int LOADING_FORM = 3;
 
 	int MSG_FORM = 4;
+	
+	int VIEW_FORM=5;
 
 }

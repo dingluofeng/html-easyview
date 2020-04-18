@@ -27,10 +27,6 @@ public class BeanTableView extends Node<BeanTableView> {
 		// 查询表单
 		FormComponent formComponent = FormComponent.form(12, tableData.btnPrefix, tableData.searchInputs);
 		beanTableView.add(formComponent);
-		// 没有删除按钮，就不需要table checkbox
-		// if ((toolbarStyle & WiggetStyle.DEL)==0) {
-		// tableData.checkbox=false;
-		// }
 		// toobar
 		ToolBar tableToolbar = ToolBar.tableToolbar(tableData.tableToolbar, tableData.btnPrefix, toolbarStyle, buttons);
 		beanTableView.add(tableToolbar);

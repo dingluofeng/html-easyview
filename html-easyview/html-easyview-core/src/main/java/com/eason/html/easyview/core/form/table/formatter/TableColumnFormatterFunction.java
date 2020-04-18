@@ -57,15 +57,17 @@ public class TableColumnFormatterFunction {
 		script.add(Text.of("}"));
 
 		script.add(Text.of("//自定义列内容"));
-		script.add(Text.of("function genderOpt() {"));
-		script.add(Text.of("    return ["));
-		script.add(Text.of("        ''"));
+		script.add(Text.of("function genderOpt(value, row, index,w,e) {"));
+		script.add(Text.of("     var customview = [];"));
+		
 		// 自定义操作列link
 		List<TableItemLink> itemLinks = tableData.getCustomItemLinks();
 		for (TableItemLink itemLink : itemLinks) {
-			script.add(Text.of("        ,'" + itemLink.buildLink() + "'"));
+			script.add(Text.of("        if(" + itemLink.hideScript + "){"));
+			script.add(Text.of("        	customview.push('" + itemLink.buildLink() + "');"));
+			script.add(Text.of("        }"));
 		}
-		script.add(Text.of("    ].join('');"));
+		script.add(Text.of("    return customview.join('');"));
 		script.add(Text.of("}"));
 
 		script.add(Text.of("//自定义列内容事件"));
@@ -74,7 +76,7 @@ public class TableColumnFormatterFunction {
 		for (TableItemLink itemLink : itemLinks) {
 			if (StringUtils.isNotBlank(itemLink.url())) {
 				script.add(Text.of("    'click #" + itemLink.id() + "': function (e, value, row, index) {"));
-				script.add(Text.of("        customOpt('" + itemLink.title() + "','" + itemLink.url() + "',row);"));
+				script.add(Text.of("        customOpt('" + itemLink.title() + "','" + itemLink.url()+ "'," + itemLink.msgType() + ",row);"));
 				script.add(Text.of("    },"));
 			}
 		}

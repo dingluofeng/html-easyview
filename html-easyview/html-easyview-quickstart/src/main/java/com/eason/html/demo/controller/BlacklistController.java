@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.eason.html.demo.Address;
+import com.eason.html.demo.UserInfo;
 import com.eason.html.demo.co.DevSuspectedBlacklistCo;
 import com.eason.html.demo.service.BlacklistService;
 import com.eason.html.demo.vo.DevRegBlacklistVo;
@@ -30,10 +32,12 @@ import com.eason.html.easyview.core.annotations.ToolItemAction;
 import com.eason.html.easyview.core.basecontroller.BaseTableViewerController;
 import com.eason.html.easyview.core.basecontroller.PageParams;
 import com.eason.html.easyview.core.basecontroller.ResponseResult;
+import com.eason.html.easyview.core.basecontroller.utils.FormViewResult;
 import com.eason.html.easyview.core.statictable.HtmlStaticTableBuilder;
 import com.eason.html.easyview.core.statictable.model.StaticTableData;
 import com.eason.html.easyview.core.statictable.model.StaticTableData.TableDataBuilder;
 import com.eason.html.easyview.core.utils.HttpRequestHolder;
+import com.google.common.collect.Lists;
 
 /**
  * 黑名单列表查询
@@ -52,10 +56,10 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 		setOnlineResource(false);
 	}
 
-	@TableItemAction(path = "/send/limit", title = "限制")
+	@TableItemAction(path = "/send/limit", title = "限制",msgType=IMessageForm.VIEW_FORM,hideScript="row.subSerial=='123456789'")
     public String send(DevRegBlacklistVo vo) {
 		System.out.println(vo);
-		return "Ok";
+		return FormViewResult.formView(Lists.newArrayList(new UserInfo("dingluofeng", 18, Lists.newArrayList(new Address("China","浙江","杭州")))));
 	}
 	
 	@ToolItemAction(path = "/send/limit2", title = "限制2",msgType = IMessageForm.INFO_FORM)
@@ -73,11 +77,11 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 		sb.append("限制4").append(System.lineSeparator());
 		sb.append("限制5").append(System.lineSeparator());
 		sb.append("限制6").append(System.lineSeparator());
-		sb.append("限制7").append(System.lineSeparator());
+		sb.append("\t\t\t\t\t限制7").append(System.lineSeparator());
 		sb.append("限制8").append(System.lineSeparator());
 		sb.append("限制9").append(System.lineSeparator());
-		sb.append("限制10").append(System.lineSeparator());
-		sb.append("限制11").append(System.lineSeparator());
+		sb.append("\t\t\t\t\t限制10").append(System.lineSeparator());
+		sb.append("\t\t\t\t\t限制11").append(System.lineSeparator());
 //		StaticTableData
 		HtmlStaticTableBuilder builder = new HtmlStaticTableBuilder();
 		builder.headBuider();

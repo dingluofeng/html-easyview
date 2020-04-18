@@ -32,7 +32,6 @@ import com.eason.html.easyview.core.PageHolder;
 import com.eason.html.easyview.core.QueryAction;
 import com.eason.html.easyview.core.ToolBarAction;
 import com.eason.html.easyview.core.WidgetStyle;
-import com.eason.html.easyview.core.WidgetType;
 import com.eason.html.easyview.core.annotations.CustomQueryAction;
 import com.eason.html.easyview.core.annotations.CustomTableViewAction;
 import com.eason.html.easyview.core.annotations.TableItemAction;
@@ -151,7 +150,7 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 				title = method.getName();
 			}
 			TableItemLink itemLink = TableItemLink.of(method.getName(), title, tableItemAction.styleClass(),
-					baseUrl + tableItemAction.path()[0]);
+					baseUrl + tableItemAction.path()[0]).msgType(tableItemAction.msgType()).hideScript(tableItemAction.hideScript());
 			checkedUniqId(tableItemsLinks, itemLink);
 			tableItemsLinks.add(itemLink);
 		}
