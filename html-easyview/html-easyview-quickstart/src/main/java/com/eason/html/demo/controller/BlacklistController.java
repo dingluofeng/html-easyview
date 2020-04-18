@@ -73,11 +73,11 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 		sb.append("限制4").append(System.lineSeparator());
 		sb.append("限制5").append(System.lineSeparator());
 		sb.append("限制6").append(System.lineSeparator());
-		sb.append("限制7").append(System.lineSeparator());
+		sb.append("\t\t\t\t\t限制7").append(System.lineSeparator());
 		sb.append("限制8").append(System.lineSeparator());
 		sb.append("限制9").append(System.lineSeparator());
-		sb.append("限制10").append(System.lineSeparator());
-		sb.append("限制11").append(System.lineSeparator());
+		sb.append("\t\t\t\t\t限制10").append(System.lineSeparator());
+		sb.append("\t\t\t\t\t限制11").append(System.lineSeparator());
 //		StaticTableData
 		HtmlStaticTableBuilder builder = new HtmlStaticTableBuilder();
 		builder.headBuider();
