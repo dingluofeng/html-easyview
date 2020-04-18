@@ -3,7 +3,6 @@ package com.eason.html.demo.vo;
 import java.io.Serializable;
 import java.util.Map;
 
-import com.eason.html.demo.vo.mapping.SexFormatter;
 import com.eason.html.easyview.core.WidgetType;
 import com.eason.html.easyview.core.annotations.EasyView;
 
@@ -21,8 +20,7 @@ public class UserInfoVo implements Serializable {
 	@EasyView(name = "住址", columnHidden = true)
 	private String address;
 
-	@EasyView(name = "性别", type = WidgetType.Combo, values = { "-1", "1", "0" }, list = { "全部", "男",
-			"女" }, mappingFormatter = SexFormatter.class)
+	@EasyView(name = "性别", type = WidgetType.Combo, mapping= "{-1:'全部',0:'女',1:'男'}")
 	private String sex;
 
     @EasyView(name = "年龄", type = "Number")

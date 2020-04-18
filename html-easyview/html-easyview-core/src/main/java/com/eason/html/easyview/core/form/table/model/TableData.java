@@ -15,6 +15,7 @@ import com.eason.html.easyview.core.form.FormInput;
 import com.eason.html.easyview.core.form.provider.WidgetsFactory;
 import com.eason.html.easyview.core.form.table.TableItemLink;
 import com.eason.html.easyview.core.form.table.formatter.NoneTableColMappingFormatter;
+import com.eason.html.easyview.core.form.table.formatter.TableColMappingFormatter;
 import com.eason.html.easyview.core.form.table.formatter.TableColMappingFormatterManager;
 import com.eason.html.easyview.core.form.table.model.TableColumnBuilder.TableColumn;
 import com.eason.html.easyview.core.form.validate.Validate;
@@ -144,8 +145,14 @@ public class TableData {
 					tableColumn.title(view.name());
 					tableColumn.align(view.align().value);
 					tableColumn.valign(view.valign().value);
-					if ((view.mappingFormatter() != NoneTableColMappingFormatter.class) && formatterManager != null) {
-						String formatter = formatterManager.addMappingFormatter(view.mappingFormatter());
+					Class<? extends TableColMappingFormatter> mappingFormatter = view.mappingFormatter();
+					String mapping = view.mapping();
+					if (StringUtils.isNotBlank(mapping)) {
+						String formatter = formatterManager.addMappingFormatter(field.getName(), mapping);
+						tableColumn.formatter(formatter);
+					}
+					if ((mappingFormatter != NoneTableColMappingFormatter.class) && formatterManager != null) {
+						String formatter = formatterManager.addMappingFormatter(mappingFormatter);
 						tableColumn.formatter(formatter);
 					}
 					String colField = view.field();

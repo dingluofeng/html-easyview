@@ -96,8 +96,8 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 	}
 
 	protected void enableDefaultTableItemOpt() {
-		tableItemsLinks.add(TableItemLink.of("edit", "编辑", IconStyle.PENCIL, ""));
-		tableItemsLinks.add(TableItemLink.of("remove", "删除", IconStyle.TRASH, ""));
+		tableItemsLinks.add(TableItemLink.of("edit", "编辑", IconStyle.ICON_PENCIL, ""));
+		tableItemsLinks.add(TableItemLink.of("remove", "删除", IconStyle.ICON_TRASH, ""));
 	}
 
 	private final void buildCustomQueryAction() {
@@ -401,8 +401,7 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 		// 自定义argumentResolvers
 		for (HandlerMethodArgumentResolver handlerMethodArgumentResolver : argumentResolvers) {
 			if (handlerMethodArgumentResolver instanceof org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor) {
-				allArgumentResolvers.add(
-						new TableItemActionMethodArgumentResolver(requestMappingHandlerAdapter.getMessageConverters()));
+				allArgumentResolvers.add(new TableItemActionMethodArgumentResolver(requestMappingHandlerAdapter.getMessageConverters()));
 			}
 			allArgumentResolvers.add(handlerMethodArgumentResolver);
 		}

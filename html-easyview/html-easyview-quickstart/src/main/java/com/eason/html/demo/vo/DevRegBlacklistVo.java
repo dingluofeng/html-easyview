@@ -28,6 +28,9 @@ public class DevRegBlacklistVo implements Serializable {
 	private String region;
 
 	private String remark;
+	
+	@EasyView(name = "删除",type=WidgetType.Combo,dataProvider = DeletedDataProvider.class)
+	private Boolean deleted;
 
 	private static final long serialVersionUID = 1L;
 
@@ -97,24 +100,16 @@ public class DevRegBlacklistVo implements Serializable {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("DevRegBlacklistDo [subSerial=");
-		builder.append(subSerial);
-		builder.append(", curSerial=");
-		builder.append(curSerial);
-		builder.append(", preSerial=");
-		builder.append(preSerial);
-		builder.append(", curNatIp=");
-		builder.append(curNatIp);
-		builder.append(", preNatIp=");
-		builder.append(preNatIp);
-		builder.append(", updateTime=");
-		builder.append(updateTime);
-		builder.append(", region=");
-		builder.append(region);
-		builder.append(", remark=");
-		builder.append(remark);
-		builder.append("]");
-		return builder.toString();
+		return "DevRegBlacklistVo [subSerial=" + subSerial + ", curSerial=" + curSerial + ", preSerial=" + preSerial
+				+ ", curNatIp=" + curNatIp + ", preNatIp=" + preNatIp + ", updateTime=" + updateTime + ", region="
+				+ region + ", remark=" + remark + ", deleted=" + deleted + "]";
+	}
+
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 }

@@ -171,6 +171,11 @@ public class BeanRefectUtils {
 					tableColumn.title(view.name());
 					tableColumn.align(view.align().value);
 					tableColumn.valign(view.valign().value);
+					String mapping = view.mapping();
+					if (StringUtils.isNotBlank(mapping)) {
+						String formatter = colMappingFormatterManager.addMappingFormatter(field.getName(), mapping);
+						tableColumn.formatter(formatter);
+					}
 					if ((view.mappingFormatter() != NoneTableColMappingFormatter.class)
 							&& colMappingFormatterManager != null) {
 						String formatter = colMappingFormatterManager.addMappingFormatter(view.mappingFormatter());

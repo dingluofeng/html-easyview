@@ -55,7 +55,7 @@ public @interface ToolItemAction {
 	 * 
 	 * @return
 	 */
-	String styleClass() default IconStyle.STATS;
+	String styleClass() default IconStyle.ICON_STATS;
 
 	/**
 	 * 可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（msg层）

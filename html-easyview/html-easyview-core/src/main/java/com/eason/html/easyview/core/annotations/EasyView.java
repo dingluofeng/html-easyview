@@ -123,6 +123,16 @@ public @interface EasyView {
 	 * @return 是否作为查询条件
 	 */
 	boolean queryCondition() default true;
+	
+	/**
+	 * <p>
+	 * mapping 映射 json字符串
+	 * </p>
+	 * 
+	 * @author DingLuoFeng 2020年4月10日 上午9:53:30
+	 * @return
+	 */
+	String mapping() default "";
 
 	/**
 	 * @return

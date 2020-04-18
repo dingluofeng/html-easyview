@@ -15,7 +15,7 @@ public class ToolBarAction implements IAction {
 
 	private String url;
 
-	private String classStyle = IconStyle.CHECKED;
+	private String classStyle = IconStyle.ICON_CHECKED;
 
 	private String customBtnId;
 

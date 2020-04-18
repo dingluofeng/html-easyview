@@ -28,4 +28,6 @@ public @interface TableViewController {
 	 * @return
 	 */
 	int pageSize() default 10;
+	
+	TableColumns[] columns() default {};
 }

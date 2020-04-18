@@ -48,6 +48,8 @@ public class EasyViewData {
 
 	public boolean queryCondition = false;
 
+	private String mapping;
+
 	public EasyViewData(Field field, EasyView view) {
 		super();
 		this.field = field;
@@ -61,6 +63,7 @@ public class EasyViewData {
 		this.dataProvider = view.dataProvider();
 		this.expandRowView = view.expandRowView();
 		this.queryCondition = view.queryCondition();
+		this.mapping=view.mapping();
 	}
 
 	public EasyViewData(Field field, String type, String name) {
@@ -130,11 +133,17 @@ public class EasyViewData {
 		}
 	}
 
+	public String mapping() {
+		return mapping;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("ViewControl [id=");
-		builder.append(id());
+		builder.append("EasyViewData [field=");
+		builder.append(field);
+		builder.append(", searchView=");
+		builder.append(searchView);
 		builder.append(", type=");
 		builder.append(type);
 		builder.append(", name=");
@@ -145,6 +154,18 @@ public class EasyViewData {
 		builder.append(Arrays.toString(list));
 		builder.append(", dataProvider=");
 		builder.append(dataProvider);
+		builder.append(", validate=");
+		builder.append(validate);
+		builder.append(", readonly=");
+		builder.append(readonly);
+		builder.append(", dateRange=");
+		builder.append(dateRange);
+		builder.append(", expandRowView=");
+		builder.append(expandRowView);
+		builder.append(", queryCondition=");
+		builder.append(queryCondition);
+		builder.append(", mapping=");
+		builder.append(mapping);
 		builder.append("]");
 		return builder.toString();
 	}
