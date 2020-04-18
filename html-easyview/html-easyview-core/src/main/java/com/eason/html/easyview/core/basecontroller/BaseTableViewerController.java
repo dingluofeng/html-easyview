@@ -32,7 +32,6 @@ import com.eason.html.easyview.core.PageHolder;
 import com.eason.html.easyview.core.QueryAction;
 import com.eason.html.easyview.core.ToolBarAction;
 import com.eason.html.easyview.core.WidgetStyle;
-import com.eason.html.easyview.core.WidgetType;
 import com.eason.html.easyview.core.annotations.CustomQueryAction;
 import com.eason.html.easyview.core.annotations.CustomTableViewAction;
 import com.eason.html.easyview.core.annotations.TableItemAction;
