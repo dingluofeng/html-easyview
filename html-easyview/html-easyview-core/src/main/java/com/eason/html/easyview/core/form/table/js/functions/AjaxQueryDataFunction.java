@@ -68,7 +68,7 @@ public class AjaxQueryDataFunction {
 		script.add(Text.of("}"));
 		
 		script.add(Text.of("//ajax 远程查询"));
-		script.add(Text.of("function showJsonQueryForm(url,querydata) {"));
+		script.add(Text.of("function showJsonQueryForm(url,querydata,callback) {"));
 		script.add(Text.of("  $.ajax({"));
 		script.add(Text.of("      url: url,"));
 		script.add(Text.of("      method: 'post',"));
@@ -80,6 +80,7 @@ public class AjaxQueryDataFunction {
 		script.add(Text.of("          if (msg.status==0||msg.status==200) {"));
 		script.add(Text.of("          	  if (msg.type==4) {"));
 		script.add(Text.of("              	 layer.msg(msg.msg, {icon: 1, time: 1500});"));
+		script.add(Text.of("          		 callback();"));
 		script.add(Text.of("              }else{"));
 		script.add(Text.of("      			 var msgtype = msg.type ==5?0:msg.type;"));
 		script.add(Text.of("              	 layer.open({type: msgtype,title: msg.title,shadeClose: true,shade: 0.3,"));

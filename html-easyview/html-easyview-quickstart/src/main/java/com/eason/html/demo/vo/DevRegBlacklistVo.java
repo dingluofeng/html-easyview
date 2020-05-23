@@ -29,7 +29,7 @@ public class DevRegBlacklistVo implements Serializable {
 
 	private String remark;
 	
-	@EasyView(name = "删除",type=WidgetType.Combo,dataProvider = DeletedDataProvider.class)
+	@EasyView(name = "删除",type=WidgetType.Combo,dataProvider = DeletedDataProvider.class,formInput=false)
 	private Boolean deleted;
 
 	private static final long serialVersionUID = 1L;

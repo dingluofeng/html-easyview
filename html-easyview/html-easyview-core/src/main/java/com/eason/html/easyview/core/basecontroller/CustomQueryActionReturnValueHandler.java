@@ -68,9 +68,6 @@ public class CustomQueryActionReturnValueHandler implements HandlerMethodReturnV
 		try {
 			writer = response.getWriter();
 			TableViewResult tableViewResult = null;
-			if (returnValue instanceof TableViewResult) {
-				tableViewResult=(TableViewResult) returnValue;
-			}else{
 				Annotation[] methodAnnotations = returnType.getMethodAnnotations();
 				for (Annotation annotation : methodAnnotations) {
 					if (annotation instanceof TableItemAction || annotation instanceof ToolItemAction) {
@@ -91,7 +88,11 @@ public class CustomQueryActionReturnValueHandler implements HandlerMethodReturnV
 						tableViewResult.setMsgTitle(title);
 						tableViewResult.setArea(area);
 					} else {
-						tableViewResult = new TableViewResult();
+						if (returnValue instanceof TableViewResult) {
+							tableViewResult=(TableViewResult) returnValue;
+						}else{
+							tableViewResult = new TableViewResult();
+						}
 						Method method = returnType.getMethod();
 						TableInfo tableInfo = null;
 						// 判断返回原始数据类型
@@ -105,11 +106,19 @@ public class CustomQueryActionReturnValueHandler implements HandlerMethodReturnV
 						if (List.class.isAssignableFrom(returnType.getParameterType())) {
 							List<?> listValues = (List<?>) returnValue;
 							tableInfo = new TableInfo(listValues, columns);
-							tableViewResult.setTotal(listValues.size());
+							tableViewResult.setTotal(listValues==null?0:listValues.size());
 						}else if(PageHolder.class.isAssignableFrom(returnType.getParameterType())){
-							PageHolder<?> value=(PageHolder<?>) returnValue;
-							tableViewResult.setTotal(value.total);
-							tableInfo = new TableInfo((List<?>) value.records, columns);
+							PageHolder<?> pageHolder=(PageHolder<?>) returnValue;
+							int total=0;
+							List<?> records = null;
+							if (pageHolder!=null) {
+								total=pageHolder.total;
+								records = (List<?>) pageHolder.records;
+							}else{
+								records= new ArrayList<>();
+							}
+							tableViewResult.setTotal(total);
+							tableInfo = new TableInfo(records, columns);
 						} else {
 							List<Object> ret = new ArrayList<>();
 							if (returnValue != null) {
@@ -125,7 +134,6 @@ public class CustomQueryActionReturnValueHandler implements HandlerMethodReturnV
 						tableViewResult.setData(tableInfo);
 					}
 				}
-			}
 			writer.print(JacksonUtils.toJsonString(tableViewResult));
 			writer.flush();
 		} catch (Exception e) {

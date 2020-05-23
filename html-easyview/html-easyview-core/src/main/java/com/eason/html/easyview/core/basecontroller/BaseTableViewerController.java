@@ -233,8 +233,13 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 		try {
 			logger.infof("列表查询请求，pageParams:%s,condition:%s", pageParams, co);
 			PageHolder<Vo> page = list(pageParams, co);
-			int total = page.total;
-			return new TableViewResult(0, total, page.records);
+			int total =0;
+			List<Vo> records =null;
+			if (page!=null) {
+				total = page.total;
+				records = page.records;
+			}
+			return new TableViewResult(0, total, records);
 		} catch (Throwable e) {
 			logger.error("获取列表信息失败,page:" + pageParams + ",co:" + co, e);
 			return null;

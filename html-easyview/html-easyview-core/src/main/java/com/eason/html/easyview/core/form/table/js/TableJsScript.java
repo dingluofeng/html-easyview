@@ -196,7 +196,7 @@ public class TableJsScript {
 		script.add(Text.of("    } else {"));
 		script.add(Text.of("    	layer.confirm('确定要执行' + text+ '操作?', {icon: 3, title: 'Confirm'}, function () {"));
 		script.add(Text.of("	  		//showJsonQueryForm"));
-		script.add(Text.of("      		showJsonQueryForm(url,data);"));
+		script.add(Text.of("      		showJsonQueryForm(url,data,refresh);"));
 		script.add(Text.of("    	});"));
 		script.add(Text.of("    }"));
 		script.add(Text.of("}"));
