@@ -1,9 +1,12 @@
 package com.eason.html.easyview.core.form.table.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.eason.html.easyview.core.DateTimeInfo;
+import com.eason.html.easyview.core.form.FormInput;
 
 /**
  * <p>
@@ -17,8 +20,26 @@ import com.eason.html.easyview.core.DateTimeInfo;
  */
 public class SearchWidgetInfo {
 
+	public String searchBtn;
+	
 	public String searchHtml = "";
+	
+	public final List<FormInput<?>> searchInputs = new ArrayList<>();
 
 	public final Set<DateTimeInfo> datetimeFields = new HashSet<>();
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("SearchWidgetInfo [searchBtn=");
+		builder.append(searchBtn);
+		builder.append(", searchHtml=");
+		builder.append(searchHtml);
+		builder.append(", searchInputs=");
+		builder.append(searchInputs);
+		builder.append(", datetimeFields=");
+		builder.append(datetimeFields);
+		builder.append("]");
+		return builder.toString();
+	}
 }

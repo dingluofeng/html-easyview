@@ -67,5 +67,5 @@ public @interface TableItemAction {
 	
 	String area() default "['auto','auto']";
 
-	String hideScript() default "true";
+	String hideScript() default "false";
 }

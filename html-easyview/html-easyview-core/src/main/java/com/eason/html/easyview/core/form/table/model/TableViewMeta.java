@@ -15,19 +15,16 @@ import com.eason.html.easyview.core.utils.BeanRefectUtils;
  * @author dingluofeng
  *
  */
-public class TableInfo {
+public class TableViewMeta {
 
 	public final List<TableColumn> columns;
 
-	public List<?> data;
-
 	public String searchHtml = "";
 
-	public final Set<DateTimeInfo> datetimeFields = new HashSet<>();
+	public Set<DateTimeInfo> datetimeFields = new HashSet<>();
 
-	public TableInfo(List<?> data, List<TableColumn> columns) {
+	public TableViewMeta(List<TableColumn> columns) {
 		super();
-		this.data = data;
 		this.columns = columns;
 	}
 
@@ -36,13 +33,6 @@ public class TableInfo {
 	 */
 	public List<TableColumn> getColumns() {
 		return columns;
-	}
-
-	/**
-	 * @return the data
-	 */
-	public List<?> getData() {
-		return data;
 	}
 
 	/**
@@ -65,8 +55,6 @@ public class TableInfo {
 		StringBuilder builder = new StringBuilder();
 		builder.append("TableInfo [columns=");
 		builder.append(columns);
-		builder.append(", data=");
-		builder.append(data);
 		builder.append(", searchHtml=");
 		builder.append(searchHtml);
 		builder.append(", datetimeFields=");

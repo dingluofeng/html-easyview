@@ -7,11 +7,11 @@ import com.eason.html.easyview.core.form.CustomButton;
 import com.eason.html.easyview.core.form.FormInput;
 import com.eason.html.easyview.core.form.ToolItemButton;
 import com.eason.html.easyview.core.form.table.formatter.TableColMappingFormatter;
-import com.eason.html.easyview.core.form.table.formatter.TableColumnFormatterFunction;
 import com.eason.html.easyview.core.form.table.js.functions.AjaxQueryDataFunction;
 import com.eason.html.easyview.core.form.table.js.functions.BeanTableViewInitFunction;
 import com.eason.html.easyview.core.form.table.js.functions.CustomButtonOnClickEventFunction;
 import com.eason.html.easyview.core.form.table.js.functions.ShowCustomDataTableFunction;
+import com.eason.html.easyview.core.form.table.js.functions.TableColumnFormatterFunction;
 import com.eason.html.easyview.core.form.table.model.TableData;
 import com.eason.html.easyview.core.form.table.model.UploadWidgetInfo;
 import com.eason.html.easyview.core.form.validate.Validate;
@@ -21,7 +21,7 @@ import com.eason.html.easyview.core.widget.Script;
 import com.eason.html.easyview.core.widget.Text;
 
 public class TableJsScript {
-
+	
 	public static Script of(TableData tableData, UploadWidgetInfo uploadWidgetInfo,
 			List<ToolItemButton> toolItemActions, List<CustomButton> customBtns,
 			List<TableColMappingFormatter> columnFormatters) {
@@ -30,7 +30,8 @@ public class TableJsScript {
 		Script script = Script.of();
 		script.add(Text.of("var $table = $('#" + tableId + "');"));
 		script.add(Text.of("//bootstrapTable使用中文"));
-		script.add(Text.of("$.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['zh-CN']);"));
+		script.add(Text.of("var lang = getLanguage();"));
+		script.add(Text.of("$.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales[lang]);"));
 		script.add(Text.of("//防止表头与表格不对齐"));
 		script.add(Text.of("$(window).resize(function () {"));
 		script.add(Text.of("    $table.bootstrapTable('resetView');"));
@@ -48,6 +49,22 @@ public class TableJsScript {
 		// url table column Formatter
 		TableColumnFormatterFunction.columnFormatterFunction(script, tableData, columnFormatters);
 
+		script.add(Text.of("// 获取浏览器语言"));
+		script.add(Text.of("function getLanguage() {"));
+		script.add(Text.of("   //常规浏览器语言和IE浏览器"));
+		script.add(Text.of("   var baseLang = navigator.language||navigator.userLanguage;"));
+		script.add(Text.of("   baseLang = baseLang.substr(0, 2);//截取lang前2位字符"));
+		script.add(Text.of("   console.log(baseLang);"));
+		script.add(Text.of("   switch(baseLang){"));
+		script.add(Text.of("      case \"en\": "));
+		script.add(Text.of("      	return 'en-US';"));
+		script.add(Text.of("      case \"zh\": "));
+		script.add(Text.of("      	return 'zh-CN';"));
+		script.add(Text.of("      default: "));
+		script.add(Text.of("      	return 'en-US';"));
+		script.add(Text.of("   }"));
+		script.add(Text.of("}"));
+		
 		script.add(Text.of("// 查询条件与分页数据"));
 		script.add(Text.of("function queryParams(params) {"));
 		script.add(Text.of("    //第几页"));
@@ -252,4 +269,5 @@ public class TableJsScript {
 		}
 		return script;
 	}
+	
 }

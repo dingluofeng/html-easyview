@@ -88,7 +88,7 @@ public class BeanTableViewInitFunction {
 		script.add(Text.of("        //初始化加载第1页，默认第1页"));
 		script.add(Text.of("        pageNumber: 1,"));
 		script.add(Text.of("        //可供选择的每页的行数"));
-		// script.add(Text.of(" pageList: \"[10, 25, 50, 80, 100]\","));
+		script.add(Text.of(" pageList: \"[10, 25, 50, 80, 100]\","));
 //        script.add(Text.of("        paginationFirstText: \"首页\","));
 //        script.add(Text.of("        paginationPreText: \"上一页\","));
 //        script.add(Text.of("        paginationNextText: \"下一页\","));
