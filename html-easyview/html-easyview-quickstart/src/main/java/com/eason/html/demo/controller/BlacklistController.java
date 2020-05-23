@@ -33,7 +33,6 @@ import com.eason.html.easyview.core.basecontroller.BaseTableViewerController;
 import com.eason.html.easyview.core.basecontroller.PageParams;
 import com.eason.html.easyview.core.basecontroller.ResponseResult;
 import com.eason.html.easyview.core.basecontroller.utils.FormViewResult;
-import com.eason.html.easyview.core.form.table.model.TableViewResult;
 import com.eason.html.easyview.core.statictable.HtmlStaticTableBuilder;
 import com.eason.html.easyview.core.statictable.model.StaticTableData;
 import com.eason.html.easyview.core.statictable.model.StaticTableData.TableDataBuilder;
