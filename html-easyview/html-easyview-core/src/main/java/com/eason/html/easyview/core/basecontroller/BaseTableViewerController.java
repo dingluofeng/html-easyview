@@ -42,6 +42,7 @@ import com.eason.html.easyview.core.form.ToolItemButton;
 import com.eason.html.easyview.core.form.table.TableItemLink;
 import com.eason.html.easyview.core.form.table.formatter.TableColMappingFormatter;
 import com.eason.html.easyview.core.form.table.formatter.TableColMappingFormatterManager;
+import com.eason.html.easyview.core.form.table.model.TableColumnBuilder.TableColumn;
 import com.eason.html.easyview.core.form.table.model.TableViewResult;
 import com.eason.html.easyview.core.logging.Log;
 import com.eason.html.easyview.core.logging.LogFactory;
@@ -164,8 +165,14 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 		if (StringUtils.isBlank(id)) {
 			id = method.getName();
 		}
-		BeanRefectUtils.parseColumns(method, colMappingFormatterManager);
+		List<TableColumn> viewColumns = BeanRefectUtils.parseColumns(method, colMappingFormatterManager);
+		if (CollectionUtils.isEmpty(viewColumns)) {
+			throw new IllegalArgumentException(method.getDeclaringClass().getSimpleName() + "." + method.getName()
+					+ "找不到表格类定义，请使用@TableColumns标注展示列");
+		}
+		
 		QueryAction queryAction = new QueryAction(id, customQueryAction.title(), baseUrl + customQueryAction.path()[0]);
+		queryAction.setViewColumns(viewColumns);
 		Class<?> conditionForm = customQueryAction.conditionForm();
 		if (conditionForm != Object.class) {
 			queryAction.setSearchCondition(conditionForm);

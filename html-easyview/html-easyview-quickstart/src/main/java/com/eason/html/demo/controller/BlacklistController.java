@@ -33,6 +33,7 @@ import com.eason.html.easyview.core.basecontroller.BaseTableViewerController;
 import com.eason.html.easyview.core.basecontroller.PageParams;
 import com.eason.html.easyview.core.basecontroller.ResponseResult;
 import com.eason.html.easyview.core.basecontroller.utils.FormViewResult;
+import com.eason.html.easyview.core.form.table.model.TableViewResult;
 import com.eason.html.easyview.core.statictable.HtmlStaticTableBuilder;
 import com.eason.html.easyview.core.statictable.model.StaticTableData;
 import com.eason.html.easyview.core.statictable.model.StaticTableData.TableDataBuilder;
@@ -56,7 +57,7 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 		setOnlineResource(false);
 	}
 
-	@TableItemAction(path = "/send/limit", title = "限制",msgType=IMessageForm.VIEW_FORM,hideScript="row.subSerial=='123456789'")
+	@TableItemAction(path = "/send/limit", title = "限制",msgType=IMessageForm.VIEW_FORM, hideScript="row.subSerial=='123456790'")
     public String send(DevRegBlacklistVo vo) {
 		System.out.println(vo);
 		return FormViewResult.formView(Lists.newArrayList(new UserInfo("dingluofeng", 18, Lists.newArrayList(new Address("China","浙江","杭州")))));
@@ -97,10 +98,12 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 	}
 
 	@CustomTableViewAction(path = "/suspectedlist", conditionForm = DevSuspectedBlacklistCo.class, title = "黑名单可疑行为")
-	public List<DevSuspectedBlacklistVo> suspectedlist(DevRegBlacklistVo co, DevSuspectedBlacklistCo uc) {
-		System.out.println("custom:" + co);
-		System.out.println("custom:" + uc);
-		return blacklistService.pagedSuspectedBlacklist(co.getSubSerial(), uc.getRegTime(), 0, 20);
+	public PageHolder<DevSuspectedBlacklistVo> suspectedlist(PageParams pageParams,DevRegBlacklistVo co, DevSuspectedBlacklistCo uc) {
+		System.out.println("custom，pageParams:" + pageParams);
+		System.out.println("custom，DevRegBlacklistVo:" + co);
+		System.out.println("custom，DevSuspectedBlacklistCo:" + uc);
+		List<DevSuspectedBlacklistVo> pagedSuspectedBlacklist = blacklistService.pagedSuspectedBlacklist(co.getSubSerial(), uc.getRegTime(), pageParams.getCurPage()-1, pageParams.getLimit());
+		return PageHolder.pageList(50, pagedSuspectedBlacklist);
 	}
 
 	@CustomTableViewAction(path = "/mapped", title = "map测试")

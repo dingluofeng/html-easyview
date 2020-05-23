@@ -28,7 +28,7 @@ public class TableItemLink implements IAction {
 	
 	int msgType = IMessageForm.MSG_FORM;
 	
-	public String hideScript = "true";
+	public String hideScript = "false";
 
 	private TableItemLink(String id, String href, String title, String classStyle, String url) {
 		super();

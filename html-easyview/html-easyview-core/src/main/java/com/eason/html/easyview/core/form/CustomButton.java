@@ -64,4 +64,8 @@ public class CustomButton extends Node<CustomButton> {
 		return "CustomButton [queryAction=" + queryAction + "]";
 	}
 
+	public QueryAction getQueryAction() {
+		return queryAction;
+	}
+
 }

@@ -3,19 +3,15 @@
  */
 package com.eason.html.easyview.core;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 
-import com.eason.html.easyview.core.annotations.EasyView;
-import com.eason.html.easyview.core.annotations.EasyViewData;
-import com.eason.html.easyview.core.form.DatetimeInput;
 import com.eason.html.easyview.core.form.FormInput;
-import com.eason.html.easyview.core.form.provider.WidgetsFactory;
+import com.eason.html.easyview.core.form.table.model.SearchWidgetInfo;
+import com.eason.html.easyview.core.form.table.model.TableColumnBuilder.TableColumn;
+import com.eason.html.easyview.core.form.table.model.TableViewMeta;
 import com.eason.html.easyview.core.utils.BeanRefectUtils;
-import com.eason.html.easyview.core.utils.BeanRefectUtils.FieldCallback;
-import com.eason.html.easyview.core.utils.DefaultFieldFilter;
-import com.eason.html.easyview.core.utils.StringUtils;
+import com.eason.html.easyview.core.utils.JacksonUtils;
+import com.google.common.collect.Lists;
 
 /**
  * @author dingluofeng
@@ -29,13 +25,11 @@ public class QueryAction implements IAction {
 
 	private String url;
 
-	private Class<?> searchCondition;
-
 	private String customBtnId;
 
-	private List<FormInput<?>> searchInputs = new ArrayList<>();
-
-	private List<DateTimeInfo> datetimeFields = new ArrayList<>();
+	private SearchWidgetInfo searchWidgetInfo;
+	
+	private List<TableColumn> viewColumns;
 
 	public QueryAction(String id, String name, String url) {
 		super();
@@ -69,49 +63,42 @@ public class QueryAction implements IAction {
 	}
 
 	public void setSearchCondition(Class<?> searchCondition) {
-		this.searchCondition = searchCondition;
 		parseSearchForm(searchCondition);
 	}
 
 	private final void parseSearchForm(Class<?> beanClass) {
-		String btnPrefix = beanClass.getSimpleName().toLowerCase();
-		customBtnId = btnPrefix + "_custom_btn_search";
-		BeanRefectUtils.listClassFields(beanClass, new FieldCallback() {
-			@Override
-			public void doWith(Field field, Object fieldValue) {
-				EasyView view = field.getAnnotation(EasyView.class);
-				EasyViewData viewData = null;
-				if (view != null) {
-					String colField = view.field();
-					if (StringUtils.isBlank(colField)) {
-						colField = field.getName();
-					}
-					viewData = new EasyViewData(field, view);
-				} else {
-					if (field.getType().isPrimitive() || Number.class.isAssignableFrom(field.getType())) {
-						viewData = new EasyViewData(field, "Number", field.getName());
-					} else {
-						viewData = new EasyViewData(field, "Text", field.getName());
-					}
-				}
-				if (viewData.queryCondition) {
-					viewData.searchView = true;
-					FormInput<?> formInput = WidgetsFactory.getInstance().create(field, fieldValue, viewData);
-					searchInputs.add(formInput);
-					if (formInput instanceof DatetimeInput) {
-						String type = ((DatetimeInput) formInput).type();
-						DateTimeInfo dateTimeInfo = new DateTimeInfo(formInput.getId(), type, viewData.dateRange);
-						datetimeFields.add(dateTimeInfo);
-					}
-				}
-			}
-		}, new DefaultFieldFilter());
+		searchWidgetInfo = BeanRefectUtils.parseSearchForm(beanClass);
+		if (searchWidgetInfo != null) {
+			customBtnId = searchWidgetInfo.searchBtn;
+		}
+	}
+	
+	public String getJsonTableMeta(){
+		TableViewMeta tableViewMeta=new TableViewMeta(viewColumns);
+		if (searchWidgetInfo!=null) {
+			tableViewMeta.searchHtml=searchWidgetInfo.searchHtml;
+			tableViewMeta.datetimeFields=searchWidgetInfo.datetimeFields;
+		}
+		return JacksonUtils.toJsonString(tableViewMeta);
 	}
 
 	@Override
 	public String toString() {
-		return "QueryAction [id=" + id + ", name=" + name + ", url=" + url + ", searchCondition=" + searchCondition
-				+ "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("QueryAction [id=");
+		builder.append(id);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", url=");
+		builder.append(url);
+		builder.append(", customBtnId=");
+		builder.append(customBtnId);
+		builder.append(", searchWidgetInfo=");
+		builder.append(searchWidgetInfo);
+		builder.append(", viewColumns=");
+		builder.append(viewColumns);
+		builder.append("]");
+		return builder.toString();
 	}
 
 	public String getCustomBtnId() {
@@ -119,11 +106,33 @@ public class QueryAction implements IAction {
 	}
 
 	public List<FormInput<?>> getSearchInputs() {
-		return searchInputs;
+		if (searchWidgetInfo==null) {
+			return  Lists.newArrayList();
+		}
+		return Lists.newArrayList(searchWidgetInfo.searchInputs);
 	}
 
 	public List<DateTimeInfo> getDatetimeFields() {
-		return datetimeFields;
+		if (searchWidgetInfo==null) {
+			return  Lists.newArrayList();
+		}
+		return Lists.newArrayList(searchWidgetInfo.datetimeFields);
+	}
+
+	public SearchWidgetInfo getSearchWidgetInfo() {
+		return searchWidgetInfo;
+	}
+
+	public void setSearchWidgetInfo(SearchWidgetInfo searchWidgetInfo) {
+		this.searchWidgetInfo = searchWidgetInfo;
+	}
+
+	public List<TableColumn> getViewColumns() {
+		return viewColumns;
+	}
+
+	public void setViewColumns(List<TableColumn> viewColumns) {
+		this.viewColumns = viewColumns;
 	}
 
 }
