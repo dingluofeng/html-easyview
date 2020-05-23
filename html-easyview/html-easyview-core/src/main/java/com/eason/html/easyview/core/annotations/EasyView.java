@@ -171,4 +171,10 @@ public @interface EasyView {
 	 */
 	boolean cardView() default false;
 
+	/**
+	 * 是否需要Form对象输入控件，默认true
+	 * @return
+	 */
+	boolean formInput() default true;
+
 }

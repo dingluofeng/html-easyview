@@ -50,6 +50,8 @@ public class EasyViewData {
 
 	private String mapping;
 
+	public boolean formInput = true;
+
 	public EasyViewData(Field field, EasyView view) {
 		super();
 		this.field = field;
@@ -64,6 +66,7 @@ public class EasyViewData {
 		this.expandRowView = view.expandRowView();
 		this.queryCondition = view.queryCondition();
 		this.mapping=view.mapping();
+		this.formInput=view.formInput();
 	}
 
 	public EasyViewData(Field field, String type, String name) {

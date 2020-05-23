@@ -198,7 +198,9 @@ public class TableData {
 					if (control.readonly || StringUtils.equalsIgnoreCase(uniqueId, field.getName())) {
 						formInput.readonly(true);
 					}
-					formInputs.add(formInput);
+					if (control.formInput) {
+						formInputs.add(formInput);
+					}
 					if (formInput instanceof DatetimeInput) {
 						String type = ((DatetimeInput) formInput).type();
 						DateTimeInfo dateTimeInfo = new DateTimeInfo(formInput.getId(), type, control.dateRange);
