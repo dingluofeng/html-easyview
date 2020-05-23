@@ -3,6 +3,8 @@
  */
 package com.eason.html.easyview.core.form.table.js.functions;
 
+import java.util.List;
+
 import com.eason.html.easyview.core.form.table.model.TableColumnBuilder.TableColumn;
 import com.eason.html.easyview.core.form.table.model.TableData;
 import com.eason.html.easyview.core.utils.StringUtils;
@@ -86,7 +88,7 @@ public class BeanTableViewInitFunction {
 		script.add(Text.of("        //初始化加载第1页，默认第1页"));
 		script.add(Text.of("        pageNumber: 1,"));
 		script.add(Text.of("        //可供选择的每页的行数"));
-		// script.add(Text.of(" pageList: \"[10, 25, 50, 80, 100]\","));
+		script.add(Text.of(" pageList: \"[10, 25, 50, 80, 100]\","));
 //        script.add(Text.of("        paginationFirstText: \"首页\","));
 //        script.add(Text.of("        paginationPreText: \"上一页\","));
 //        script.add(Text.of("        paginationNextText: \"下一页\","));
@@ -100,39 +102,14 @@ public class BeanTableViewInitFunction {
 		script.add(Text.of("            refresh: 'glyphicon-refresh icon-refresh',"));
 		script.add(Text.of("            toggleOff: 'glyphicon-list-alt icon-list-alt',"));
 		script.add(Text.of("            toggleOn: 'glyphicon-list-alt icon-list-alt',"));
-		// script.add(Text.of(" toggle: 'glyphicon-list-alt icon-list-alt',"));
 		script.add(Text.of("            columns: 'glyphicon-th icon-th',"));
 		script.add(Text.of("            detailOpen: 'glyphicon-plus icon-plus',"));
 		script.add(Text.of("            detailClose: 'glyphicon-minus icon-minus'"));
 		script.add(Text.of("        }, columns: ["));
-
-		int index = 0;
-		for (TableColumn tableColumn : tableData.columns) {
-			script.add(Text.of("        {"));
-			script.add(Text.of("            title: '" + tableColumn.title + "',"));
-			// checkbox
-			if (tableColumn.checkbox) {
-				script.add(Text.of("            checkbox: " + tableColumn.checkbox + ","));
-			}
-			script.add(Text.of("            field: '" + tableColumn.field + "',"));
-			script.add(Text.of("            sortable: '" + tableColumn.sortable + "',"));
-			script.add(Text.of("            align: '" + tableColumn.align + "',"));
-			// events
-			if (StringUtils.isNotBlank(tableColumn.events)) {
-				script.add(Text.of("            events: " + tableColumn.events + ","));
-			}
-			// formatter
-			if (StringUtils.isNotBlank(tableColumn.formatter)) {
-				script.add(Text.of("            formatter: " + tableColumn.formatter + ","));
-			}
-			script.add(Text.of("            valign: '" + tableColumn.valign + "'"));
-			if (++index < tableData.columns.size()) {
-				script.add(Text.of("        },"));
-			} else {
-				script.add(Text.of("        }"));
-			}
-		}
+		//buildColumns
+		buildColumns(script, tableData.columns);
 		script.add(Text.of("        ],"));
+		//responseHandler
 		script.add(Text.of("        responseHandler: function (res) {"));
 		script.add(Text.of("            if (res.status == 0||res.status == 200) {"));
 		script.add(Text.of("                var obj = {"));
@@ -161,6 +138,35 @@ public class BeanTableViewInitFunction {
 		script.add(Text.of("        }"));
 		script.add(Text.of("    })"));
 		script.add(Text.of("}"));
+	}
+	
+	private static void buildColumns(Script script, List<TableColumn> columns){
+		int index = 0;
+		for (TableColumn tableColumn : columns) {
+			script.add(Text.of("        {"));
+			script.add(Text.of("            title: '" + tableColumn.title + "',"));
+			// checkbox
+			if (tableColumn.checkbox) {
+				script.add(Text.of("            checkbox: " + tableColumn.checkbox + ","));
+			}
+			script.add(Text.of("            field: '" + tableColumn.field + "',"));
+			script.add(Text.of("            sortable: '" + tableColumn.sortable + "',"));
+			script.add(Text.of("            align: '" + tableColumn.align + "',"));
+			// events
+			if (StringUtils.isNotBlank(tableColumn.events)) {
+				script.add(Text.of("            events: " + tableColumn.events + ","));
+			}
+			// formatter
+			if (StringUtils.isNotBlank(tableColumn.formatter)) {
+				script.add(Text.of("            formatter: " + tableColumn.formatter + ","));
+			}
+			script.add(Text.of("            valign: '" + tableColumn.valign + "'"));
+			if (++index < columns.size()) {
+				script.add(Text.of("        },"));
+			} else {
+				script.add(Text.of("        }"));
+			}
+		}
 	}
 
 }

@@ -10,6 +10,7 @@ import org.springframework.core.annotation.AliasFor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.eason.html.easyview.core.IMessageForm;
 import com.eason.html.easyview.core.IconStyle;
 
 /**
@@ -62,8 +63,7 @@ public @interface ToolItemAction {
 	 * 
 	 * @return
 	 */
-	int msgType() default 4;
+	int msgType() default IMessageForm.MSG_FORM;
 
 	String area() default "['auto','auto']";
-
 }

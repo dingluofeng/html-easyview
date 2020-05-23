@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.eason.html.easyview.core.DateTimeInfo;
+import com.eason.html.easyview.core.PageHolder;
 import com.eason.html.easyview.core.annotations.EasyView;
 import com.eason.html.easyview.core.annotations.EasyViewData;
 import com.eason.html.easyview.core.annotations.TableColumns;
@@ -200,7 +201,7 @@ public class BeanRefectUtils {
 
 	public final static Class<?> getReturnClassFromMethod(Method method) {
 		Class<?> returnType = method.getReturnType();
-		if (List.class.isAssignableFrom(returnType)) {
+		if (List.class.isAssignableFrom(returnType)||PageHolder.class.isAssignableFrom(returnType)) {
 			Type genericReturnType = method.getGenericReturnType();
 			if (genericReturnType instanceof ParameterizedType) {
 				ParameterizedType parameterizedType = (ParameterizedType) genericReturnType;
@@ -257,9 +258,12 @@ public class BeanRefectUtils {
 				// }
 			}
 		}, new DefaultFieldFilter());
-		String html = SearchFormGroup.searchFormGroup(prefixBtn, searchInputs).html();
+		String searchBtn=prefixBtn + "_custom_btn_search";
+		String html = SearchFormGroup.searchFormGroup(searchBtn, searchInputs).html();
 		searchWidgetInfo.searchHtml = html;
+		searchWidgetInfo.searchBtn = searchBtn;
 		searchWidgetInfo.datetimeFields.addAll(datetimeFields);
+		searchWidgetInfo.searchInputs.addAll(searchInputs);
 		return searchWidgetInfo;
 	}
 

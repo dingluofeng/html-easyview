@@ -27,8 +27,9 @@ public class CustomButtonOnClickEventFunction {
 				script.add(Text.of("$(\"#" + customBtn.getId() + "\").on(\"click\", function () {"));
 				// getSearchFromData
 				getSearchFromData(script, tableData, customBtn);
+				script.add(Text.of("     var tableData ="+customBtn.getQueryAction().getJsonTableMeta()+";"));
 				script.add(Text.of("     $('#custom_title').text(\"" + customBtn.getTitle() + "\");"));
-				script.add(Text.of("     queryData('" + customBtn.getUrl() + "', jsonData,true);"));
+				script.add(Text.of("     queryData('" + customBtn.getUrl() + "', jsonData,true,tableData);"));
 				script.add(Text.of("});"));
 
 				if (CollectionUtils.isNotEmpty(customBtn.getSearchInputs())) {
@@ -36,7 +37,8 @@ public class CustomButtonOnClickEventFunction {
 					script.add(Text.of("function " + customBtn.getCustomBtnId() + "onclick() {"));
 					// getSearchFromData
 					getSearchFromData(script, tableData, customBtn);
-					script.add(Text.of("     queryData('" + customBtn.getUrl() + "', jsonData,false);"));
+					script.add(Text.of("     var tableData ="+customBtn.getQueryAction().getJsonTableMeta()+";"));
+					script.add(Text.of("     queryData('" + customBtn.getUrl() + "', jsonData,false,tableData);"));
 					script.add(Text.of("}"));
 				}
 			}

@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.eason.html.demo.Address;
+import com.eason.html.demo.UserInfo;
 import com.eason.html.demo.co.DevSuspectedBlacklistCo;
 import com.eason.html.demo.service.BlacklistService;
 import com.eason.html.demo.vo.DevRegBlacklistVo;
@@ -30,10 +32,13 @@ import com.eason.html.easyview.core.annotations.ToolItemAction;
 import com.eason.html.easyview.core.basecontroller.BaseTableViewerController;
 import com.eason.html.easyview.core.basecontroller.PageParams;
 import com.eason.html.easyview.core.basecontroller.ResponseResult;
+import com.eason.html.easyview.core.basecontroller.utils.FormViewResult;
+import com.eason.html.easyview.core.form.table.model.TableViewResult;
 import com.eason.html.easyview.core.statictable.HtmlStaticTableBuilder;
 import com.eason.html.easyview.core.statictable.model.StaticTableData;
 import com.eason.html.easyview.core.statictable.model.StaticTableData.TableDataBuilder;
 import com.eason.html.easyview.core.utils.HttpRequestHolder;
+import com.google.common.collect.Lists;
 
 /**
  * 黑名单列表查询
@@ -52,10 +57,10 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 		setOnlineResource(false);
 	}
 
-	@TableItemAction(path = "/send/limit", title = "限制")
+	@TableItemAction(path = "/send/limit", title = "限制",msgType=IMessageForm.VIEW_FORM, hideScript="row.subSerial=='123456790'")
     public String send(DevRegBlacklistVo vo) {
 		System.out.println(vo);
-		return "Ok";
+		return FormViewResult.formView(Lists.newArrayList(new UserInfo("dingluofeng", 18, Lists.newArrayList(new Address("China","浙江","杭州")))));
 	}
 	
 	@ToolItemAction(path = "/send/limit2", title = "限制2",msgType = IMessageForm.INFO_FORM)
@@ -93,10 +98,12 @@ public class BlacklistController extends BaseTableViewerController<DevRegBlackli
 	}
 
 	@CustomTableViewAction(path = "/suspectedlist", conditionForm = DevSuspectedBlacklistCo.class, title = "黑名单可疑行为")
-	public List<DevSuspectedBlacklistVo> suspectedlist(DevRegBlacklistVo co, DevSuspectedBlacklistCo uc) {
-		System.out.println("custom:" + co);
-		System.out.println("custom:" + uc);
-		return blacklistService.pagedSuspectedBlacklist(co.getSubSerial(), uc.getRegTime(), 0, 20);
+	public PageHolder<DevSuspectedBlacklistVo> suspectedlist(PageParams pageParams,DevRegBlacklistVo co, DevSuspectedBlacklistCo uc) {
+		System.out.println("custom，pageParams:" + pageParams);
+		System.out.println("custom，DevRegBlacklistVo:" + co);
+		System.out.println("custom，DevSuspectedBlacklistCo:" + uc);
+		List<DevSuspectedBlacklistVo> pagedSuspectedBlacklist = blacklistService.pagedSuspectedBlacklist(co.getSubSerial(), uc.getRegTime(), pageParams.getCurPage()-1, pageParams.getLimit());
+		return PageHolder.pageList(50, pagedSuspectedBlacklist);
 	}
 
 	@CustomTableViewAction(path = "/mapped", title = "map测试")

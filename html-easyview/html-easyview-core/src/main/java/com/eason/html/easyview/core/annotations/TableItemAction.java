@@ -10,6 +10,7 @@ import org.springframework.core.annotation.AliasFor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.eason.html.easyview.core.IMessageForm;
 import com.eason.html.easyview.core.IconStyle;
 
 /**
@@ -56,5 +57,15 @@ public @interface TableItemAction {
 	 * @return
 	 */
 	String styleClass() default IconStyle.ICON_HAND_DOWN;
+	
+	/**
+	 * 可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（msg层）
+	 * 
+	 * @return
+	 */
+	int msgType() default IMessageForm.MSG_FORM;
+	
+	String area() default "['auto','auto']";
 
+	String hideScript() default "false";
 }

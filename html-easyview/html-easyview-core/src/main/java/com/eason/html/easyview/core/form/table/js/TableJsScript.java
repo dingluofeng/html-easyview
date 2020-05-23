@@ -7,11 +7,11 @@ import com.eason.html.easyview.core.form.CustomButton;
 import com.eason.html.easyview.core.form.FormInput;
 import com.eason.html.easyview.core.form.ToolItemButton;
 import com.eason.html.easyview.core.form.table.formatter.TableColMappingFormatter;
-import com.eason.html.easyview.core.form.table.formatter.TableColumnFormatterFunction;
 import com.eason.html.easyview.core.form.table.js.functions.AjaxQueryDataFunction;
 import com.eason.html.easyview.core.form.table.js.functions.BeanTableViewInitFunction;
 import com.eason.html.easyview.core.form.table.js.functions.CustomButtonOnClickEventFunction;
 import com.eason.html.easyview.core.form.table.js.functions.ShowCustomDataTableFunction;
+import com.eason.html.easyview.core.form.table.js.functions.TableColumnFormatterFunction;
 import com.eason.html.easyview.core.form.table.model.TableData;
 import com.eason.html.easyview.core.form.table.model.UploadWidgetInfo;
 import com.eason.html.easyview.core.form.validate.Validate;
@@ -21,7 +21,7 @@ import com.eason.html.easyview.core.widget.Script;
 import com.eason.html.easyview.core.widget.Text;
 
 public class TableJsScript {
-
+	
 	public static Script of(TableData tableData, UploadWidgetInfo uploadWidgetInfo,
 			List<ToolItemButton> toolItemActions, List<CustomButton> customBtns,
 			List<TableColMappingFormatter> columnFormatters) {
@@ -30,7 +30,8 @@ public class TableJsScript {
 		Script script = Script.of();
 		script.add(Text.of("var $table = $('#" + tableId + "');"));
 		script.add(Text.of("//bootstrapTable使用中文"));
-		script.add(Text.of("$.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['zh-CN']);"));
+		script.add(Text.of("var lang = getLanguage();"));
+		script.add(Text.of("$.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales[lang]);"));
 		script.add(Text.of("//防止表头与表格不对齐"));
 		script.add(Text.of("$(window).resize(function () {"));
 		script.add(Text.of("    $table.bootstrapTable('resetView');"));
@@ -45,9 +46,25 @@ public class TableJsScript {
 		// table init
 		BeanTableViewInitFunction.tableInit(tableData, script);
 
-		// url table column
+		// url table column Formatter
 		TableColumnFormatterFunction.columnFormatterFunction(script, tableData, columnFormatters);
 
+		script.add(Text.of("// 获取浏览器语言"));
+		script.add(Text.of("function getLanguage() {"));
+		script.add(Text.of("   //常规浏览器语言和IE浏览器"));
+		script.add(Text.of("   var baseLang = navigator.language||navigator.userLanguage;"));
+		script.add(Text.of("   baseLang = baseLang.substr(0, 2);//截取lang前2位字符"));
+		script.add(Text.of("   console.log(baseLang);"));
+		script.add(Text.of("   switch(baseLang){"));
+		script.add(Text.of("      case \"en\": "));
+		script.add(Text.of("      	return 'en-US';"));
+		script.add(Text.of("      case \"zh\": "));
+		script.add(Text.of("      	return 'zh-CN';"));
+		script.add(Text.of("      default: "));
+		script.add(Text.of("      	return 'en-US';"));
+		script.add(Text.of("   }"));
+		script.add(Text.of("}"));
+		
 		script.add(Text.of("// 查询条件与分页数据"));
 		script.add(Text.of("function queryParams(params) {"));
 		script.add(Text.of("    //第几页"));
@@ -119,8 +136,7 @@ public class TableJsScript {
 		script.add(Text.of("});"));
 
 		script.add(Text.of("// 弹框保存按钮点击事件"));
-		script.add(
-				Text.of("$(\"#" + tableData.btnPrefix + "_btn_add_update_submit\").off().on('click', function () {"));
+		script.add(Text.of("$(\"#" + tableData.btnPrefix + "_btn_add_update_submit\").off().on('click', function () {"));
 		script.add(Text.of("    var opt_type = $('#" + tableData.btnPrefix + "_opt_type').val()"));
 		for (FormInput<?> formInput : tableData.formInputs) {
 			script.add(Text.of("    var " + formInput.getField() + " = " + formInput.getValueScript()));
@@ -131,33 +147,19 @@ public class TableJsScript {
 			Validate validate = formInput.getValidate();
 			if (validate != null) {
 				script.add(Text.of("    if (!" + formInput.getField() + ") {"));
-				script.add(Text.of(
-						"        layer.msg('" + formInput.getField() + " cannot be empty!', {icon: 2, time: 1500});"));
+				script.add(Text.of("        layer.msg('" + formInput.getField() + " cannot be empty!', {icon: 2, time: 1500});"));
 				script.add(Text.of("        return false;"));
 				script.add(Text.of("    }"));
 			}
 		}
-		script.add(Text.of("    $.ajax({"));
-		script.add(Text.of("        url: '" + baseUrl + "/'+opt_type,"));
-		script.add(Text.of("        method: 'post',"));
-		script.add(Text.of("        contentType: \"application/x-www-form-urlencoded\","));
-		script.add(Text.of("        data: {"));
+		
+		script.add(Text.of("        var paramdata = {"));
 		script.add(Text.of("            opt_type:opt_type,"));
 		for (FormInput<?> formInput : tableData.formInputs) {
 			script.add(Text.of("            " + formInput.getField() + ": " + formInput.getField() + ","));
 		}
-		script.add(Text.of("        },"));
-		script.add(Text.of("        //阻止深度序列化，向后台传送数组"));
-		script.add(Text.of("        traditional: true,"));
-		script.add(Text.of("        success: function (msg) {"));
-		script.add(Text.of("            if (msg.status==0||msg.status==200) {"));
-		script.add(Text.of("                 layer.msg(msg.msg, {icon: 1, time: 1500});"));
-		script.add(Text.of("            } else {"));
-		script.add(Text.of("                 layer.msg(msg.msg, {icon: 2, time: 1500});"));
-		script.add(Text.of("            }"));
-		script.add(Text.of("            refresh();"));
-		script.add(Text.of("        }"));
-		script.add(Text.of("    })"));
+		script.add(Text.of("        };"));
+		script.add(Text.of("    formQuery('"+baseUrl+"/'+opt_type,paramdata,refresh);"));
 		script.add(Text.of("});"));
 
 		script.add(Text.of("//tr中编辑按钮点击事件"));
@@ -182,45 +184,21 @@ public class TableJsScript {
 		script.add(Text.of("//tr中删除按钮点击事件"));
 		script.add(Text.of("function delData(id, type) {"));
 		script.add(Text.of("    layer.confirm('确定要删除用户编号为' + id+ '数据?', {icon: 3, title: 'Confirm'}, function () {"));
-		script.add(Text.of("        $.ajax({"));
-		script.add(Text.of("            url: '" + baseUrl + "/delete',"));
-		script.add(Text.of("            method: 'post',"));
-		script.add(Text.of("            contentType: \"application/x-www-form-urlencoded\","));
-		script.add(Text.of("            //阻止深度序列化，向后台传送数组"));
-		script.add(Text.of("            traditional: true,"));
-		// script.add(Text.of(" data:row,"));
-		script.add(Text.of("            data: {id: id.toString(),type:type},"));
-		script.add(Text.of("            success: function (msg) {"));
-		script.add(Text.of("                if (msg.status==0||msg.status==200) {"));
-		script.add(Text.of("                    layer.msg(msg.msg, {icon: 1, time: 1500});"));
-		script.add(Text.of("                } else {"));
-		script.add(Text.of("                    layer.msg(msg.msg, {icon: 2, time: 1500});"));
-		script.add(Text.of("                }"));
-		script.add(Text.of("                refresh();"));
-		script.add(Text.of("            }"));
-		script.add(Text.of("        })"));
+		script.add(Text.of("        var deldata= {id: id.toString(),type:type};"));
+		script.add(Text.of("    	formQuery('"+baseUrl+"/delete',deldata,refresh);"));
 		script.add(Text.of("    });"));
 		script.add(Text.of("}"));
 
 		script.add(Text.of("//tr中自定义扩展按钮点击事件"));
-		script.add(Text.of("function customOpt(text,url,data) {"));
-		script.add(Text.of("    layer.confirm('确定要执行' + text+ '操作?', {icon: 3, title: 'Confirm'}, function () {"));
-		script.add(Text.of("        $.ajax({"));
-		script.add(Text.of("            url: url,"));
-		script.add(Text.of("            method: 'post',"));
-		script.add(Text.of("            contentType: \"application/json\","));
-		script.add(Text.of("            //阻止深度序列化，向后台传送数组"));
-		script.add(Text.of("            traditional: true,"));
-		script.add(Text.of("            data: JSON.stringify(data),"));
-		script.add(Text.of("            success: function (msg) {"));
-		script.add(Text.of("                if (msg.status==0||msg.status==200) {"));
-		script.add(Text.of("                    layer.msg(msg.msg, {icon: 1, time: 2000});"));
-		script.add(Text.of("                } else {"));
-		script.add(Text.of("                    layer.msg(msg.msg, {icon: 2, time: 2000});"));
-		script.add(Text.of("                }"));
-		script.add(Text.of("            }"));
-		script.add(Text.of("        })"));
-		script.add(Text.of("    });"));
+		script.add(Text.of("function customOpt(text,url,msgType,data) {"));
+		script.add(Text.of("    if (msgType==5) {"));
+		script.add(Text.of("      	showJsonQueryForm(url,data);"));
+		script.add(Text.of("    } else {"));
+		script.add(Text.of("    	layer.confirm('确定要执行' + text+ '操作?', {icon: 3, title: 'Confirm'}, function () {"));
+		script.add(Text.of("	  		//showJsonQueryForm"));
+		script.add(Text.of("      		showJsonQueryForm(url,data);"));
+		script.add(Text.of("    	});"));
+		script.add(Text.of("    }"));
 		script.add(Text.of("}"));
 
 		// CustomButton onClickEventFunction
@@ -291,4 +269,5 @@ public class TableJsScript {
 		}
 		return script;
 	}
+	
 }
