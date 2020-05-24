@@ -173,6 +173,7 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 		
 		QueryAction queryAction = new QueryAction(id, customQueryAction.title(), baseUrl + customQueryAction.path()[0]);
 		queryAction.setViewColumns(viewColumns);
+		queryAction.setPagesize(customQueryAction.pageSize());
 		Class<?> conditionForm = customQueryAction.conditionForm();
 		if (conditionForm != Object.class) {
 			queryAction.setSearchCondition(conditionForm);

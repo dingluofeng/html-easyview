@@ -18,6 +18,8 @@ import com.eason.html.easyview.core.utils.BeanRefectUtils;
 public class TableViewMeta {
 
 	public final List<TableColumn> columns;
+	
+	public int pagesize=10;
 
 	public String searchHtml = "";
 

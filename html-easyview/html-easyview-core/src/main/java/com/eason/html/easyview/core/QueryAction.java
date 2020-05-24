@@ -30,6 +30,8 @@ public class QueryAction implements IAction {
 	private SearchWidgetInfo searchWidgetInfo;
 	
 	private List<TableColumn> viewColumns;
+	
+	private int pagesize=10;
 
 	public QueryAction(String id, String name, String url) {
 		super();
@@ -75,6 +77,7 @@ public class QueryAction implements IAction {
 	
 	public String getJsonTableMeta(){
 		TableViewMeta tableViewMeta=new TableViewMeta(viewColumns);
+		tableViewMeta.pagesize=pagesize;
 		if (searchWidgetInfo!=null) {
 			tableViewMeta.searchHtml=searchWidgetInfo.searchHtml;
 			tableViewMeta.datetimeFields=searchWidgetInfo.datetimeFields;
@@ -133,6 +136,14 @@ public class QueryAction implements IAction {
 
 	public void setViewColumns(List<TableColumn> viewColumns) {
 		this.viewColumns = viewColumns;
+	}
+
+	public int getPagesize() {
+		return pagesize;
+	}
+
+	public void setPagesize(int pagesize) {
+		this.pagesize = pagesize;
 	}
 
 }

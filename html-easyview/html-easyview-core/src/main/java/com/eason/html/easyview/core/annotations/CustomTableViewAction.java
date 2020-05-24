@@ -37,5 +37,8 @@ public @interface CustomTableViewAction {
 
 	@AliasFor(annotation = CustomQueryAction.class)
 	String id() default "";
+	
+	@AliasFor(annotation = CustomQueryAction.class)
+	int pageSize() default 10;
 
 }

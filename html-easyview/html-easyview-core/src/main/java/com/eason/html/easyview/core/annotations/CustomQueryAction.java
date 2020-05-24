@@ -35,5 +35,11 @@ public @interface CustomQueryAction {
 	String title() default "";
 
 	String id() default "";
+	
+	/**
+	 * 自定义查询表格的pageSize，默认每页显示10个
+	 * @return
+	 */
+	int pageSize() default 10;
 
 }
