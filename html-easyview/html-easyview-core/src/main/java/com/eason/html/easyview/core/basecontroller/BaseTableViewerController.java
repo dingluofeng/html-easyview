@@ -62,6 +62,10 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 	private boolean onlineResource = false;
 	
 	private int pageSize = 10;
+	
+	private String importFileExts = "txt|xlsx|csv";
+	
+	private int importMaxFileSize = 10240;
 
 	private String baseUrl;
 
@@ -224,6 +228,8 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 		tableViewPage.setColMappingFormatterManager(colMappingFormatterManager);
 		tableViewPage.setToolbarStyle(toolbarStyle);
 		tableViewPage.setOnlineResource(onlineResource);
+		tableViewPage.setImportFileExts(importFileExts);
+		tableViewPage.setImportMaxFileSize(importMaxFileSize);
 		return tableViewPage.html(baseUrl, getCoClass(), getVoClass());
 	}
 
@@ -429,6 +435,22 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 
 	public void setOnlineResource(boolean onlineResource) {
 		this.onlineResource = onlineResource;
+	}
+
+	public String getImportFileExts() {
+		return importFileExts;
+	}
+
+	public void setImportFileExts(String importFileExts) {
+		this.importFileExts = importFileExts;
+	}
+
+	public int getImportMaxFileSize() {
+		return importMaxFileSize;
+	}
+
+	public void setImportMaxFileSize(int importMaxFileSize) {
+		this.importMaxFileSize = importMaxFileSize;
 	}
 
 }

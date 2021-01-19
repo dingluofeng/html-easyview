@@ -72,7 +72,7 @@ public class BeanTableViewInitFunction {
 		script.add(Text.of("        //是否显示分页"));
 		script.add(Text.of("        pagination: true,"));
 		script.add(Text.of("        //隐藏分页详情信息"));
-		script.add(Text.of("        paginationDetailHAlign:'right',"));
+		script.add(Text.of("        paginationDetailHAlign:'left',"));
 		script.add(Text.of("        //是否显示分页按钮"));
 		script.add(Text.of("        showPaginationSwitch: false,"));
 		script.add(Text.of("        //是否启用点击选中行"));

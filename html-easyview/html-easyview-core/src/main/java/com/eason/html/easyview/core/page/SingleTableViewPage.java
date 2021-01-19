@@ -24,6 +24,10 @@ public class SingleTableViewPage extends BasePage {
 	private int pageSize = 10;
 	
 	private String title;
+	
+	private String importFileExts = "txt|xlsx|csv";
+	
+	private int importMaxFileSize = 10240;
 
 	public static void main(String[] args) {
 		new SingleTableViewPage("用户信息表").html("user", Object.class, Object.class);
@@ -51,8 +55,8 @@ public class SingleTableViewPage extends BasePage {
 			uploadWidgetInfo.setUploadId(tableData.btnPrefix + "_btn_upload");
 			uploadWidgetInfo.setUploadUrl(baseUrl + "/fileimport");
 			uploadWidgetInfo.setAcceptType("file");
-			uploadWidgetInfo.setFileExts("txt|xlsx");
-			uploadWidgetInfo.setLimitSize(10240);
+			uploadWidgetInfo.setFileExts(importFileExts);
+			uploadWidgetInfo.setLimitSize(importMaxFileSize);
 		}
 		// setCustomItemLinks
 		tableData.setCustomItemLinks(tableItemsLinks);
@@ -170,6 +174,22 @@ public class SingleTableViewPage extends BasePage {
 
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
+	}
+
+	public int getImportMaxFileSize() {
+		return importMaxFileSize;
+	}
+
+	public void setImportMaxFileSize(int importMaxFileSize) {
+		this.importMaxFileSize = importMaxFileSize;
+	}
+
+	public String getImportFileExts() {
+		return importFileExts;
+	}
+
+	public void setImportFileExts(String importFileExts) {
+		this.importFileExts = importFileExts;
 	}
 
 }

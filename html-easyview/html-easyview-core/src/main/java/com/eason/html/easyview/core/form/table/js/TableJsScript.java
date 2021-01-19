@@ -264,6 +264,10 @@ public class TableJsScript {
 			script.add(Text.of("           console.log(res);"));
 			script.add(Text.of("           refresh();"));
 			script.add(Text.of("       }"));
+			script.add(Text.of("       ,error: function(index, upload){"));
+			script.add(Text.of("           layer.msg('Upload Error',{icon: 2, time: 2000});"));
+			script.add(Text.of("           console.log(index);"));
+			script.add(Text.of("       }"));
 			script.add(Text.of("    });"));
 			script.add(Text.of("});"));
 		}
