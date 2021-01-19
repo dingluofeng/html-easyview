@@ -231,7 +231,7 @@ public class HtmlStaticTableBuilder {
 				table.append(tableTitle);
 				table.append("</caption>");
 			}
-			boolean indexed=indexCreate && columns.isEmpty();
+			boolean indexed=indexCreate && !columns.isEmpty();
 			buildTableHead(table,columns,rows,indexed);
 			buildTableBody(table,rows,indexed);
 			table.append("</table>").append(ENTER_R_N);
