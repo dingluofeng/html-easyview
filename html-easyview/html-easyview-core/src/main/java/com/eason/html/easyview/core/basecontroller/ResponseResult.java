@@ -14,13 +14,11 @@ import org.springframework.http.HttpStatus;
  */
 public class ResponseResult {
 
-	private static final ResponseResult OK = new ResponseResult();
+	private int status;
 
-	public int status;
+	private String msg;
 
-	public String msg;
-
-	public String url;
+	private String url;
 
 	public ResponseResult(int status, String msg) {
 		super();
@@ -32,16 +30,24 @@ public class ResponseResult {
 		this(httpStatus.value(), httpStatus.getReasonPhrase());
 	}
 
-	public ResponseResult() {
+	private ResponseResult() {
 		this(HttpStatus.OK);
 	}
 
 	public static ResponseResult ok() {
-		return OK;
+		return new ResponseResult();
 	}
 
 	public static ResponseResult newBuild(HttpStatus httpStatus) {
 		return new ResponseResult(httpStatus);
+	}
+	
+	public String getMsg() {
+		return msg;
+	}
+
+	public int getStatus() {
+		return status;
 	}
 
 	public ResponseResult url(String url) {
@@ -51,10 +57,6 @@ public class ResponseResult {
 
 	public String getUrl() {
 		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
 	}
 
 	@Override

@@ -18,6 +18,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -287,7 +288,7 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 	 * @return
 	 */
 	protected ResponseResult add(Vo vo) {
-		return ResponseResult.ok();
+		return ResponseResult.newBuild(HttpStatus.OK);
 	}
 
 	@RequestMapping("/update")
@@ -313,7 +314,7 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 	 * @return
 	 */
 	protected ResponseResult update(Vo vo) {
-		return ResponseResult.ok();
+		return ResponseResult.newBuild(HttpStatus.OK);
 	}
 
 	@RequestMapping("/delete")
@@ -340,7 +341,7 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 	 * @return
 	 */
 	protected ResponseResult delete(String... ids) {
-		return ResponseResult.ok();
+		return ResponseResult.newBuild(HttpStatus.OK);
 	}
 
 	@RequestMapping("/fileimport")

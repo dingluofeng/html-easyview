@@ -13,6 +13,7 @@ public class MainTest {
 
 	public static void main(String[] args) {
 		HtmlStaticTableBuilder builder = new HtmlStaticTableBuilder();
+		
 		builder.headBuider().tableStyle(TableStyle.NEWSPAPER_TABLE_STYLE);
 		String[] columns = new String[] { "t1", "t2", "t3" };
 		List<Object[]> rows = new ArrayList<>();
@@ -33,6 +34,7 @@ public class MainTest {
 			rowEntities.add(user);
 		}
 		TableDataBuilder tableDataBuilder = TableDataBuilder.newBuilderWithRowEntities(rowEntities);
+		tableDataBuilder.title("测试TableTitle");
 		builder.bodyBuilder().newTableBuilder(tableDataBuilder.build()).newTableBuilder(tableData);
 		System.out.println(builder.build());
 	}
