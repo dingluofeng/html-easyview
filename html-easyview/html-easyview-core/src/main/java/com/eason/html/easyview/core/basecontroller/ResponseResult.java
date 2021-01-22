@@ -14,8 +14,6 @@ import org.springframework.http.HttpStatus;
  */
 public class ResponseResult {
 
-	private static final ResponseResult OK = new ResponseResult();
-
 	public int status;
 
 	public String msg;
@@ -32,12 +30,12 @@ public class ResponseResult {
 		this(httpStatus.value(), httpStatus.getReasonPhrase());
 	}
 
-	public ResponseResult() {
+	private ResponseResult() {
 		this(HttpStatus.OK);
 	}
 
 	public static ResponseResult ok() {
-		return OK;
+		return new ResponseResult();
 	}
 
 	public static ResponseResult newBuild(HttpStatus httpStatus) {
