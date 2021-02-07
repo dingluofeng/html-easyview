@@ -64,7 +64,7 @@ public abstract class BaseTableViewerController<Co, Vo> extends ServiceFinder im
 	
 	private int pageSize = 10;
 	
-	private String importFileExts = "txt|xlsx|csv";
+	private String importFileExts = "txt|xlsx|csv|sql";
 	
 	private int importMaxFileSize = 10240;
 
